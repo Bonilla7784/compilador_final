@@ -1,0 +1,29 @@
+Program example;
+
+Variables {
+  int x;
+  int t;
+  bool z;
+}
+
+int fact(int a) {
+  int y;
+  y = 1;
+  int result;
+  result = a;
+  while (y < a) {
+    result = result * y;
+    y = y + 1;
+  };
+
+  return result;
+}
+
+main() {
+  x = 5;
+  t = 2;
+  int f;
+
+  f = fact(x);
+  print: f;
+}
