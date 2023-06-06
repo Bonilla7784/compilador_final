@@ -23,10 +23,15 @@ def end_scope():
     # Remove the current scope from the stack
 
 def p_program(p):
-    '''program : PROGRAM ID SEMICOLON create_scopes global_scope main_function end_scopes'''
+    '''program : PROGRAM ID SEMICOLON placeholder_goto_main create_scopes global_scope main_function end_scopes fill_goto_main'''
     print('Program')
-    p[0] = ('program', p[2], p[4], p[5], p[6])
+    p[0] = ('program', p[2], p[4], p[5], p[6], p[7])
 
+def p_placeholder_goto_main(p):
+    '''placeholder_goto_main : '''
+    # Add a placeholder for the GOTO MAIN quadruple. This will be replaced later.
+    quadruples.append(('Goto', None, None, None))
+    
 # Add function_decl_list to the global scope and main function
 def p_global_scope(p):
     '''global_scope : VARIABLES LBRACE decl_list RBRACE function_decl_list
@@ -47,11 +52,21 @@ def p_function_decl_list(p):
         p[0] = []
 
 def p_main_function(p):
-    '''main_function : MAIN LPAREN RPAREN LBRACE stmt_list RBRACE'''
-    global main_start_index
-    main_start_index = len(quadruples)
+    '''main_function : MAIN LPAREN RPAREN LBRACE start_main stmt_list RBRACE'''
     print('in main')
-    p[0] = ('main', p[5])
+    p[0] = ('main', p[6])
+
+def p_start_main(p):
+    '''start_main : '''
+    # Mark the starting point of the main function. This will be the target of the GOTO MAIN quadruple.
+    global main_start_index
+    # Save the quadruple index where the main function starts
+    main_start_index = len(quadruples)
+
+def p_fill_goto_main(p):
+    '''fill_goto_main : '''
+    # Now that we know the starting index of the main function, we can replace the placeholder GOTO MAIN quadruple.
+    quadruples[0] = ('Goto', None, None, main_start_index)
 
 
 def p_create_scopes(p):
@@ -457,7 +472,7 @@ def parse(filename):
                         print("Compilacion terminada correctamente.")
                         # END program
                         quadruples.append(('End', None, None, None))
-                        add_goto_main_quadruple()  # Call the function here
+                        #add_goto_main_quadruple()  # Call the function here
                         print(result)  # Imprimir el resultado
                         print_quadruples()  # Imprimir los quadruples
                         print(dir_func)

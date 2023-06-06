@@ -3,185 +3,191 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 Grammar
 
 Rule 0     S' -> program
-Rule 1     program -> PROGRAM ID SEMICOLON create_scopes global_scope main_function end_scopes
-Rule 2     global_scope -> VARIABLES LBRACE decl_list RBRACE function_decl_list
-Rule 3     global_scope -> VARIABLES LBRACE decl_list RBRACE
-Rule 4     function_decl_list -> function_decl function_decl_list
-Rule 5     function_decl_list -> empty
-Rule 6     main_function -> MAIN LPAREN RPAREN LBRACE stmt_list RBRACE
-Rule 7     create_scopes -> <empty>
-Rule 8     end_scopes -> <empty>
-Rule 9     decl_list -> decl SEMICOLON decl_list
-Rule 10    decl_list -> decl SEMICOLON
-Rule 11    decl_list -> empty
-Rule 12    decl -> type ID
-Rule 13    decl -> array_decl SEMICOLON
-Rule 14    type -> INT
-Rule 15    type -> FLOAT
-Rule 16    type -> STRING
-Rule 17    type -> BOOL
-Rule 18    stmt_list -> stmt SEMICOLON stmt_list
-Rule 19    stmt_list -> stmt SEMICOLON
-Rule 20    stmt -> assign
-Rule 21    stmt -> print
-Rule 22    stmt -> conditional
-Rule 23    stmt -> loop
-Rule 24    stmt -> function_call
-Rule 25    stmt -> decl
-Rule 26    stmt -> built_in_function
-Rule 27    built_in_function -> TEACH_SUM LPAREN RPAREN
-Rule 28    built_in_function -> TEACH_SUBSTRACTION LPAREN RPAREN
-Rule 29    built_in_function -> TEACH_MULTIPLICATION LPAREN RPAREN
-Rule 30    built_in_function -> TEACH_DIVISION LPAREN RPAREN
-Rule 31    built_in_function -> TEACH_IF LPAREN RPAREN
-Rule 32    built_in_function -> TEACH_WHILE LPAREN RPAREN
-Rule 33    built_in_function -> TEACH_FUNCTION_DECLARATION LPAREN RPAREN
-Rule 34    built_in_function -> TEACH_FUNCTION_CALL LPAREN RPAREN
-Rule 35    built_in_function -> AYUDA LPAREN RPAREN
-Rule 36    assign -> ID EQUALS expr
-Rule 37    assign -> ID EQUALS function_call
-Rule 38    expr1 -> term1
-Rule 39    term1 -> factor1
-Rule 40    factor1 -> ID
-Rule 41    expr -> expr PLUS term
-Rule 42    expr -> expr MINUS term
-Rule 43    expr -> expr comp_op term
-Rule 44    expr -> term
-Rule 45    term -> term MULTIPLY factor
-Rule 46    term -> term DIVIDE factor
-Rule 47    term -> factor
-Rule 48    factor -> LPAREN expr RPAREN
-Rule 49    factor -> CTEI
-Rule 50    factor -> FLOAT_NUMBER
-Rule 51    factor -> STRING_LITERAL
-Rule 52    factor -> TRUE
-Rule 53    factor -> FALSE
-Rule 54    factor -> ID
-Rule 55    print -> PRINT COLON ID
-Rule 56    conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-Rule 57    conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-Rule 58    comp_expr -> expr comp_op expr
-Rule 59    comp_op -> LESS_THAN
-Rule 60    comp_op -> GREATER_THAN
-Rule 61    comp_op -> LESS_EQUAL
-Rule 62    comp_op -> GREATER_EQUAL
-Rule 63    comp_op -> EQUAL_EQUAL
-Rule 64    comp_op -> NOT_EQUAL
-Rule 65    else_stmt -> ELSE LBRACE else_part stmt_list RBRACE
-Rule 66    else_stmt -> empty
-Rule 67    else_part -> <empty>
-Rule 68    loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-Rule 69    create_function_scope -> <empty>
-Rule 70    function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
-Rule 71    function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-Rule 72    return_stmt -> RETURN expr1 SEMICOLON
-Rule 73    return_stmt -> empty
-Rule 74    function_call -> ID LPAREN arg_list RPAREN
-Rule 75    param_list -> param COMMA param_list
-Rule 76    param_list -> param
-Rule 77    param_list -> empty
-Rule 78    param -> type ID
-Rule 79    arg_list -> expr1
-Rule 80    arg_list -> expr1 COMMA arg_list
-Rule 81    array_decl -> type ID LBRACKET CTEI RBRACKET
-Rule 82    empty -> <empty>
+Rule 1     program -> PROGRAM ID SEMICOLON placeholder_goto_main create_scopes global_scope main_function end_scopes fill_goto_main
+Rule 2     placeholder_goto_main -> <empty>
+Rule 3     global_scope -> VARIABLES LBRACE decl_list RBRACE function_decl_list
+Rule 4     global_scope -> VARIABLES LBRACE decl_list RBRACE
+Rule 5     function_decl_list -> function_decl function_decl_list
+Rule 6     function_decl_list -> empty
+Rule 7     main_function -> MAIN LPAREN RPAREN LBRACE start_main stmt_list RBRACE
+Rule 8     start_main -> <empty>
+Rule 9     fill_goto_main -> <empty>
+Rule 10    create_scopes -> <empty>
+Rule 11    end_scopes -> <empty>
+Rule 12    decl_list -> decl SEMICOLON decl_list
+Rule 13    decl_list -> decl SEMICOLON
+Rule 14    decl_list -> empty
+Rule 15    decl -> type ID
+Rule 16    decl -> array_decl SEMICOLON
+Rule 17    type -> INT
+Rule 18    type -> FLOAT
+Rule 19    type -> STRING
+Rule 20    type -> BOOL
+Rule 21    stmt_list -> stmt SEMICOLON stmt_list
+Rule 22    stmt_list -> stmt SEMICOLON
+Rule 23    stmt -> assign
+Rule 24    stmt -> print
+Rule 25    stmt -> conditional
+Rule 26    stmt -> loop
+Rule 27    stmt -> function_call
+Rule 28    stmt -> decl
+Rule 29    stmt -> built_in_function
+Rule 30    built_in_function -> TEACH_SUM LPAREN RPAREN
+Rule 31    built_in_function -> TEACH_SUBSTRACTION LPAREN RPAREN
+Rule 32    built_in_function -> TEACH_MULTIPLICATION LPAREN RPAREN
+Rule 33    built_in_function -> TEACH_DIVISION LPAREN RPAREN
+Rule 34    built_in_function -> TEACH_IF LPAREN RPAREN
+Rule 35    built_in_function -> TEACH_WHILE LPAREN RPAREN
+Rule 36    built_in_function -> TEACH_FUNCTION_DECLARATION LPAREN RPAREN
+Rule 37    built_in_function -> TEACH_FUNCTION_CALL LPAREN RPAREN
+Rule 38    built_in_function -> AYUDA LPAREN RPAREN
+Rule 39    assign -> ID EQUALS expr
+Rule 40    assign -> ID EQUALS function_call
+Rule 41    expr1 -> term1
+Rule 42    term1 -> factor1
+Rule 43    factor1 -> ID
+Rule 44    expr -> expr PLUS term
+Rule 45    expr -> expr MINUS term
+Rule 46    expr -> expr comp_op term
+Rule 47    expr -> term
+Rule 48    term -> term MULTIPLY factor
+Rule 49    term -> term DIVIDE factor
+Rule 50    term -> factor
+Rule 51    factor -> LPAREN expr RPAREN
+Rule 52    factor -> CTEI
+Rule 53    factor -> FLOAT_NUMBER
+Rule 54    factor -> STRING_LITERAL
+Rule 55    factor -> TRUE
+Rule 56    factor -> FALSE
+Rule 57    factor -> ID
+Rule 58    print -> PRINT COLON ID
+Rule 59    conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+Rule 60    conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+Rule 61    comp_expr -> expr comp_op expr
+Rule 62    comp_op -> LESS_THAN
+Rule 63    comp_op -> GREATER_THAN
+Rule 64    comp_op -> LESS_EQUAL
+Rule 65    comp_op -> GREATER_EQUAL
+Rule 66    comp_op -> EQUAL_EQUAL
+Rule 67    comp_op -> NOT_EQUAL
+Rule 68    else_stmt -> ELSE LBRACE else_part stmt_list RBRACE
+Rule 69    else_stmt -> empty
+Rule 70    else_part -> <empty>
+Rule 71    loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+Rule 72    create_function_scope -> <empty>
+Rule 73    function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
+Rule 74    function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+Rule 75    return_stmt -> RETURN expr1 SEMICOLON
+Rule 76    return_stmt -> empty
+Rule 77    function_call -> ID LPAREN arg_list RPAREN
+Rule 78    param_list -> param COMMA param_list
+Rule 79    param_list -> param
+Rule 80    param_list -> empty
+Rule 81    param -> type ID
+Rule 82    arg_list -> expr1
+Rule 83    arg_list -> expr1 COMMA arg_list
+Rule 84    array_decl -> type ID LBRACKET CTEI RBRACKET
+Rule 85    empty -> <empty>
 
 Terminals, with rules where they appear
 
-AYUDA                : 35
-BOOL                 : 17
-COLON                : 55
-COMMA                : 75 80
-CTEI                 : 49 81
-DIVIDE               : 46
-ELSE                 : 65
-EQUALS               : 36 37
-EQUAL_EQUAL          : 63
-FALSE                : 53
-FLOAT                : 15
-FLOAT_NUMBER         : 50
-GREATER_EQUAL        : 62
-GREATER_THAN         : 60
-ID                   : 1 12 36 37 40 54 55 70 71 74 78 81
-IF                   : 56 57
-INT                  : 14
-LBRACE               : 2 3 6 56 57 65 68 70 71
-LBRACKET             : 81
-LESS_EQUAL           : 61
-LESS_THAN            : 59
-LPAREN               : 6 27 28 29 30 31 32 33 34 35 48 56 57 68 70 71 74
-MAIN                 : 6
-MINUS                : 42
-MULTIPLY             : 45
-NOT_EQUAL            : 64
-PLUS                 : 41
-PRINT                : 55
+AYUDA                : 38
+BOOL                 : 20
+COLON                : 58
+COMMA                : 78 83
+CTEI                 : 52 84
+DIVIDE               : 49
+ELSE                 : 68
+EQUALS               : 39 40
+EQUAL_EQUAL          : 66
+FALSE                : 56
+FLOAT                : 18
+FLOAT_NUMBER         : 53
+GREATER_EQUAL        : 65
+GREATER_THAN         : 63
+ID                   : 1 15 39 40 43 57 58 73 74 77 81 84
+IF                   : 59 60
+INT                  : 17
+LBRACE               : 3 4 7 59 60 68 71 73 74
+LBRACKET             : 84
+LESS_EQUAL           : 64
+LESS_THAN            : 62
+LPAREN               : 7 30 31 32 33 34 35 36 37 38 51 59 60 71 73 74 77
+MAIN                 : 7
+MINUS                : 45
+MULTIPLY             : 48
+NOT_EQUAL            : 67
+PLUS                 : 44
+PRINT                : 58
 PROGRAM              : 1
-RBRACE               : 2 3 6 56 57 65 68 70 71
-RBRACKET             : 81
-RETURN               : 72
-RPAREN               : 6 27 28 29 30 31 32 33 34 35 48 56 57 68 70 71 74
-SEMICOLON            : 1 9 10 13 18 19 72
-STRING               : 16
-STRING_LITERAL       : 51
-TEACH_DIVISION       : 30
-TEACH_FUNCTION_CALL  : 34
-TEACH_FUNCTION_DECLARATION : 33
-TEACH_IF             : 31
-TEACH_MULTIPLICATION : 29
-TEACH_SUBSTRACTION   : 28
-TEACH_SUM            : 27
-TEACH_WHILE          : 32
-TRUE                 : 52
-VARIABLES            : 2 3
-VOID                 : 71
-WHILE                : 68
+RBRACE               : 3 4 7 59 60 68 71 73 74
+RBRACKET             : 84
+RETURN               : 75
+RPAREN               : 7 30 31 32 33 34 35 36 37 38 51 59 60 71 73 74 77
+SEMICOLON            : 1 12 13 16 21 22 75
+STRING               : 19
+STRING_LITERAL       : 54
+TEACH_DIVISION       : 33
+TEACH_FUNCTION_CALL  : 37
+TEACH_FUNCTION_DECLARATION : 36
+TEACH_IF             : 34
+TEACH_MULTIPLICATION : 32
+TEACH_SUBSTRACTION   : 31
+TEACH_SUM            : 30
+TEACH_WHILE          : 35
+TRUE                 : 55
+VARIABLES            : 3 4
+VOID                 : 74
+WHILE                : 71
 error                : 
 
 Nonterminals, with rules where they appear
 
-arg_list             : 74 80
-array_decl           : 13
-assign               : 20
-built_in_function    : 26
-comp_expr            : 56 57 68
-comp_op              : 43 58
-conditional          : 22
-create_function_scope : 70 71
+arg_list             : 77 83
+array_decl           : 16
+assign               : 23
+built_in_function    : 29
+comp_expr            : 59 60 71
+comp_op              : 46 61
+conditional          : 25
+create_function_scope : 73 74
 create_scopes        : 1
-decl                 : 9 10 25
-decl_list            : 2 3 9
-else_part            : 65
-else_stmt            : 56
-empty                : 5 11 66 73 77
-end_scopes           : 1 70 71
-expr                 : 36 41 42 43 48 58 58
-expr1                : 72 79 80
-factor               : 45 46 47
-factor1              : 39
-function_call        : 24 37
-function_decl        : 4
-function_decl_list   : 2 4
+decl                 : 12 13 28
+decl_list            : 3 4 12
+else_part            : 68
+else_stmt            : 59
+empty                : 6 14 69 76 80
+end_scopes           : 1 73 74
+expr                 : 39 44 45 46 51 61 61
+expr1                : 75 82 83
+factor               : 48 49 50
+factor1              : 42
+fill_goto_main       : 1
+function_call        : 27 40
+function_decl        : 5
+function_decl_list   : 3 5
 global_scope         : 1
-loop                 : 23
+loop                 : 26
 main_function        : 1
-param                : 75 76
-param_list           : 70 71 75
-print                : 21
+param                : 78 79
+param_list           : 73 74 78
+placeholder_goto_main : 1
+print                : 24
 program              : 0
-return_stmt          : 70
-stmt                 : 18 19
-stmt_list            : 6 18 56 57 65 68 70 71
-term                 : 41 42 43 44 45 46
-term1                : 38
-type                 : 12 70 78 81
+return_stmt          : 73
+start_main           : 7
+stmt                 : 21 22
+stmt_list            : 7 21 59 60 68 71 73 74
+term                 : 44 45 46 47 48 49
+term1                : 41
+type                 : 15 73 81 84
 
 Parsing method: LALR
 
 state 0
 
     (0) S' -> . program
-    (1) program -> . PROGRAM ID SEMICOLON create_scopes global_scope main_function end_scopes
+    (1) program -> . PROGRAM ID SEMICOLON placeholder_goto_main create_scopes global_scope main_function end_scopes fill_goto_main
 
     PROGRAM         shift and go to state 2
 
@@ -195,2411 +201,2454 @@ state 1
 
 state 2
 
-    (1) program -> PROGRAM . ID SEMICOLON create_scopes global_scope main_function end_scopes
+    (1) program -> PROGRAM . ID SEMICOLON placeholder_goto_main create_scopes global_scope main_function end_scopes fill_goto_main
 
     ID              shift and go to state 3
 
 
 state 3
 
-    (1) program -> PROGRAM ID . SEMICOLON create_scopes global_scope main_function end_scopes
+    (1) program -> PROGRAM ID . SEMICOLON placeholder_goto_main create_scopes global_scope main_function end_scopes fill_goto_main
 
     SEMICOLON       shift and go to state 4
 
 
 state 4
 
-    (1) program -> PROGRAM ID SEMICOLON . create_scopes global_scope main_function end_scopes
-    (7) create_scopes -> .
+    (1) program -> PROGRAM ID SEMICOLON . placeholder_goto_main create_scopes global_scope main_function end_scopes fill_goto_main
+    (2) placeholder_goto_main -> .
 
-    VARIABLES       reduce using rule 7 (create_scopes -> .)
+    VARIABLES       reduce using rule 2 (placeholder_goto_main -> .)
 
-    create_scopes                  shift and go to state 5
+    placeholder_goto_main          shift and go to state 5
 
 state 5
 
-    (1) program -> PROGRAM ID SEMICOLON create_scopes . global_scope main_function end_scopes
-    (2) global_scope -> . VARIABLES LBRACE decl_list RBRACE function_decl_list
-    (3) global_scope -> . VARIABLES LBRACE decl_list RBRACE
+    (1) program -> PROGRAM ID SEMICOLON placeholder_goto_main . create_scopes global_scope main_function end_scopes fill_goto_main
+    (10) create_scopes -> .
 
-    VARIABLES       shift and go to state 7
+    VARIABLES       reduce using rule 10 (create_scopes -> .)
 
-    global_scope                   shift and go to state 6
+    create_scopes                  shift and go to state 6
 
 state 6
 
-    (1) program -> PROGRAM ID SEMICOLON create_scopes global_scope . main_function end_scopes
-    (6) main_function -> . MAIN LPAREN RPAREN LBRACE stmt_list RBRACE
+    (1) program -> PROGRAM ID SEMICOLON placeholder_goto_main create_scopes . global_scope main_function end_scopes fill_goto_main
+    (3) global_scope -> . VARIABLES LBRACE decl_list RBRACE function_decl_list
+    (4) global_scope -> . VARIABLES LBRACE decl_list RBRACE
 
-    MAIN            shift and go to state 9
+    VARIABLES       shift and go to state 8
 
-    main_function                  shift and go to state 8
+    global_scope                   shift and go to state 7
 
 state 7
 
-    (2) global_scope -> VARIABLES . LBRACE decl_list RBRACE function_decl_list
-    (3) global_scope -> VARIABLES . LBRACE decl_list RBRACE
+    (1) program -> PROGRAM ID SEMICOLON placeholder_goto_main create_scopes global_scope . main_function end_scopes fill_goto_main
+    (7) main_function -> . MAIN LPAREN RPAREN LBRACE start_main stmt_list RBRACE
 
-    LBRACE          shift and go to state 10
+    MAIN            shift and go to state 10
 
+    main_function                  shift and go to state 9
 
 state 8
 
-    (1) program -> PROGRAM ID SEMICOLON create_scopes global_scope main_function . end_scopes
-    (8) end_scopes -> .
+    (3) global_scope -> VARIABLES . LBRACE decl_list RBRACE function_decl_list
+    (4) global_scope -> VARIABLES . LBRACE decl_list RBRACE
 
-    $end            reduce using rule 8 (end_scopes -> .)
+    LBRACE          shift and go to state 11
 
-    end_scopes                     shift and go to state 11
 
 state 9
 
-    (6) main_function -> MAIN . LPAREN RPAREN LBRACE stmt_list RBRACE
+    (1) program -> PROGRAM ID SEMICOLON placeholder_goto_main create_scopes global_scope main_function . end_scopes fill_goto_main
+    (11) end_scopes -> .
 
-    LPAREN          shift and go to state 12
+    $end            reduce using rule 11 (end_scopes -> .)
 
+    end_scopes                     shift and go to state 12
 
 state 10
 
-    (2) global_scope -> VARIABLES LBRACE . decl_list RBRACE function_decl_list
-    (3) global_scope -> VARIABLES LBRACE . decl_list RBRACE
-    (9) decl_list -> . decl SEMICOLON decl_list
-    (10) decl_list -> . decl SEMICOLON
-    (11) decl_list -> . empty
-    (12) decl -> . type ID
-    (13) decl -> . array_decl SEMICOLON
-    (82) empty -> .
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
-    (81) array_decl -> . type ID LBRACKET CTEI RBRACKET
+    (7) main_function -> MAIN . LPAREN RPAREN LBRACE start_main stmt_list RBRACE
 
-    RBRACE          reduce using rule 82 (empty -> .)
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
+    LPAREN          shift and go to state 13
 
-    decl_list                      shift and go to state 13
-    decl                           shift and go to state 14
-    empty                          shift and go to state 15
-    type                           shift and go to state 16
-    array_decl                     shift and go to state 17
 
 state 11
 
-    (1) program -> PROGRAM ID SEMICOLON create_scopes global_scope main_function end_scopes .
+    (3) global_scope -> VARIABLES LBRACE . decl_list RBRACE function_decl_list
+    (4) global_scope -> VARIABLES LBRACE . decl_list RBRACE
+    (12) decl_list -> . decl SEMICOLON decl_list
+    (13) decl_list -> . decl SEMICOLON
+    (14) decl_list -> . empty
+    (15) decl -> . type ID
+    (16) decl -> . array_decl SEMICOLON
+    (85) empty -> .
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+    (84) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
-    $end            reduce using rule 1 (program -> PROGRAM ID SEMICOLON create_scopes global_scope main_function end_scopes .)
+    RBRACE          reduce using rule 85 (empty -> .)
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
+    decl_list                      shift and go to state 14
+    decl                           shift and go to state 15
+    empty                          shift and go to state 16
+    type                           shift and go to state 17
+    array_decl                     shift and go to state 18
 
 state 12
 
-    (6) main_function -> MAIN LPAREN . RPAREN LBRACE stmt_list RBRACE
+    (1) program -> PROGRAM ID SEMICOLON placeholder_goto_main create_scopes global_scope main_function end_scopes . fill_goto_main
+    (9) fill_goto_main -> .
 
-    RPAREN          shift and go to state 22
+    $end            reduce using rule 9 (fill_goto_main -> .)
 
+    fill_goto_main                 shift and go to state 23
 
 state 13
 
-    (2) global_scope -> VARIABLES LBRACE decl_list . RBRACE function_decl_list
-    (3) global_scope -> VARIABLES LBRACE decl_list . RBRACE
+    (7) main_function -> MAIN LPAREN . RPAREN LBRACE start_main stmt_list RBRACE
 
-    RBRACE          shift and go to state 23
+    RPAREN          shift and go to state 24
 
 
 state 14
 
-    (9) decl_list -> decl . SEMICOLON decl_list
-    (10) decl_list -> decl . SEMICOLON
+    (3) global_scope -> VARIABLES LBRACE decl_list . RBRACE function_decl_list
+    (4) global_scope -> VARIABLES LBRACE decl_list . RBRACE
 
-    SEMICOLON       shift and go to state 24
+    RBRACE          shift and go to state 25
 
 
 state 15
 
-    (11) decl_list -> empty .
-
-    RBRACE          reduce using rule 11 (decl_list -> empty .)
-
-
-state 16
-
-    (12) decl -> type . ID
-    (81) array_decl -> type . ID LBRACKET CTEI RBRACKET
-
-    ID              shift and go to state 25
-
-
-state 17
-
-    (13) decl -> array_decl . SEMICOLON
+    (12) decl_list -> decl . SEMICOLON decl_list
+    (13) decl_list -> decl . SEMICOLON
 
     SEMICOLON       shift and go to state 26
 
 
+state 16
+
+    (14) decl_list -> empty .
+
+    RBRACE          reduce using rule 14 (decl_list -> empty .)
+
+
+state 17
+
+    (15) decl -> type . ID
+    (84) array_decl -> type . ID LBRACKET CTEI RBRACKET
+
+    ID              shift and go to state 27
+
+
 state 18
 
-    (14) type -> INT .
+    (16) decl -> array_decl . SEMICOLON
 
-    ID              reduce using rule 14 (type -> INT .)
+    SEMICOLON       shift and go to state 28
 
 
 state 19
 
-    (15) type -> FLOAT .
+    (17) type -> INT .
 
-    ID              reduce using rule 15 (type -> FLOAT .)
+    ID              reduce using rule 17 (type -> INT .)
 
 
 state 20
 
-    (16) type -> STRING .
+    (18) type -> FLOAT .
 
-    ID              reduce using rule 16 (type -> STRING .)
+    ID              reduce using rule 18 (type -> FLOAT .)
 
 
 state 21
 
-    (17) type -> BOOL .
+    (19) type -> STRING .
 
-    ID              reduce using rule 17 (type -> BOOL .)
+    ID              reduce using rule 19 (type -> STRING .)
 
 
 state 22
 
-    (6) main_function -> MAIN LPAREN RPAREN . LBRACE stmt_list RBRACE
+    (20) type -> BOOL .
 
-    LBRACE          shift and go to state 27
+    ID              reduce using rule 20 (type -> BOOL .)
 
 
 state 23
 
-    (2) global_scope -> VARIABLES LBRACE decl_list RBRACE . function_decl_list
-    (3) global_scope -> VARIABLES LBRACE decl_list RBRACE .
-    (4) function_decl_list -> . function_decl function_decl_list
-    (5) function_decl_list -> . empty
-    (70) function_decl -> . type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
-    (71) function_decl -> . VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-    (82) empty -> .
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
+    (1) program -> PROGRAM ID SEMICOLON placeholder_goto_main create_scopes global_scope main_function end_scopes fill_goto_main .
 
-  ! reduce/reduce conflict for MAIN resolved using rule 3 (global_scope -> VARIABLES LBRACE decl_list RBRACE .)
-    MAIN            reduce using rule 3 (global_scope -> VARIABLES LBRACE decl_list RBRACE .)
-    VOID            shift and go to state 32
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
+    $end            reduce using rule 1 (program -> PROGRAM ID SEMICOLON placeholder_goto_main create_scopes global_scope main_function end_scopes fill_goto_main .)
 
-  ! MAIN            [ reduce using rule 82 (empty -> .) ]
-
-    function_decl_list             shift and go to state 28
-    function_decl                  shift and go to state 29
-    empty                          shift and go to state 30
-    type                           shift and go to state 31
 
 state 24
 
-    (9) decl_list -> decl SEMICOLON . decl_list
-    (10) decl_list -> decl SEMICOLON .
-    (9) decl_list -> . decl SEMICOLON decl_list
-    (10) decl_list -> . decl SEMICOLON
-    (11) decl_list -> . empty
-    (12) decl -> . type ID
-    (13) decl -> . array_decl SEMICOLON
-    (82) empty -> .
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
-    (81) array_decl -> . type ID LBRACKET CTEI RBRACKET
+    (7) main_function -> MAIN LPAREN RPAREN . LBRACE start_main stmt_list RBRACE
 
-  ! reduce/reduce conflict for RBRACE resolved using rule 10 (decl_list -> decl SEMICOLON .)
-    RBRACE          reduce using rule 10 (decl_list -> decl SEMICOLON .)
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
+    LBRACE          shift and go to state 29
 
-  ! RBRACE          [ reduce using rule 82 (empty -> .) ]
-
-    decl                           shift and go to state 14
-    decl_list                      shift and go to state 33
-    empty                          shift and go to state 15
-    type                           shift and go to state 16
-    array_decl                     shift and go to state 17
 
 state 25
 
-    (12) decl -> type ID .
-    (81) array_decl -> type ID . LBRACKET CTEI RBRACKET
+    (3) global_scope -> VARIABLES LBRACE decl_list RBRACE . function_decl_list
+    (4) global_scope -> VARIABLES LBRACE decl_list RBRACE .
+    (5) function_decl_list -> . function_decl function_decl_list
+    (6) function_decl_list -> . empty
+    (73) function_decl -> . type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
+    (74) function_decl -> . VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (85) empty -> .
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
 
-    SEMICOLON       reduce using rule 12 (decl -> type ID .)
-    LBRACKET        shift and go to state 34
+  ! reduce/reduce conflict for MAIN resolved using rule 4 (global_scope -> VARIABLES LBRACE decl_list RBRACE .)
+    MAIN            reduce using rule 4 (global_scope -> VARIABLES LBRACE decl_list RBRACE .)
+    VOID            shift and go to state 34
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
+  ! MAIN            [ reduce using rule 85 (empty -> .) ]
+
+    function_decl_list             shift and go to state 30
+    function_decl                  shift and go to state 31
+    empty                          shift and go to state 32
+    type                           shift and go to state 33
 
 state 26
 
-    (13) decl -> array_decl SEMICOLON .
+    (12) decl_list -> decl SEMICOLON . decl_list
+    (13) decl_list -> decl SEMICOLON .
+    (12) decl_list -> . decl SEMICOLON decl_list
+    (13) decl_list -> . decl SEMICOLON
+    (14) decl_list -> . empty
+    (15) decl -> . type ID
+    (16) decl -> . array_decl SEMICOLON
+    (85) empty -> .
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+    (84) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
-    SEMICOLON       reduce using rule 13 (decl -> array_decl SEMICOLON .)
+  ! reduce/reduce conflict for RBRACE resolved using rule 13 (decl_list -> decl SEMICOLON .)
+    RBRACE          reduce using rule 13 (decl_list -> decl SEMICOLON .)
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
+  ! RBRACE          [ reduce using rule 85 (empty -> .) ]
+
+    decl                           shift and go to state 15
+    decl_list                      shift and go to state 35
+    empty                          shift and go to state 16
+    type                           shift and go to state 17
+    array_decl                     shift and go to state 18
 
 state 27
 
-    (6) main_function -> MAIN LPAREN RPAREN LBRACE . stmt_list RBRACE
-    (18) stmt_list -> . stmt SEMICOLON stmt_list
-    (19) stmt_list -> . stmt SEMICOLON
-    (20) stmt -> . assign
-    (21) stmt -> . print
-    (22) stmt -> . conditional
-    (23) stmt -> . loop
-    (24) stmt -> . function_call
-    (25) stmt -> . decl
-    (26) stmt -> . built_in_function
-    (36) assign -> . ID EQUALS expr
-    (37) assign -> . ID EQUALS function_call
-    (55) print -> . PRINT COLON ID
-    (56) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (57) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (68) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (74) function_call -> . ID LPAREN arg_list RPAREN
-    (12) decl -> . type ID
-    (13) decl -> . array_decl SEMICOLON
-    (27) built_in_function -> . TEACH_SUM LPAREN RPAREN
-    (28) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
-    (29) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
-    (30) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
-    (31) built_in_function -> . TEACH_IF LPAREN RPAREN
-    (32) built_in_function -> . TEACH_WHILE LPAREN RPAREN
-    (33) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
-    (34) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
-    (35) built_in_function -> . AYUDA LPAREN RPAREN
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
-    (81) array_decl -> . type ID LBRACKET CTEI RBRACKET
+    (15) decl -> type ID .
+    (84) array_decl -> type ID . LBRACKET CTEI RBRACKET
 
-    ID              shift and go to state 44
-    PRINT           shift and go to state 45
-    IF              shift and go to state 46
-    WHILE           shift and go to state 47
-    TEACH_SUM       shift and go to state 48
-    TEACH_SUBSTRACTION shift and go to state 49
-    TEACH_MULTIPLICATION shift and go to state 50
-    TEACH_DIVISION  shift and go to state 51
-    TEACH_IF        shift and go to state 52
-    TEACH_WHILE     shift and go to state 53
-    TEACH_FUNCTION_DECLARATION shift and go to state 54
-    TEACH_FUNCTION_CALL shift and go to state 55
-    AYUDA           shift and go to state 56
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
+    SEMICOLON       reduce using rule 15 (decl -> type ID .)
+    LBRACKET        shift and go to state 36
 
-    stmt_list                      shift and go to state 35
-    stmt                           shift and go to state 36
-    assign                         shift and go to state 37
-    print                          shift and go to state 38
-    conditional                    shift and go to state 39
-    loop                           shift and go to state 40
-    function_call                  shift and go to state 41
-    decl                           shift and go to state 42
-    built_in_function              shift and go to state 43
-    type                           shift and go to state 16
-    array_decl                     shift and go to state 17
 
 state 28
 
-    (2) global_scope -> VARIABLES LBRACE decl_list RBRACE function_decl_list .
+    (16) decl -> array_decl SEMICOLON .
 
-    MAIN            reduce using rule 2 (global_scope -> VARIABLES LBRACE decl_list RBRACE function_decl_list .)
+    SEMICOLON       reduce using rule 16 (decl -> array_decl SEMICOLON .)
 
 
 state 29
 
-    (4) function_decl_list -> function_decl . function_decl_list
-    (4) function_decl_list -> . function_decl function_decl_list
-    (5) function_decl_list -> . empty
-    (70) function_decl -> . type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
-    (71) function_decl -> . VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-    (82) empty -> .
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
+    (7) main_function -> MAIN LPAREN RPAREN LBRACE . start_main stmt_list RBRACE
+    (8) start_main -> .
 
-    VOID            shift and go to state 32
-    MAIN            reduce using rule 82 (empty -> .)
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
+    ID              reduce using rule 8 (start_main -> .)
+    PRINT           reduce using rule 8 (start_main -> .)
+    IF              reduce using rule 8 (start_main -> .)
+    WHILE           reduce using rule 8 (start_main -> .)
+    TEACH_SUM       reduce using rule 8 (start_main -> .)
+    TEACH_SUBSTRACTION reduce using rule 8 (start_main -> .)
+    TEACH_MULTIPLICATION reduce using rule 8 (start_main -> .)
+    TEACH_DIVISION  reduce using rule 8 (start_main -> .)
+    TEACH_IF        reduce using rule 8 (start_main -> .)
+    TEACH_WHILE     reduce using rule 8 (start_main -> .)
+    TEACH_FUNCTION_DECLARATION reduce using rule 8 (start_main -> .)
+    TEACH_FUNCTION_CALL reduce using rule 8 (start_main -> .)
+    AYUDA           reduce using rule 8 (start_main -> .)
+    INT             reduce using rule 8 (start_main -> .)
+    FLOAT           reduce using rule 8 (start_main -> .)
+    STRING          reduce using rule 8 (start_main -> .)
+    BOOL            reduce using rule 8 (start_main -> .)
 
-    function_decl                  shift and go to state 29
-    function_decl_list             shift and go to state 57
-    empty                          shift and go to state 30
-    type                           shift and go to state 31
+    start_main                     shift and go to state 37
 
 state 30
 
-    (5) function_decl_list -> empty .
+    (3) global_scope -> VARIABLES LBRACE decl_list RBRACE function_decl_list .
 
-    MAIN            reduce using rule 5 (function_decl_list -> empty .)
+    MAIN            reduce using rule 3 (global_scope -> VARIABLES LBRACE decl_list RBRACE function_decl_list .)
 
 
 state 31
 
-    (70) function_decl -> type . ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
+    (5) function_decl_list -> function_decl . function_decl_list
+    (5) function_decl_list -> . function_decl function_decl_list
+    (6) function_decl_list -> . empty
+    (73) function_decl -> . type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
+    (74) function_decl -> . VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (85) empty -> .
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
 
-    ID              shift and go to state 58
+    VOID            shift and go to state 34
+    MAIN            reduce using rule 85 (empty -> .)
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
+    function_decl                  shift and go to state 31
+    function_decl_list             shift and go to state 38
+    empty                          shift and go to state 32
+    type                           shift and go to state 33
 
 state 32
 
-    (71) function_decl -> VOID . ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (6) function_decl_list -> empty .
 
-    ID              shift and go to state 59
+    MAIN            reduce using rule 6 (function_decl_list -> empty .)
 
 
 state 33
 
-    (9) decl_list -> decl SEMICOLON decl_list .
+    (73) function_decl -> type . ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
 
-    RBRACE          reduce using rule 9 (decl_list -> decl SEMICOLON decl_list .)
+    ID              shift and go to state 39
 
 
 state 34
 
-    (81) array_decl -> type ID LBRACKET . CTEI RBRACKET
+    (74) function_decl -> VOID . ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
 
-    CTEI            shift and go to state 60
+    ID              shift and go to state 40
 
 
 state 35
 
-    (6) main_function -> MAIN LPAREN RPAREN LBRACE stmt_list . RBRACE
+    (12) decl_list -> decl SEMICOLON decl_list .
 
-    RBRACE          shift and go to state 61
+    RBRACE          reduce using rule 12 (decl_list -> decl SEMICOLON decl_list .)
 
 
 state 36
 
-    (18) stmt_list -> stmt . SEMICOLON stmt_list
-    (19) stmt_list -> stmt . SEMICOLON
+    (84) array_decl -> type ID LBRACKET . CTEI RBRACKET
 
-    SEMICOLON       shift and go to state 62
+    CTEI            shift and go to state 41
 
 
 state 37
 
-    (20) stmt -> assign .
+    (7) main_function -> MAIN LPAREN RPAREN LBRACE start_main . stmt_list RBRACE
+    (21) stmt_list -> . stmt SEMICOLON stmt_list
+    (22) stmt_list -> . stmt SEMICOLON
+    (23) stmt -> . assign
+    (24) stmt -> . print
+    (25) stmt -> . conditional
+    (26) stmt -> . loop
+    (27) stmt -> . function_call
+    (28) stmt -> . decl
+    (29) stmt -> . built_in_function
+    (39) assign -> . ID EQUALS expr
+    (40) assign -> . ID EQUALS function_call
+    (58) print -> . PRINT COLON ID
+    (59) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (71) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (77) function_call -> . ID LPAREN arg_list RPAREN
+    (15) decl -> . type ID
+    (16) decl -> . array_decl SEMICOLON
+    (30) built_in_function -> . TEACH_SUM LPAREN RPAREN
+    (31) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
+    (32) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
+    (33) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
+    (34) built_in_function -> . TEACH_IF LPAREN RPAREN
+    (35) built_in_function -> . TEACH_WHILE LPAREN RPAREN
+    (36) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
+    (37) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
+    (38) built_in_function -> . AYUDA LPAREN RPAREN
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+    (84) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
-    SEMICOLON       reduce using rule 20 (stmt -> assign .)
+    ID              shift and go to state 51
+    PRINT           shift and go to state 52
+    IF              shift and go to state 53
+    WHILE           shift and go to state 54
+    TEACH_SUM       shift and go to state 55
+    TEACH_SUBSTRACTION shift and go to state 56
+    TEACH_MULTIPLICATION shift and go to state 57
+    TEACH_DIVISION  shift and go to state 58
+    TEACH_IF        shift and go to state 59
+    TEACH_WHILE     shift and go to state 60
+    TEACH_FUNCTION_DECLARATION shift and go to state 61
+    TEACH_FUNCTION_CALL shift and go to state 62
+    AYUDA           shift and go to state 63
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
+    stmt_list                      shift and go to state 42
+    stmt                           shift and go to state 43
+    assign                         shift and go to state 44
+    print                          shift and go to state 45
+    conditional                    shift and go to state 46
+    loop                           shift and go to state 47
+    function_call                  shift and go to state 48
+    decl                           shift and go to state 49
+    built_in_function              shift and go to state 50
+    type                           shift and go to state 17
+    array_decl                     shift and go to state 18
 
 state 38
 
-    (21) stmt -> print .
+    (5) function_decl_list -> function_decl function_decl_list .
 
-    SEMICOLON       reduce using rule 21 (stmt -> print .)
+    MAIN            reduce using rule 5 (function_decl_list -> function_decl function_decl_list .)
 
 
 state 39
 
-    (22) stmt -> conditional .
+    (73) function_decl -> type ID . LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
 
-    SEMICOLON       reduce using rule 22 (stmt -> conditional .)
+    LPAREN          shift and go to state 64
 
 
 state 40
 
-    (23) stmt -> loop .
+    (74) function_decl -> VOID ID . LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
 
-    SEMICOLON       reduce using rule 23 (stmt -> loop .)
+    LPAREN          shift and go to state 65
 
 
 state 41
 
-    (24) stmt -> function_call .
+    (84) array_decl -> type ID LBRACKET CTEI . RBRACKET
 
-    SEMICOLON       reduce using rule 24 (stmt -> function_call .)
+    RBRACKET        shift and go to state 66
 
 
 state 42
 
-    (25) stmt -> decl .
+    (7) main_function -> MAIN LPAREN RPAREN LBRACE start_main stmt_list . RBRACE
 
-    SEMICOLON       reduce using rule 25 (stmt -> decl .)
+    RBRACE          shift and go to state 67
 
 
 state 43
 
-    (26) stmt -> built_in_function .
+    (21) stmt_list -> stmt . SEMICOLON stmt_list
+    (22) stmt_list -> stmt . SEMICOLON
 
-    SEMICOLON       reduce using rule 26 (stmt -> built_in_function .)
+    SEMICOLON       shift and go to state 68
 
 
 state 44
 
-    (36) assign -> ID . EQUALS expr
-    (37) assign -> ID . EQUALS function_call
-    (74) function_call -> ID . LPAREN arg_list RPAREN
+    (23) stmt -> assign .
 
-    EQUALS          shift and go to state 63
-    LPAREN          shift and go to state 64
+    SEMICOLON       reduce using rule 23 (stmt -> assign .)
 
 
 state 45
 
-    (55) print -> PRINT . COLON ID
+    (24) stmt -> print .
 
-    COLON           shift and go to state 65
+    SEMICOLON       reduce using rule 24 (stmt -> print .)
 
 
 state 46
 
-    (56) conditional -> IF . LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (57) conditional -> IF . LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (25) stmt -> conditional .
 
-    LPAREN          shift and go to state 66
+    SEMICOLON       reduce using rule 25 (stmt -> conditional .)
 
 
 state 47
 
-    (68) loop -> WHILE . LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (26) stmt -> loop .
 
-    LPAREN          shift and go to state 67
+    SEMICOLON       reduce using rule 26 (stmt -> loop .)
 
 
 state 48
 
-    (27) built_in_function -> TEACH_SUM . LPAREN RPAREN
+    (27) stmt -> function_call .
 
-    LPAREN          shift and go to state 68
+    SEMICOLON       reduce using rule 27 (stmt -> function_call .)
 
 
 state 49
 
-    (28) built_in_function -> TEACH_SUBSTRACTION . LPAREN RPAREN
+    (28) stmt -> decl .
 
-    LPAREN          shift and go to state 69
+    SEMICOLON       reduce using rule 28 (stmt -> decl .)
 
 
 state 50
 
-    (29) built_in_function -> TEACH_MULTIPLICATION . LPAREN RPAREN
+    (29) stmt -> built_in_function .
 
-    LPAREN          shift and go to state 70
+    SEMICOLON       reduce using rule 29 (stmt -> built_in_function .)
 
 
 state 51
 
-    (30) built_in_function -> TEACH_DIVISION . LPAREN RPAREN
+    (39) assign -> ID . EQUALS expr
+    (40) assign -> ID . EQUALS function_call
+    (77) function_call -> ID . LPAREN arg_list RPAREN
 
-    LPAREN          shift and go to state 71
+    EQUALS          shift and go to state 69
+    LPAREN          shift and go to state 70
 
 
 state 52
 
-    (31) built_in_function -> TEACH_IF . LPAREN RPAREN
+    (58) print -> PRINT . COLON ID
 
-    LPAREN          shift and go to state 72
+    COLON           shift and go to state 71
 
 
 state 53
 
-    (32) built_in_function -> TEACH_WHILE . LPAREN RPAREN
+    (59) conditional -> IF . LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (60) conditional -> IF . LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
 
-    LPAREN          shift and go to state 73
+    LPAREN          shift and go to state 72
 
 
 state 54
 
-    (33) built_in_function -> TEACH_FUNCTION_DECLARATION . LPAREN RPAREN
+    (71) loop -> WHILE . LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
 
-    LPAREN          shift and go to state 74
+    LPAREN          shift and go to state 73
 
 
 state 55
 
-    (34) built_in_function -> TEACH_FUNCTION_CALL . LPAREN RPAREN
+    (30) built_in_function -> TEACH_SUM . LPAREN RPAREN
 
-    LPAREN          shift and go to state 75
+    LPAREN          shift and go to state 74
 
 
 state 56
 
-    (35) built_in_function -> AYUDA . LPAREN RPAREN
+    (31) built_in_function -> TEACH_SUBSTRACTION . LPAREN RPAREN
 
-    LPAREN          shift and go to state 76
+    LPAREN          shift and go to state 75
 
 
 state 57
 
-    (4) function_decl_list -> function_decl function_decl_list .
+    (32) built_in_function -> TEACH_MULTIPLICATION . LPAREN RPAREN
 
-    MAIN            reduce using rule 4 (function_decl_list -> function_decl function_decl_list .)
+    LPAREN          shift and go to state 76
 
 
 state 58
 
-    (70) function_decl -> type ID . LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
+    (33) built_in_function -> TEACH_DIVISION . LPAREN RPAREN
 
     LPAREN          shift and go to state 77
 
 
 state 59
 
-    (71) function_decl -> VOID ID . LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (34) built_in_function -> TEACH_IF . LPAREN RPAREN
 
     LPAREN          shift and go to state 78
 
 
 state 60
 
-    (81) array_decl -> type ID LBRACKET CTEI . RBRACKET
+    (35) built_in_function -> TEACH_WHILE . LPAREN RPAREN
 
-    RBRACKET        shift and go to state 79
+    LPAREN          shift and go to state 79
 
 
 state 61
 
-    (6) main_function -> MAIN LPAREN RPAREN LBRACE stmt_list RBRACE .
+    (36) built_in_function -> TEACH_FUNCTION_DECLARATION . LPAREN RPAREN
 
-    $end            reduce using rule 6 (main_function -> MAIN LPAREN RPAREN LBRACE stmt_list RBRACE .)
+    LPAREN          shift and go to state 80
 
 
 state 62
 
-    (18) stmt_list -> stmt SEMICOLON . stmt_list
-    (19) stmt_list -> stmt SEMICOLON .
-    (18) stmt_list -> . stmt SEMICOLON stmt_list
-    (19) stmt_list -> . stmt SEMICOLON
-    (20) stmt -> . assign
-    (21) stmt -> . print
-    (22) stmt -> . conditional
-    (23) stmt -> . loop
-    (24) stmt -> . function_call
-    (25) stmt -> . decl
-    (26) stmt -> . built_in_function
-    (36) assign -> . ID EQUALS expr
-    (37) assign -> . ID EQUALS function_call
-    (55) print -> . PRINT COLON ID
-    (56) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (57) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (68) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (74) function_call -> . ID LPAREN arg_list RPAREN
-    (12) decl -> . type ID
-    (13) decl -> . array_decl SEMICOLON
-    (27) built_in_function -> . TEACH_SUM LPAREN RPAREN
-    (28) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
-    (29) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
-    (30) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
-    (31) built_in_function -> . TEACH_IF LPAREN RPAREN
-    (32) built_in_function -> . TEACH_WHILE LPAREN RPAREN
-    (33) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
-    (34) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
-    (35) built_in_function -> . AYUDA LPAREN RPAREN
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
-    (81) array_decl -> . type ID LBRACKET CTEI RBRACKET
+    (37) built_in_function -> TEACH_FUNCTION_CALL . LPAREN RPAREN
 
-    RBRACE          reduce using rule 19 (stmt_list -> stmt SEMICOLON .)
-    RETURN          reduce using rule 19 (stmt_list -> stmt SEMICOLON .)
-    ID              shift and go to state 44
-    PRINT           shift and go to state 45
-    IF              shift and go to state 46
-    WHILE           shift and go to state 47
-    TEACH_SUM       shift and go to state 48
-    TEACH_SUBSTRACTION shift and go to state 49
-    TEACH_MULTIPLICATION shift and go to state 50
-    TEACH_DIVISION  shift and go to state 51
-    TEACH_IF        shift and go to state 52
-    TEACH_WHILE     shift and go to state 53
-    TEACH_FUNCTION_DECLARATION shift and go to state 54
-    TEACH_FUNCTION_CALL shift and go to state 55
-    AYUDA           shift and go to state 56
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
+    LPAREN          shift and go to state 81
 
-    stmt                           shift and go to state 36
-    stmt_list                      shift and go to state 80
-    assign                         shift and go to state 37
-    print                          shift and go to state 38
-    conditional                    shift and go to state 39
-    loop                           shift and go to state 40
-    function_call                  shift and go to state 41
-    decl                           shift and go to state 42
-    built_in_function              shift and go to state 43
-    type                           shift and go to state 16
-    array_decl                     shift and go to state 17
 
 state 63
 
-    (36) assign -> ID EQUALS . expr
-    (37) assign -> ID EQUALS . function_call
-    (41) expr -> . expr PLUS term
-    (42) expr -> . expr MINUS term
-    (43) expr -> . expr comp_op term
-    (44) expr -> . term
-    (74) function_call -> . ID LPAREN arg_list RPAREN
-    (45) term -> . term MULTIPLY factor
-    (46) term -> . term DIVIDE factor
-    (47) term -> . factor
-    (48) factor -> . LPAREN expr RPAREN
-    (49) factor -> . CTEI
-    (50) factor -> . FLOAT_NUMBER
-    (51) factor -> . STRING_LITERAL
-    (52) factor -> . TRUE
-    (53) factor -> . FALSE
-    (54) factor -> . ID
+    (38) built_in_function -> AYUDA . LPAREN RPAREN
 
-    ID              shift and go to state 81
-    LPAREN          shift and go to state 85
-    CTEI            shift and go to state 87
-    FLOAT_NUMBER    shift and go to state 88
-    STRING_LITERAL  shift and go to state 89
-    TRUE            shift and go to state 90
-    FALSE           shift and go to state 91
+    LPAREN          shift and go to state 82
 
-    expr                           shift and go to state 82
-    function_call                  shift and go to state 83
-    term                           shift and go to state 84
-    factor                         shift and go to state 86
 
 state 64
 
-    (74) function_call -> ID LPAREN . arg_list RPAREN
-    (79) arg_list -> . expr1
-    (80) arg_list -> . expr1 COMMA arg_list
-    (38) expr1 -> . term1
-    (39) term1 -> . factor1
-    (40) factor1 -> . ID
+    (73) function_decl -> type ID LPAREN . create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
+    (72) create_function_scope -> .
 
-    ID              shift and go to state 92
+    INT             reduce using rule 72 (create_function_scope -> .)
+    FLOAT           reduce using rule 72 (create_function_scope -> .)
+    STRING          reduce using rule 72 (create_function_scope -> .)
+    BOOL            reduce using rule 72 (create_function_scope -> .)
+    RPAREN          reduce using rule 72 (create_function_scope -> .)
 
-    arg_list                       shift and go to state 93
-    expr1                          shift and go to state 94
-    term1                          shift and go to state 95
-    factor1                        shift and go to state 96
+    create_function_scope          shift and go to state 83
 
 state 65
 
-    (55) print -> PRINT COLON . ID
+    (74) function_decl -> VOID ID LPAREN . create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (72) create_function_scope -> .
 
-    ID              shift and go to state 97
+    INT             reduce using rule 72 (create_function_scope -> .)
+    FLOAT           reduce using rule 72 (create_function_scope -> .)
+    STRING          reduce using rule 72 (create_function_scope -> .)
+    BOOL            reduce using rule 72 (create_function_scope -> .)
+    RPAREN          reduce using rule 72 (create_function_scope -> .)
 
+    create_function_scope          shift and go to state 84
 
 state 66
 
-    (56) conditional -> IF LPAREN . comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (57) conditional -> IF LPAREN . comp_expr RPAREN LBRACE stmt_list RBRACE
-    (58) comp_expr -> . expr comp_op expr
-    (41) expr -> . expr PLUS term
-    (42) expr -> . expr MINUS term
-    (43) expr -> . expr comp_op term
-    (44) expr -> . term
-    (45) term -> . term MULTIPLY factor
-    (46) term -> . term DIVIDE factor
-    (47) term -> . factor
-    (48) factor -> . LPAREN expr RPAREN
-    (49) factor -> . CTEI
-    (50) factor -> . FLOAT_NUMBER
-    (51) factor -> . STRING_LITERAL
-    (52) factor -> . TRUE
-    (53) factor -> . FALSE
-    (54) factor -> . ID
+    (84) array_decl -> type ID LBRACKET CTEI RBRACKET .
 
-    LPAREN          shift and go to state 85
-    CTEI            shift and go to state 87
-    FLOAT_NUMBER    shift and go to state 88
-    STRING_LITERAL  shift and go to state 89
-    TRUE            shift and go to state 90
-    FALSE           shift and go to state 91
-    ID              shift and go to state 100
+    SEMICOLON       reduce using rule 84 (array_decl -> type ID LBRACKET CTEI RBRACKET .)
 
-    comp_expr                      shift and go to state 98
-    expr                           shift and go to state 99
-    term                           shift and go to state 84
-    factor                         shift and go to state 86
 
 state 67
 
-    (68) loop -> WHILE LPAREN . comp_expr RPAREN LBRACE stmt_list RBRACE
-    (58) comp_expr -> . expr comp_op expr
-    (41) expr -> . expr PLUS term
-    (42) expr -> . expr MINUS term
-    (43) expr -> . expr comp_op term
-    (44) expr -> . term
-    (45) term -> . term MULTIPLY factor
-    (46) term -> . term DIVIDE factor
-    (47) term -> . factor
-    (48) factor -> . LPAREN expr RPAREN
-    (49) factor -> . CTEI
-    (50) factor -> . FLOAT_NUMBER
-    (51) factor -> . STRING_LITERAL
-    (52) factor -> . TRUE
-    (53) factor -> . FALSE
-    (54) factor -> . ID
+    (7) main_function -> MAIN LPAREN RPAREN LBRACE start_main stmt_list RBRACE .
 
-    LPAREN          shift and go to state 85
-    CTEI            shift and go to state 87
-    FLOAT_NUMBER    shift and go to state 88
-    STRING_LITERAL  shift and go to state 89
-    TRUE            shift and go to state 90
-    FALSE           shift and go to state 91
-    ID              shift and go to state 100
+    $end            reduce using rule 7 (main_function -> MAIN LPAREN RPAREN LBRACE start_main stmt_list RBRACE .)
 
-    comp_expr                      shift and go to state 101
-    expr                           shift and go to state 99
-    term                           shift and go to state 84
-    factor                         shift and go to state 86
 
 state 68
 
-    (27) built_in_function -> TEACH_SUM LPAREN . RPAREN
+    (21) stmt_list -> stmt SEMICOLON . stmt_list
+    (22) stmt_list -> stmt SEMICOLON .
+    (21) stmt_list -> . stmt SEMICOLON stmt_list
+    (22) stmt_list -> . stmt SEMICOLON
+    (23) stmt -> . assign
+    (24) stmt -> . print
+    (25) stmt -> . conditional
+    (26) stmt -> . loop
+    (27) stmt -> . function_call
+    (28) stmt -> . decl
+    (29) stmt -> . built_in_function
+    (39) assign -> . ID EQUALS expr
+    (40) assign -> . ID EQUALS function_call
+    (58) print -> . PRINT COLON ID
+    (59) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (71) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (77) function_call -> . ID LPAREN arg_list RPAREN
+    (15) decl -> . type ID
+    (16) decl -> . array_decl SEMICOLON
+    (30) built_in_function -> . TEACH_SUM LPAREN RPAREN
+    (31) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
+    (32) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
+    (33) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
+    (34) built_in_function -> . TEACH_IF LPAREN RPAREN
+    (35) built_in_function -> . TEACH_WHILE LPAREN RPAREN
+    (36) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
+    (37) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
+    (38) built_in_function -> . AYUDA LPAREN RPAREN
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+    (84) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
-    RPAREN          shift and go to state 102
+    RBRACE          reduce using rule 22 (stmt_list -> stmt SEMICOLON .)
+    RETURN          reduce using rule 22 (stmt_list -> stmt SEMICOLON .)
+    ID              shift and go to state 51
+    PRINT           shift and go to state 52
+    IF              shift and go to state 53
+    WHILE           shift and go to state 54
+    TEACH_SUM       shift and go to state 55
+    TEACH_SUBSTRACTION shift and go to state 56
+    TEACH_MULTIPLICATION shift and go to state 57
+    TEACH_DIVISION  shift and go to state 58
+    TEACH_IF        shift and go to state 59
+    TEACH_WHILE     shift and go to state 60
+    TEACH_FUNCTION_DECLARATION shift and go to state 61
+    TEACH_FUNCTION_CALL shift and go to state 62
+    AYUDA           shift and go to state 63
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
+    stmt                           shift and go to state 43
+    stmt_list                      shift and go to state 85
+    assign                         shift and go to state 44
+    print                          shift and go to state 45
+    conditional                    shift and go to state 46
+    loop                           shift and go to state 47
+    function_call                  shift and go to state 48
+    decl                           shift and go to state 49
+    built_in_function              shift and go to state 50
+    type                           shift and go to state 17
+    array_decl                     shift and go to state 18
 
 state 69
 
-    (28) built_in_function -> TEACH_SUBSTRACTION LPAREN . RPAREN
+    (39) assign -> ID EQUALS . expr
+    (40) assign -> ID EQUALS . function_call
+    (44) expr -> . expr PLUS term
+    (45) expr -> . expr MINUS term
+    (46) expr -> . expr comp_op term
+    (47) expr -> . term
+    (77) function_call -> . ID LPAREN arg_list RPAREN
+    (48) term -> . term MULTIPLY factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . factor
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
 
-    RPAREN          shift and go to state 103
+    ID              shift and go to state 86
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 92
+    FLOAT_NUMBER    shift and go to state 93
+    STRING_LITERAL  shift and go to state 94
+    TRUE            shift and go to state 95
+    FALSE           shift and go to state 96
 
+    expr                           shift and go to state 87
+    function_call                  shift and go to state 88
+    term                           shift and go to state 89
+    factor                         shift and go to state 91
 
 state 70
 
-    (29) built_in_function -> TEACH_MULTIPLICATION LPAREN . RPAREN
+    (77) function_call -> ID LPAREN . arg_list RPAREN
+    (82) arg_list -> . expr1
+    (83) arg_list -> . expr1 COMMA arg_list
+    (41) expr1 -> . term1
+    (42) term1 -> . factor1
+    (43) factor1 -> . ID
 
-    RPAREN          shift and go to state 104
+    ID              shift and go to state 97
 
+    arg_list                       shift and go to state 98
+    expr1                          shift and go to state 99
+    term1                          shift and go to state 100
+    factor1                        shift and go to state 101
 
 state 71
 
-    (30) built_in_function -> TEACH_DIVISION LPAREN . RPAREN
+    (58) print -> PRINT COLON . ID
 
-    RPAREN          shift and go to state 105
+    ID              shift and go to state 102
 
 
 state 72
 
-    (31) built_in_function -> TEACH_IF LPAREN . RPAREN
+    (59) conditional -> IF LPAREN . comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (60) conditional -> IF LPAREN . comp_expr RPAREN LBRACE stmt_list RBRACE
+    (61) comp_expr -> . expr comp_op expr
+    (44) expr -> . expr PLUS term
+    (45) expr -> . expr MINUS term
+    (46) expr -> . expr comp_op term
+    (47) expr -> . term
+    (48) term -> . term MULTIPLY factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . factor
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
 
-    RPAREN          shift and go to state 106
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 92
+    FLOAT_NUMBER    shift and go to state 93
+    STRING_LITERAL  shift and go to state 94
+    TRUE            shift and go to state 95
+    FALSE           shift and go to state 96
+    ID              shift and go to state 105
 
+    comp_expr                      shift and go to state 103
+    expr                           shift and go to state 104
+    term                           shift and go to state 89
+    factor                         shift and go to state 91
 
 state 73
 
-    (32) built_in_function -> TEACH_WHILE LPAREN . RPAREN
+    (71) loop -> WHILE LPAREN . comp_expr RPAREN LBRACE stmt_list RBRACE
+    (61) comp_expr -> . expr comp_op expr
+    (44) expr -> . expr PLUS term
+    (45) expr -> . expr MINUS term
+    (46) expr -> . expr comp_op term
+    (47) expr -> . term
+    (48) term -> . term MULTIPLY factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . factor
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
+
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 92
+    FLOAT_NUMBER    shift and go to state 93
+    STRING_LITERAL  shift and go to state 94
+    TRUE            shift and go to state 95
+    FALSE           shift and go to state 96
+    ID              shift and go to state 105
+
+    comp_expr                      shift and go to state 106
+    expr                           shift and go to state 104
+    term                           shift and go to state 89
+    factor                         shift and go to state 91
+
+state 74
+
+    (30) built_in_function -> TEACH_SUM LPAREN . RPAREN
 
     RPAREN          shift and go to state 107
 
 
-state 74
+state 75
 
-    (33) built_in_function -> TEACH_FUNCTION_DECLARATION LPAREN . RPAREN
+    (31) built_in_function -> TEACH_SUBSTRACTION LPAREN . RPAREN
 
     RPAREN          shift and go to state 108
 
 
-state 75
+state 76
 
-    (34) built_in_function -> TEACH_FUNCTION_CALL LPAREN . RPAREN
+    (32) built_in_function -> TEACH_MULTIPLICATION LPAREN . RPAREN
 
     RPAREN          shift and go to state 109
 
 
-state 76
+state 77
 
-    (35) built_in_function -> AYUDA LPAREN . RPAREN
+    (33) built_in_function -> TEACH_DIVISION LPAREN . RPAREN
 
     RPAREN          shift and go to state 110
 
 
-state 77
-
-    (70) function_decl -> type ID LPAREN . create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
-    (69) create_function_scope -> .
-
-    INT             reduce using rule 69 (create_function_scope -> .)
-    FLOAT           reduce using rule 69 (create_function_scope -> .)
-    STRING          reduce using rule 69 (create_function_scope -> .)
-    BOOL            reduce using rule 69 (create_function_scope -> .)
-    RPAREN          reduce using rule 69 (create_function_scope -> .)
-
-    create_function_scope          shift and go to state 111
-
 state 78
 
-    (71) function_decl -> VOID ID LPAREN . create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-    (69) create_function_scope -> .
+    (34) built_in_function -> TEACH_IF LPAREN . RPAREN
 
-    INT             reduce using rule 69 (create_function_scope -> .)
-    FLOAT           reduce using rule 69 (create_function_scope -> .)
-    STRING          reduce using rule 69 (create_function_scope -> .)
-    BOOL            reduce using rule 69 (create_function_scope -> .)
-    RPAREN          reduce using rule 69 (create_function_scope -> .)
+    RPAREN          shift and go to state 111
 
-    create_function_scope          shift and go to state 112
 
 state 79
 
-    (81) array_decl -> type ID LBRACKET CTEI RBRACKET .
+    (35) built_in_function -> TEACH_WHILE LPAREN . RPAREN
 
-    SEMICOLON       reduce using rule 81 (array_decl -> type ID LBRACKET CTEI RBRACKET .)
+    RPAREN          shift and go to state 112
 
 
 state 80
 
-    (18) stmt_list -> stmt SEMICOLON stmt_list .
+    (36) built_in_function -> TEACH_FUNCTION_DECLARATION LPAREN . RPAREN
 
-    RBRACE          reduce using rule 18 (stmt_list -> stmt SEMICOLON stmt_list .)
-    RETURN          reduce using rule 18 (stmt_list -> stmt SEMICOLON stmt_list .)
+    RPAREN          shift and go to state 113
 
 
 state 81
 
-    (74) function_call -> ID . LPAREN arg_list RPAREN
-    (54) factor -> ID .
+    (37) built_in_function -> TEACH_FUNCTION_CALL LPAREN . RPAREN
 
-    LPAREN          shift and go to state 64
-    MULTIPLY        reduce using rule 54 (factor -> ID .)
-    DIVIDE          reduce using rule 54 (factor -> ID .)
-    PLUS            reduce using rule 54 (factor -> ID .)
-    MINUS           reduce using rule 54 (factor -> ID .)
-    LESS_THAN       reduce using rule 54 (factor -> ID .)
-    GREATER_THAN    reduce using rule 54 (factor -> ID .)
-    LESS_EQUAL      reduce using rule 54 (factor -> ID .)
-    GREATER_EQUAL   reduce using rule 54 (factor -> ID .)
-    EQUAL_EQUAL     reduce using rule 54 (factor -> ID .)
-    NOT_EQUAL       reduce using rule 54 (factor -> ID .)
-    SEMICOLON       reduce using rule 54 (factor -> ID .)
+    RPAREN          shift and go to state 114
 
 
 state 82
 
-    (36) assign -> ID EQUALS expr .
-    (41) expr -> expr . PLUS term
-    (42) expr -> expr . MINUS term
-    (43) expr -> expr . comp_op term
-    (59) comp_op -> . LESS_THAN
-    (60) comp_op -> . GREATER_THAN
-    (61) comp_op -> . LESS_EQUAL
-    (62) comp_op -> . GREATER_EQUAL
-    (63) comp_op -> . EQUAL_EQUAL
-    (64) comp_op -> . NOT_EQUAL
+    (38) built_in_function -> AYUDA LPAREN . RPAREN
 
-    SEMICOLON       reduce using rule 36 (assign -> ID EQUALS expr .)
-    PLUS            shift and go to state 113
-    MINUS           shift and go to state 114
-    LESS_THAN       shift and go to state 116
-    GREATER_THAN    shift and go to state 117
-    LESS_EQUAL      shift and go to state 118
-    GREATER_EQUAL   shift and go to state 119
-    EQUAL_EQUAL     shift and go to state 120
-    NOT_EQUAL       shift and go to state 121
+    RPAREN          shift and go to state 115
 
-    comp_op                        shift and go to state 115
 
 state 83
 
-    (37) assign -> ID EQUALS function_call .
+    (73) function_decl -> type ID LPAREN create_function_scope . param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
+    (78) param_list -> . param COMMA param_list
+    (79) param_list -> . param
+    (80) param_list -> . empty
+    (81) param -> . type ID
+    (85) empty -> .
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
 
-    SEMICOLON       reduce using rule 37 (assign -> ID EQUALS function_call .)
+    RPAREN          reduce using rule 85 (empty -> .)
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
+    type                           shift and go to state 116
+    param_list                     shift and go to state 117
+    param                          shift and go to state 118
+    empty                          shift and go to state 119
 
 state 84
 
-    (44) expr -> term .
-    (45) term -> term . MULTIPLY factor
-    (46) term -> term . DIVIDE factor
+    (74) function_decl -> VOID ID LPAREN create_function_scope . param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (78) param_list -> . param COMMA param_list
+    (79) param_list -> . param
+    (80) param_list -> . empty
+    (81) param -> . type ID
+    (85) empty -> .
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
 
-    PLUS            reduce using rule 44 (expr -> term .)
-    MINUS           reduce using rule 44 (expr -> term .)
-    LESS_THAN       reduce using rule 44 (expr -> term .)
-    GREATER_THAN    reduce using rule 44 (expr -> term .)
-    LESS_EQUAL      reduce using rule 44 (expr -> term .)
-    GREATER_EQUAL   reduce using rule 44 (expr -> term .)
-    EQUAL_EQUAL     reduce using rule 44 (expr -> term .)
-    NOT_EQUAL       reduce using rule 44 (expr -> term .)
-    SEMICOLON       reduce using rule 44 (expr -> term .)
-    RPAREN          reduce using rule 44 (expr -> term .)
-    MULTIPLY        shift and go to state 122
-    DIVIDE          shift and go to state 123
+    RPAREN          reduce using rule 85 (empty -> .)
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
+    param_list                     shift and go to state 120
+    param                          shift and go to state 118
+    empty                          shift and go to state 119
+    type                           shift and go to state 116
 
 state 85
 
-    (48) factor -> LPAREN . expr RPAREN
-    (41) expr -> . expr PLUS term
-    (42) expr -> . expr MINUS term
-    (43) expr -> . expr comp_op term
-    (44) expr -> . term
-    (45) term -> . term MULTIPLY factor
-    (46) term -> . term DIVIDE factor
-    (47) term -> . factor
-    (48) factor -> . LPAREN expr RPAREN
-    (49) factor -> . CTEI
-    (50) factor -> . FLOAT_NUMBER
-    (51) factor -> . STRING_LITERAL
-    (52) factor -> . TRUE
-    (53) factor -> . FALSE
-    (54) factor -> . ID
+    (21) stmt_list -> stmt SEMICOLON stmt_list .
 
-    LPAREN          shift and go to state 85
-    CTEI            shift and go to state 87
-    FLOAT_NUMBER    shift and go to state 88
-    STRING_LITERAL  shift and go to state 89
-    TRUE            shift and go to state 90
-    FALSE           shift and go to state 91
-    ID              shift and go to state 100
+    RBRACE          reduce using rule 21 (stmt_list -> stmt SEMICOLON stmt_list .)
+    RETURN          reduce using rule 21 (stmt_list -> stmt SEMICOLON stmt_list .)
 
-    expr                           shift and go to state 124
-    term                           shift and go to state 84
-    factor                         shift and go to state 86
 
 state 86
 
-    (47) term -> factor .
+    (77) function_call -> ID . LPAREN arg_list RPAREN
+    (57) factor -> ID .
 
-    MULTIPLY        reduce using rule 47 (term -> factor .)
-    DIVIDE          reduce using rule 47 (term -> factor .)
-    PLUS            reduce using rule 47 (term -> factor .)
-    MINUS           reduce using rule 47 (term -> factor .)
-    LESS_THAN       reduce using rule 47 (term -> factor .)
-    GREATER_THAN    reduce using rule 47 (term -> factor .)
-    LESS_EQUAL      reduce using rule 47 (term -> factor .)
-    GREATER_EQUAL   reduce using rule 47 (term -> factor .)
-    EQUAL_EQUAL     reduce using rule 47 (term -> factor .)
-    NOT_EQUAL       reduce using rule 47 (term -> factor .)
-    SEMICOLON       reduce using rule 47 (term -> factor .)
-    RPAREN          reduce using rule 47 (term -> factor .)
+    LPAREN          shift and go to state 70
+    MULTIPLY        reduce using rule 57 (factor -> ID .)
+    DIVIDE          reduce using rule 57 (factor -> ID .)
+    PLUS            reduce using rule 57 (factor -> ID .)
+    MINUS           reduce using rule 57 (factor -> ID .)
+    LESS_THAN       reduce using rule 57 (factor -> ID .)
+    GREATER_THAN    reduce using rule 57 (factor -> ID .)
+    LESS_EQUAL      reduce using rule 57 (factor -> ID .)
+    GREATER_EQUAL   reduce using rule 57 (factor -> ID .)
+    EQUAL_EQUAL     reduce using rule 57 (factor -> ID .)
+    NOT_EQUAL       reduce using rule 57 (factor -> ID .)
+    SEMICOLON       reduce using rule 57 (factor -> ID .)
 
 
 state 87
 
-    (49) factor -> CTEI .
+    (39) assign -> ID EQUALS expr .
+    (44) expr -> expr . PLUS term
+    (45) expr -> expr . MINUS term
+    (46) expr -> expr . comp_op term
+    (62) comp_op -> . LESS_THAN
+    (63) comp_op -> . GREATER_THAN
+    (64) comp_op -> . LESS_EQUAL
+    (65) comp_op -> . GREATER_EQUAL
+    (66) comp_op -> . EQUAL_EQUAL
+    (67) comp_op -> . NOT_EQUAL
 
-    MULTIPLY        reduce using rule 49 (factor -> CTEI .)
-    DIVIDE          reduce using rule 49 (factor -> CTEI .)
-    PLUS            reduce using rule 49 (factor -> CTEI .)
-    MINUS           reduce using rule 49 (factor -> CTEI .)
-    LESS_THAN       reduce using rule 49 (factor -> CTEI .)
-    GREATER_THAN    reduce using rule 49 (factor -> CTEI .)
-    LESS_EQUAL      reduce using rule 49 (factor -> CTEI .)
-    GREATER_EQUAL   reduce using rule 49 (factor -> CTEI .)
-    EQUAL_EQUAL     reduce using rule 49 (factor -> CTEI .)
-    NOT_EQUAL       reduce using rule 49 (factor -> CTEI .)
-    SEMICOLON       reduce using rule 49 (factor -> CTEI .)
-    RPAREN          reduce using rule 49 (factor -> CTEI .)
+    SEMICOLON       reduce using rule 39 (assign -> ID EQUALS expr .)
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 122
+    LESS_THAN       shift and go to state 124
+    GREATER_THAN    shift and go to state 125
+    LESS_EQUAL      shift and go to state 126
+    GREATER_EQUAL   shift and go to state 127
+    EQUAL_EQUAL     shift and go to state 128
+    NOT_EQUAL       shift and go to state 129
 
+    comp_op                        shift and go to state 123
 
 state 88
 
-    (50) factor -> FLOAT_NUMBER .
+    (40) assign -> ID EQUALS function_call .
 
-    MULTIPLY        reduce using rule 50 (factor -> FLOAT_NUMBER .)
-    DIVIDE          reduce using rule 50 (factor -> FLOAT_NUMBER .)
-    PLUS            reduce using rule 50 (factor -> FLOAT_NUMBER .)
-    MINUS           reduce using rule 50 (factor -> FLOAT_NUMBER .)
-    LESS_THAN       reduce using rule 50 (factor -> FLOAT_NUMBER .)
-    GREATER_THAN    reduce using rule 50 (factor -> FLOAT_NUMBER .)
-    LESS_EQUAL      reduce using rule 50 (factor -> FLOAT_NUMBER .)
-    GREATER_EQUAL   reduce using rule 50 (factor -> FLOAT_NUMBER .)
-    EQUAL_EQUAL     reduce using rule 50 (factor -> FLOAT_NUMBER .)
-    NOT_EQUAL       reduce using rule 50 (factor -> FLOAT_NUMBER .)
-    SEMICOLON       reduce using rule 50 (factor -> FLOAT_NUMBER .)
-    RPAREN          reduce using rule 50 (factor -> FLOAT_NUMBER .)
+    SEMICOLON       reduce using rule 40 (assign -> ID EQUALS function_call .)
 
 
 state 89
 
-    (51) factor -> STRING_LITERAL .
+    (47) expr -> term .
+    (48) term -> term . MULTIPLY factor
+    (49) term -> term . DIVIDE factor
 
-    MULTIPLY        reduce using rule 51 (factor -> STRING_LITERAL .)
-    DIVIDE          reduce using rule 51 (factor -> STRING_LITERAL .)
-    PLUS            reduce using rule 51 (factor -> STRING_LITERAL .)
-    MINUS           reduce using rule 51 (factor -> STRING_LITERAL .)
-    LESS_THAN       reduce using rule 51 (factor -> STRING_LITERAL .)
-    GREATER_THAN    reduce using rule 51 (factor -> STRING_LITERAL .)
-    LESS_EQUAL      reduce using rule 51 (factor -> STRING_LITERAL .)
-    GREATER_EQUAL   reduce using rule 51 (factor -> STRING_LITERAL .)
-    EQUAL_EQUAL     reduce using rule 51 (factor -> STRING_LITERAL .)
-    NOT_EQUAL       reduce using rule 51 (factor -> STRING_LITERAL .)
-    SEMICOLON       reduce using rule 51 (factor -> STRING_LITERAL .)
-    RPAREN          reduce using rule 51 (factor -> STRING_LITERAL .)
+    PLUS            reduce using rule 47 (expr -> term .)
+    MINUS           reduce using rule 47 (expr -> term .)
+    LESS_THAN       reduce using rule 47 (expr -> term .)
+    GREATER_THAN    reduce using rule 47 (expr -> term .)
+    LESS_EQUAL      reduce using rule 47 (expr -> term .)
+    GREATER_EQUAL   reduce using rule 47 (expr -> term .)
+    EQUAL_EQUAL     reduce using rule 47 (expr -> term .)
+    NOT_EQUAL       reduce using rule 47 (expr -> term .)
+    SEMICOLON       reduce using rule 47 (expr -> term .)
+    RPAREN          reduce using rule 47 (expr -> term .)
+    MULTIPLY        shift and go to state 130
+    DIVIDE          shift and go to state 131
 
 
 state 90
 
-    (52) factor -> TRUE .
+    (51) factor -> LPAREN . expr RPAREN
+    (44) expr -> . expr PLUS term
+    (45) expr -> . expr MINUS term
+    (46) expr -> . expr comp_op term
+    (47) expr -> . term
+    (48) term -> . term MULTIPLY factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . factor
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
 
-    MULTIPLY        reduce using rule 52 (factor -> TRUE .)
-    DIVIDE          reduce using rule 52 (factor -> TRUE .)
-    PLUS            reduce using rule 52 (factor -> TRUE .)
-    MINUS           reduce using rule 52 (factor -> TRUE .)
-    LESS_THAN       reduce using rule 52 (factor -> TRUE .)
-    GREATER_THAN    reduce using rule 52 (factor -> TRUE .)
-    LESS_EQUAL      reduce using rule 52 (factor -> TRUE .)
-    GREATER_EQUAL   reduce using rule 52 (factor -> TRUE .)
-    EQUAL_EQUAL     reduce using rule 52 (factor -> TRUE .)
-    NOT_EQUAL       reduce using rule 52 (factor -> TRUE .)
-    SEMICOLON       reduce using rule 52 (factor -> TRUE .)
-    RPAREN          reduce using rule 52 (factor -> TRUE .)
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 92
+    FLOAT_NUMBER    shift and go to state 93
+    STRING_LITERAL  shift and go to state 94
+    TRUE            shift and go to state 95
+    FALSE           shift and go to state 96
+    ID              shift and go to state 105
 
+    expr                           shift and go to state 132
+    term                           shift and go to state 89
+    factor                         shift and go to state 91
 
 state 91
 
-    (53) factor -> FALSE .
+    (50) term -> factor .
 
-    MULTIPLY        reduce using rule 53 (factor -> FALSE .)
-    DIVIDE          reduce using rule 53 (factor -> FALSE .)
-    PLUS            reduce using rule 53 (factor -> FALSE .)
-    MINUS           reduce using rule 53 (factor -> FALSE .)
-    LESS_THAN       reduce using rule 53 (factor -> FALSE .)
-    GREATER_THAN    reduce using rule 53 (factor -> FALSE .)
-    LESS_EQUAL      reduce using rule 53 (factor -> FALSE .)
-    GREATER_EQUAL   reduce using rule 53 (factor -> FALSE .)
-    EQUAL_EQUAL     reduce using rule 53 (factor -> FALSE .)
-    NOT_EQUAL       reduce using rule 53 (factor -> FALSE .)
-    SEMICOLON       reduce using rule 53 (factor -> FALSE .)
-    RPAREN          reduce using rule 53 (factor -> FALSE .)
+    MULTIPLY        reduce using rule 50 (term -> factor .)
+    DIVIDE          reduce using rule 50 (term -> factor .)
+    PLUS            reduce using rule 50 (term -> factor .)
+    MINUS           reduce using rule 50 (term -> factor .)
+    LESS_THAN       reduce using rule 50 (term -> factor .)
+    GREATER_THAN    reduce using rule 50 (term -> factor .)
+    LESS_EQUAL      reduce using rule 50 (term -> factor .)
+    GREATER_EQUAL   reduce using rule 50 (term -> factor .)
+    EQUAL_EQUAL     reduce using rule 50 (term -> factor .)
+    NOT_EQUAL       reduce using rule 50 (term -> factor .)
+    SEMICOLON       reduce using rule 50 (term -> factor .)
+    RPAREN          reduce using rule 50 (term -> factor .)
 
 
 state 92
 
-    (40) factor1 -> ID .
+    (52) factor -> CTEI .
 
-    COMMA           reduce using rule 40 (factor1 -> ID .)
-    RPAREN          reduce using rule 40 (factor1 -> ID .)
-    SEMICOLON       reduce using rule 40 (factor1 -> ID .)
+    MULTIPLY        reduce using rule 52 (factor -> CTEI .)
+    DIVIDE          reduce using rule 52 (factor -> CTEI .)
+    PLUS            reduce using rule 52 (factor -> CTEI .)
+    MINUS           reduce using rule 52 (factor -> CTEI .)
+    LESS_THAN       reduce using rule 52 (factor -> CTEI .)
+    GREATER_THAN    reduce using rule 52 (factor -> CTEI .)
+    LESS_EQUAL      reduce using rule 52 (factor -> CTEI .)
+    GREATER_EQUAL   reduce using rule 52 (factor -> CTEI .)
+    EQUAL_EQUAL     reduce using rule 52 (factor -> CTEI .)
+    NOT_EQUAL       reduce using rule 52 (factor -> CTEI .)
+    SEMICOLON       reduce using rule 52 (factor -> CTEI .)
+    RPAREN          reduce using rule 52 (factor -> CTEI .)
 
 
 state 93
 
-    (74) function_call -> ID LPAREN arg_list . RPAREN
+    (53) factor -> FLOAT_NUMBER .
 
-    RPAREN          shift and go to state 125
+    MULTIPLY        reduce using rule 53 (factor -> FLOAT_NUMBER .)
+    DIVIDE          reduce using rule 53 (factor -> FLOAT_NUMBER .)
+    PLUS            reduce using rule 53 (factor -> FLOAT_NUMBER .)
+    MINUS           reduce using rule 53 (factor -> FLOAT_NUMBER .)
+    LESS_THAN       reduce using rule 53 (factor -> FLOAT_NUMBER .)
+    GREATER_THAN    reduce using rule 53 (factor -> FLOAT_NUMBER .)
+    LESS_EQUAL      reduce using rule 53 (factor -> FLOAT_NUMBER .)
+    GREATER_EQUAL   reduce using rule 53 (factor -> FLOAT_NUMBER .)
+    EQUAL_EQUAL     reduce using rule 53 (factor -> FLOAT_NUMBER .)
+    NOT_EQUAL       reduce using rule 53 (factor -> FLOAT_NUMBER .)
+    SEMICOLON       reduce using rule 53 (factor -> FLOAT_NUMBER .)
+    RPAREN          reduce using rule 53 (factor -> FLOAT_NUMBER .)
 
 
 state 94
 
-    (79) arg_list -> expr1 .
-    (80) arg_list -> expr1 . COMMA arg_list
+    (54) factor -> STRING_LITERAL .
 
-    RPAREN          reduce using rule 79 (arg_list -> expr1 .)
-    COMMA           shift and go to state 126
+    MULTIPLY        reduce using rule 54 (factor -> STRING_LITERAL .)
+    DIVIDE          reduce using rule 54 (factor -> STRING_LITERAL .)
+    PLUS            reduce using rule 54 (factor -> STRING_LITERAL .)
+    MINUS           reduce using rule 54 (factor -> STRING_LITERAL .)
+    LESS_THAN       reduce using rule 54 (factor -> STRING_LITERAL .)
+    GREATER_THAN    reduce using rule 54 (factor -> STRING_LITERAL .)
+    LESS_EQUAL      reduce using rule 54 (factor -> STRING_LITERAL .)
+    GREATER_EQUAL   reduce using rule 54 (factor -> STRING_LITERAL .)
+    EQUAL_EQUAL     reduce using rule 54 (factor -> STRING_LITERAL .)
+    NOT_EQUAL       reduce using rule 54 (factor -> STRING_LITERAL .)
+    SEMICOLON       reduce using rule 54 (factor -> STRING_LITERAL .)
+    RPAREN          reduce using rule 54 (factor -> STRING_LITERAL .)
 
 
 state 95
 
-    (38) expr1 -> term1 .
+    (55) factor -> TRUE .
 
-    COMMA           reduce using rule 38 (expr1 -> term1 .)
-    RPAREN          reduce using rule 38 (expr1 -> term1 .)
-    SEMICOLON       reduce using rule 38 (expr1 -> term1 .)
+    MULTIPLY        reduce using rule 55 (factor -> TRUE .)
+    DIVIDE          reduce using rule 55 (factor -> TRUE .)
+    PLUS            reduce using rule 55 (factor -> TRUE .)
+    MINUS           reduce using rule 55 (factor -> TRUE .)
+    LESS_THAN       reduce using rule 55 (factor -> TRUE .)
+    GREATER_THAN    reduce using rule 55 (factor -> TRUE .)
+    LESS_EQUAL      reduce using rule 55 (factor -> TRUE .)
+    GREATER_EQUAL   reduce using rule 55 (factor -> TRUE .)
+    EQUAL_EQUAL     reduce using rule 55 (factor -> TRUE .)
+    NOT_EQUAL       reduce using rule 55 (factor -> TRUE .)
+    SEMICOLON       reduce using rule 55 (factor -> TRUE .)
+    RPAREN          reduce using rule 55 (factor -> TRUE .)
 
 
 state 96
 
-    (39) term1 -> factor1 .
+    (56) factor -> FALSE .
 
-    COMMA           reduce using rule 39 (term1 -> factor1 .)
-    RPAREN          reduce using rule 39 (term1 -> factor1 .)
-    SEMICOLON       reduce using rule 39 (term1 -> factor1 .)
+    MULTIPLY        reduce using rule 56 (factor -> FALSE .)
+    DIVIDE          reduce using rule 56 (factor -> FALSE .)
+    PLUS            reduce using rule 56 (factor -> FALSE .)
+    MINUS           reduce using rule 56 (factor -> FALSE .)
+    LESS_THAN       reduce using rule 56 (factor -> FALSE .)
+    GREATER_THAN    reduce using rule 56 (factor -> FALSE .)
+    LESS_EQUAL      reduce using rule 56 (factor -> FALSE .)
+    GREATER_EQUAL   reduce using rule 56 (factor -> FALSE .)
+    EQUAL_EQUAL     reduce using rule 56 (factor -> FALSE .)
+    NOT_EQUAL       reduce using rule 56 (factor -> FALSE .)
+    SEMICOLON       reduce using rule 56 (factor -> FALSE .)
+    RPAREN          reduce using rule 56 (factor -> FALSE .)
 
 
 state 97
 
-    (55) print -> PRINT COLON ID .
+    (43) factor1 -> ID .
 
-    SEMICOLON       reduce using rule 55 (print -> PRINT COLON ID .)
+    COMMA           reduce using rule 43 (factor1 -> ID .)
+    RPAREN          reduce using rule 43 (factor1 -> ID .)
+    SEMICOLON       reduce using rule 43 (factor1 -> ID .)
 
 
 state 98
 
-    (56) conditional -> IF LPAREN comp_expr . RPAREN LBRACE stmt_list RBRACE else_stmt
-    (57) conditional -> IF LPAREN comp_expr . RPAREN LBRACE stmt_list RBRACE
+    (77) function_call -> ID LPAREN arg_list . RPAREN
 
-    RPAREN          shift and go to state 127
+    RPAREN          shift and go to state 133
 
 
 state 99
 
-    (58) comp_expr -> expr . comp_op expr
-    (41) expr -> expr . PLUS term
-    (42) expr -> expr . MINUS term
-    (43) expr -> expr . comp_op term
-    (59) comp_op -> . LESS_THAN
-    (60) comp_op -> . GREATER_THAN
-    (61) comp_op -> . LESS_EQUAL
-    (62) comp_op -> . GREATER_EQUAL
-    (63) comp_op -> . EQUAL_EQUAL
-    (64) comp_op -> . NOT_EQUAL
+    (82) arg_list -> expr1 .
+    (83) arg_list -> expr1 . COMMA arg_list
 
-    PLUS            shift and go to state 113
-    MINUS           shift and go to state 114
-    LESS_THAN       shift and go to state 116
-    GREATER_THAN    shift and go to state 117
-    LESS_EQUAL      shift and go to state 118
-    GREATER_EQUAL   shift and go to state 119
-    EQUAL_EQUAL     shift and go to state 120
-    NOT_EQUAL       shift and go to state 121
+    RPAREN          reduce using rule 82 (arg_list -> expr1 .)
+    COMMA           shift and go to state 134
 
-    comp_op                        shift and go to state 128
 
 state 100
 
-    (54) factor -> ID .
+    (41) expr1 -> term1 .
 
-    MULTIPLY        reduce using rule 54 (factor -> ID .)
-    DIVIDE          reduce using rule 54 (factor -> ID .)
-    PLUS            reduce using rule 54 (factor -> ID .)
-    MINUS           reduce using rule 54 (factor -> ID .)
-    LESS_THAN       reduce using rule 54 (factor -> ID .)
-    GREATER_THAN    reduce using rule 54 (factor -> ID .)
-    LESS_EQUAL      reduce using rule 54 (factor -> ID .)
-    GREATER_EQUAL   reduce using rule 54 (factor -> ID .)
-    EQUAL_EQUAL     reduce using rule 54 (factor -> ID .)
-    NOT_EQUAL       reduce using rule 54 (factor -> ID .)
-    RPAREN          reduce using rule 54 (factor -> ID .)
-    SEMICOLON       reduce using rule 54 (factor -> ID .)
+    COMMA           reduce using rule 41 (expr1 -> term1 .)
+    RPAREN          reduce using rule 41 (expr1 -> term1 .)
+    SEMICOLON       reduce using rule 41 (expr1 -> term1 .)
 
 
 state 101
 
-    (68) loop -> WHILE LPAREN comp_expr . RPAREN LBRACE stmt_list RBRACE
+    (42) term1 -> factor1 .
 
-    RPAREN          shift and go to state 129
+    COMMA           reduce using rule 42 (term1 -> factor1 .)
+    RPAREN          reduce using rule 42 (term1 -> factor1 .)
+    SEMICOLON       reduce using rule 42 (term1 -> factor1 .)
 
 
 state 102
 
-    (27) built_in_function -> TEACH_SUM LPAREN RPAREN .
+    (58) print -> PRINT COLON ID .
 
-    SEMICOLON       reduce using rule 27 (built_in_function -> TEACH_SUM LPAREN RPAREN .)
+    SEMICOLON       reduce using rule 58 (print -> PRINT COLON ID .)
 
 
 state 103
 
-    (28) built_in_function -> TEACH_SUBSTRACTION LPAREN RPAREN .
+    (59) conditional -> IF LPAREN comp_expr . RPAREN LBRACE stmt_list RBRACE else_stmt
+    (60) conditional -> IF LPAREN comp_expr . RPAREN LBRACE stmt_list RBRACE
 
-    SEMICOLON       reduce using rule 28 (built_in_function -> TEACH_SUBSTRACTION LPAREN RPAREN .)
+    RPAREN          shift and go to state 135
 
 
 state 104
 
-    (29) built_in_function -> TEACH_MULTIPLICATION LPAREN RPAREN .
+    (61) comp_expr -> expr . comp_op expr
+    (44) expr -> expr . PLUS term
+    (45) expr -> expr . MINUS term
+    (46) expr -> expr . comp_op term
+    (62) comp_op -> . LESS_THAN
+    (63) comp_op -> . GREATER_THAN
+    (64) comp_op -> . LESS_EQUAL
+    (65) comp_op -> . GREATER_EQUAL
+    (66) comp_op -> . EQUAL_EQUAL
+    (67) comp_op -> . NOT_EQUAL
 
-    SEMICOLON       reduce using rule 29 (built_in_function -> TEACH_MULTIPLICATION LPAREN RPAREN .)
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 122
+    LESS_THAN       shift and go to state 124
+    GREATER_THAN    shift and go to state 125
+    LESS_EQUAL      shift and go to state 126
+    GREATER_EQUAL   shift and go to state 127
+    EQUAL_EQUAL     shift and go to state 128
+    NOT_EQUAL       shift and go to state 129
 
+    comp_op                        shift and go to state 136
 
 state 105
 
-    (30) built_in_function -> TEACH_DIVISION LPAREN RPAREN .
+    (57) factor -> ID .
 
-    SEMICOLON       reduce using rule 30 (built_in_function -> TEACH_DIVISION LPAREN RPAREN .)
+    MULTIPLY        reduce using rule 57 (factor -> ID .)
+    DIVIDE          reduce using rule 57 (factor -> ID .)
+    PLUS            reduce using rule 57 (factor -> ID .)
+    MINUS           reduce using rule 57 (factor -> ID .)
+    LESS_THAN       reduce using rule 57 (factor -> ID .)
+    GREATER_THAN    reduce using rule 57 (factor -> ID .)
+    LESS_EQUAL      reduce using rule 57 (factor -> ID .)
+    GREATER_EQUAL   reduce using rule 57 (factor -> ID .)
+    EQUAL_EQUAL     reduce using rule 57 (factor -> ID .)
+    NOT_EQUAL       reduce using rule 57 (factor -> ID .)
+    RPAREN          reduce using rule 57 (factor -> ID .)
+    SEMICOLON       reduce using rule 57 (factor -> ID .)
 
 
 state 106
 
-    (31) built_in_function -> TEACH_IF LPAREN RPAREN .
+    (71) loop -> WHILE LPAREN comp_expr . RPAREN LBRACE stmt_list RBRACE
 
-    SEMICOLON       reduce using rule 31 (built_in_function -> TEACH_IF LPAREN RPAREN .)
+    RPAREN          shift and go to state 137
 
 
 state 107
 
-    (32) built_in_function -> TEACH_WHILE LPAREN RPAREN .
+    (30) built_in_function -> TEACH_SUM LPAREN RPAREN .
 
-    SEMICOLON       reduce using rule 32 (built_in_function -> TEACH_WHILE LPAREN RPAREN .)
+    SEMICOLON       reduce using rule 30 (built_in_function -> TEACH_SUM LPAREN RPAREN .)
 
 
 state 108
 
-    (33) built_in_function -> TEACH_FUNCTION_DECLARATION LPAREN RPAREN .
+    (31) built_in_function -> TEACH_SUBSTRACTION LPAREN RPAREN .
 
-    SEMICOLON       reduce using rule 33 (built_in_function -> TEACH_FUNCTION_DECLARATION LPAREN RPAREN .)
+    SEMICOLON       reduce using rule 31 (built_in_function -> TEACH_SUBSTRACTION LPAREN RPAREN .)
 
 
 state 109
 
-    (34) built_in_function -> TEACH_FUNCTION_CALL LPAREN RPAREN .
+    (32) built_in_function -> TEACH_MULTIPLICATION LPAREN RPAREN .
 
-    SEMICOLON       reduce using rule 34 (built_in_function -> TEACH_FUNCTION_CALL LPAREN RPAREN .)
+    SEMICOLON       reduce using rule 32 (built_in_function -> TEACH_MULTIPLICATION LPAREN RPAREN .)
 
 
 state 110
 
-    (35) built_in_function -> AYUDA LPAREN RPAREN .
+    (33) built_in_function -> TEACH_DIVISION LPAREN RPAREN .
 
-    SEMICOLON       reduce using rule 35 (built_in_function -> AYUDA LPAREN RPAREN .)
+    SEMICOLON       reduce using rule 33 (built_in_function -> TEACH_DIVISION LPAREN RPAREN .)
 
 
 state 111
 
-    (70) function_decl -> type ID LPAREN create_function_scope . param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
-    (75) param_list -> . param COMMA param_list
-    (76) param_list -> . param
-    (77) param_list -> . empty
-    (78) param -> . type ID
-    (82) empty -> .
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
+    (34) built_in_function -> TEACH_IF LPAREN RPAREN .
 
-    RPAREN          reduce using rule 82 (empty -> .)
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
+    SEMICOLON       reduce using rule 34 (built_in_function -> TEACH_IF LPAREN RPAREN .)
 
-    type                           shift and go to state 130
-    param_list                     shift and go to state 131
-    param                          shift and go to state 132
-    empty                          shift and go to state 133
 
 state 112
 
-    (71) function_decl -> VOID ID LPAREN create_function_scope . param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-    (75) param_list -> . param COMMA param_list
-    (76) param_list -> . param
-    (77) param_list -> . empty
-    (78) param -> . type ID
-    (82) empty -> .
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
+    (35) built_in_function -> TEACH_WHILE LPAREN RPAREN .
 
-    RPAREN          reduce using rule 82 (empty -> .)
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
+    SEMICOLON       reduce using rule 35 (built_in_function -> TEACH_WHILE LPAREN RPAREN .)
 
-    param_list                     shift and go to state 134
-    param                          shift and go to state 132
-    empty                          shift and go to state 133
-    type                           shift and go to state 130
 
 state 113
 
-    (41) expr -> expr PLUS . term
-    (45) term -> . term MULTIPLY factor
-    (46) term -> . term DIVIDE factor
-    (47) term -> . factor
-    (48) factor -> . LPAREN expr RPAREN
-    (49) factor -> . CTEI
-    (50) factor -> . FLOAT_NUMBER
-    (51) factor -> . STRING_LITERAL
-    (52) factor -> . TRUE
-    (53) factor -> . FALSE
-    (54) factor -> . ID
+    (36) built_in_function -> TEACH_FUNCTION_DECLARATION LPAREN RPAREN .
 
-    LPAREN          shift and go to state 85
-    CTEI            shift and go to state 87
-    FLOAT_NUMBER    shift and go to state 88
-    STRING_LITERAL  shift and go to state 89
-    TRUE            shift and go to state 90
-    FALSE           shift and go to state 91
-    ID              shift and go to state 100
+    SEMICOLON       reduce using rule 36 (built_in_function -> TEACH_FUNCTION_DECLARATION LPAREN RPAREN .)
 
-    term                           shift and go to state 135
-    factor                         shift and go to state 86
 
 state 114
 
-    (42) expr -> expr MINUS . term
-    (45) term -> . term MULTIPLY factor
-    (46) term -> . term DIVIDE factor
-    (47) term -> . factor
-    (48) factor -> . LPAREN expr RPAREN
-    (49) factor -> . CTEI
-    (50) factor -> . FLOAT_NUMBER
-    (51) factor -> . STRING_LITERAL
-    (52) factor -> . TRUE
-    (53) factor -> . FALSE
-    (54) factor -> . ID
+    (37) built_in_function -> TEACH_FUNCTION_CALL LPAREN RPAREN .
 
-    LPAREN          shift and go to state 85
-    CTEI            shift and go to state 87
-    FLOAT_NUMBER    shift and go to state 88
-    STRING_LITERAL  shift and go to state 89
-    TRUE            shift and go to state 90
-    FALSE           shift and go to state 91
-    ID              shift and go to state 100
+    SEMICOLON       reduce using rule 37 (built_in_function -> TEACH_FUNCTION_CALL LPAREN RPAREN .)
 
-    term                           shift and go to state 136
-    factor                         shift and go to state 86
 
 state 115
 
-    (43) expr -> expr comp_op . term
-    (45) term -> . term MULTIPLY factor
-    (46) term -> . term DIVIDE factor
-    (47) term -> . factor
-    (48) factor -> . LPAREN expr RPAREN
-    (49) factor -> . CTEI
-    (50) factor -> . FLOAT_NUMBER
-    (51) factor -> . STRING_LITERAL
-    (52) factor -> . TRUE
-    (53) factor -> . FALSE
-    (54) factor -> . ID
+    (38) built_in_function -> AYUDA LPAREN RPAREN .
 
-    LPAREN          shift and go to state 85
-    CTEI            shift and go to state 87
-    FLOAT_NUMBER    shift and go to state 88
-    STRING_LITERAL  shift and go to state 89
-    TRUE            shift and go to state 90
-    FALSE           shift and go to state 91
-    ID              shift and go to state 100
+    SEMICOLON       reduce using rule 38 (built_in_function -> AYUDA LPAREN RPAREN .)
 
-    term                           shift and go to state 137
-    factor                         shift and go to state 86
 
 state 116
 
-    (59) comp_op -> LESS_THAN .
+    (81) param -> type . ID
 
-    LPAREN          reduce using rule 59 (comp_op -> LESS_THAN .)
-    CTEI            reduce using rule 59 (comp_op -> LESS_THAN .)
-    FLOAT_NUMBER    reduce using rule 59 (comp_op -> LESS_THAN .)
-    STRING_LITERAL  reduce using rule 59 (comp_op -> LESS_THAN .)
-    TRUE            reduce using rule 59 (comp_op -> LESS_THAN .)
-    FALSE           reduce using rule 59 (comp_op -> LESS_THAN .)
-    ID              reduce using rule 59 (comp_op -> LESS_THAN .)
+    ID              shift and go to state 138
 
 
 state 117
 
-    (60) comp_op -> GREATER_THAN .
+    (73) function_decl -> type ID LPAREN create_function_scope param_list . RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
 
-    LPAREN          reduce using rule 60 (comp_op -> GREATER_THAN .)
-    CTEI            reduce using rule 60 (comp_op -> GREATER_THAN .)
-    FLOAT_NUMBER    reduce using rule 60 (comp_op -> GREATER_THAN .)
-    STRING_LITERAL  reduce using rule 60 (comp_op -> GREATER_THAN .)
-    TRUE            reduce using rule 60 (comp_op -> GREATER_THAN .)
-    FALSE           reduce using rule 60 (comp_op -> GREATER_THAN .)
-    ID              reduce using rule 60 (comp_op -> GREATER_THAN .)
+    RPAREN          shift and go to state 139
 
 
 state 118
 
-    (61) comp_op -> LESS_EQUAL .
+    (78) param_list -> param . COMMA param_list
+    (79) param_list -> param .
 
-    LPAREN          reduce using rule 61 (comp_op -> LESS_EQUAL .)
-    CTEI            reduce using rule 61 (comp_op -> LESS_EQUAL .)
-    FLOAT_NUMBER    reduce using rule 61 (comp_op -> LESS_EQUAL .)
-    STRING_LITERAL  reduce using rule 61 (comp_op -> LESS_EQUAL .)
-    TRUE            reduce using rule 61 (comp_op -> LESS_EQUAL .)
-    FALSE           reduce using rule 61 (comp_op -> LESS_EQUAL .)
-    ID              reduce using rule 61 (comp_op -> LESS_EQUAL .)
+    COMMA           shift and go to state 140
+    RPAREN          reduce using rule 79 (param_list -> param .)
 
 
 state 119
 
-    (62) comp_op -> GREATER_EQUAL .
+    (80) param_list -> empty .
 
-    LPAREN          reduce using rule 62 (comp_op -> GREATER_EQUAL .)
-    CTEI            reduce using rule 62 (comp_op -> GREATER_EQUAL .)
-    FLOAT_NUMBER    reduce using rule 62 (comp_op -> GREATER_EQUAL .)
-    STRING_LITERAL  reduce using rule 62 (comp_op -> GREATER_EQUAL .)
-    TRUE            reduce using rule 62 (comp_op -> GREATER_EQUAL .)
-    FALSE           reduce using rule 62 (comp_op -> GREATER_EQUAL .)
-    ID              reduce using rule 62 (comp_op -> GREATER_EQUAL .)
+    RPAREN          reduce using rule 80 (param_list -> empty .)
 
 
 state 120
 
-    (63) comp_op -> EQUAL_EQUAL .
+    (74) function_decl -> VOID ID LPAREN create_function_scope param_list . RPAREN LBRACE stmt_list end_scopes RBRACE
 
-    LPAREN          reduce using rule 63 (comp_op -> EQUAL_EQUAL .)
-    CTEI            reduce using rule 63 (comp_op -> EQUAL_EQUAL .)
-    FLOAT_NUMBER    reduce using rule 63 (comp_op -> EQUAL_EQUAL .)
-    STRING_LITERAL  reduce using rule 63 (comp_op -> EQUAL_EQUAL .)
-    TRUE            reduce using rule 63 (comp_op -> EQUAL_EQUAL .)
-    FALSE           reduce using rule 63 (comp_op -> EQUAL_EQUAL .)
-    ID              reduce using rule 63 (comp_op -> EQUAL_EQUAL .)
+    RPAREN          shift and go to state 141
 
 
 state 121
 
-    (64) comp_op -> NOT_EQUAL .
+    (44) expr -> expr PLUS . term
+    (48) term -> . term MULTIPLY factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . factor
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
 
-    LPAREN          reduce using rule 64 (comp_op -> NOT_EQUAL .)
-    CTEI            reduce using rule 64 (comp_op -> NOT_EQUAL .)
-    FLOAT_NUMBER    reduce using rule 64 (comp_op -> NOT_EQUAL .)
-    STRING_LITERAL  reduce using rule 64 (comp_op -> NOT_EQUAL .)
-    TRUE            reduce using rule 64 (comp_op -> NOT_EQUAL .)
-    FALSE           reduce using rule 64 (comp_op -> NOT_EQUAL .)
-    ID              reduce using rule 64 (comp_op -> NOT_EQUAL .)
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 92
+    FLOAT_NUMBER    shift and go to state 93
+    STRING_LITERAL  shift and go to state 94
+    TRUE            shift and go to state 95
+    FALSE           shift and go to state 96
+    ID              shift and go to state 105
 
+    term                           shift and go to state 142
+    factor                         shift and go to state 91
 
 state 122
 
-    (45) term -> term MULTIPLY . factor
-    (48) factor -> . LPAREN expr RPAREN
-    (49) factor -> . CTEI
-    (50) factor -> . FLOAT_NUMBER
-    (51) factor -> . STRING_LITERAL
-    (52) factor -> . TRUE
-    (53) factor -> . FALSE
-    (54) factor -> . ID
+    (45) expr -> expr MINUS . term
+    (48) term -> . term MULTIPLY factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . factor
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
 
-    LPAREN          shift and go to state 85
-    CTEI            shift and go to state 87
-    FLOAT_NUMBER    shift and go to state 88
-    STRING_LITERAL  shift and go to state 89
-    TRUE            shift and go to state 90
-    FALSE           shift and go to state 91
-    ID              shift and go to state 100
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 92
+    FLOAT_NUMBER    shift and go to state 93
+    STRING_LITERAL  shift and go to state 94
+    TRUE            shift and go to state 95
+    FALSE           shift and go to state 96
+    ID              shift and go to state 105
 
-    factor                         shift and go to state 138
+    term                           shift and go to state 143
+    factor                         shift and go to state 91
 
 state 123
 
-    (46) term -> term DIVIDE . factor
-    (48) factor -> . LPAREN expr RPAREN
-    (49) factor -> . CTEI
-    (50) factor -> . FLOAT_NUMBER
-    (51) factor -> . STRING_LITERAL
-    (52) factor -> . TRUE
-    (53) factor -> . FALSE
-    (54) factor -> . ID
+    (46) expr -> expr comp_op . term
+    (48) term -> . term MULTIPLY factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . factor
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
 
-    LPAREN          shift and go to state 85
-    CTEI            shift and go to state 87
-    FLOAT_NUMBER    shift and go to state 88
-    STRING_LITERAL  shift and go to state 89
-    TRUE            shift and go to state 90
-    FALSE           shift and go to state 91
-    ID              shift and go to state 100
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 92
+    FLOAT_NUMBER    shift and go to state 93
+    STRING_LITERAL  shift and go to state 94
+    TRUE            shift and go to state 95
+    FALSE           shift and go to state 96
+    ID              shift and go to state 105
 
-    factor                         shift and go to state 139
+    term                           shift and go to state 144
+    factor                         shift and go to state 91
 
 state 124
 
-    (48) factor -> LPAREN expr . RPAREN
-    (41) expr -> expr . PLUS term
-    (42) expr -> expr . MINUS term
-    (43) expr -> expr . comp_op term
-    (59) comp_op -> . LESS_THAN
-    (60) comp_op -> . GREATER_THAN
-    (61) comp_op -> . LESS_EQUAL
-    (62) comp_op -> . GREATER_EQUAL
-    (63) comp_op -> . EQUAL_EQUAL
-    (64) comp_op -> . NOT_EQUAL
+    (62) comp_op -> LESS_THAN .
 
-    RPAREN          shift and go to state 140
-    PLUS            shift and go to state 113
-    MINUS           shift and go to state 114
-    LESS_THAN       shift and go to state 116
-    GREATER_THAN    shift and go to state 117
-    LESS_EQUAL      shift and go to state 118
-    GREATER_EQUAL   shift and go to state 119
-    EQUAL_EQUAL     shift and go to state 120
-    NOT_EQUAL       shift and go to state 121
+    LPAREN          reduce using rule 62 (comp_op -> LESS_THAN .)
+    CTEI            reduce using rule 62 (comp_op -> LESS_THAN .)
+    FLOAT_NUMBER    reduce using rule 62 (comp_op -> LESS_THAN .)
+    STRING_LITERAL  reduce using rule 62 (comp_op -> LESS_THAN .)
+    TRUE            reduce using rule 62 (comp_op -> LESS_THAN .)
+    FALSE           reduce using rule 62 (comp_op -> LESS_THAN .)
+    ID              reduce using rule 62 (comp_op -> LESS_THAN .)
 
-    comp_op                        shift and go to state 115
 
 state 125
 
-    (74) function_call -> ID LPAREN arg_list RPAREN .
+    (63) comp_op -> GREATER_THAN .
 
-    SEMICOLON       reduce using rule 74 (function_call -> ID LPAREN arg_list RPAREN .)
+    LPAREN          reduce using rule 63 (comp_op -> GREATER_THAN .)
+    CTEI            reduce using rule 63 (comp_op -> GREATER_THAN .)
+    FLOAT_NUMBER    reduce using rule 63 (comp_op -> GREATER_THAN .)
+    STRING_LITERAL  reduce using rule 63 (comp_op -> GREATER_THAN .)
+    TRUE            reduce using rule 63 (comp_op -> GREATER_THAN .)
+    FALSE           reduce using rule 63 (comp_op -> GREATER_THAN .)
+    ID              reduce using rule 63 (comp_op -> GREATER_THAN .)
 
 
 state 126
 
-    (80) arg_list -> expr1 COMMA . arg_list
-    (79) arg_list -> . expr1
-    (80) arg_list -> . expr1 COMMA arg_list
-    (38) expr1 -> . term1
-    (39) term1 -> . factor1
-    (40) factor1 -> . ID
+    (64) comp_op -> LESS_EQUAL .
 
-    ID              shift and go to state 92
+    LPAREN          reduce using rule 64 (comp_op -> LESS_EQUAL .)
+    CTEI            reduce using rule 64 (comp_op -> LESS_EQUAL .)
+    FLOAT_NUMBER    reduce using rule 64 (comp_op -> LESS_EQUAL .)
+    STRING_LITERAL  reduce using rule 64 (comp_op -> LESS_EQUAL .)
+    TRUE            reduce using rule 64 (comp_op -> LESS_EQUAL .)
+    FALSE           reduce using rule 64 (comp_op -> LESS_EQUAL .)
+    ID              reduce using rule 64 (comp_op -> LESS_EQUAL .)
 
-    expr1                          shift and go to state 94
-    arg_list                       shift and go to state 141
-    term1                          shift and go to state 95
-    factor1                        shift and go to state 96
 
 state 127
 
-    (56) conditional -> IF LPAREN comp_expr RPAREN . LBRACE stmt_list RBRACE else_stmt
-    (57) conditional -> IF LPAREN comp_expr RPAREN . LBRACE stmt_list RBRACE
+    (65) comp_op -> GREATER_EQUAL .
 
-    LBRACE          shift and go to state 142
+    LPAREN          reduce using rule 65 (comp_op -> GREATER_EQUAL .)
+    CTEI            reduce using rule 65 (comp_op -> GREATER_EQUAL .)
+    FLOAT_NUMBER    reduce using rule 65 (comp_op -> GREATER_EQUAL .)
+    STRING_LITERAL  reduce using rule 65 (comp_op -> GREATER_EQUAL .)
+    TRUE            reduce using rule 65 (comp_op -> GREATER_EQUAL .)
+    FALSE           reduce using rule 65 (comp_op -> GREATER_EQUAL .)
+    ID              reduce using rule 65 (comp_op -> GREATER_EQUAL .)
 
 
 state 128
 
-    (58) comp_expr -> expr comp_op . expr
-    (43) expr -> expr comp_op . term
-    (41) expr -> . expr PLUS term
-    (42) expr -> . expr MINUS term
-    (43) expr -> . expr comp_op term
-    (44) expr -> . term
-    (45) term -> . term MULTIPLY factor
-    (46) term -> . term DIVIDE factor
-    (47) term -> . factor
-    (48) factor -> . LPAREN expr RPAREN
-    (49) factor -> . CTEI
-    (50) factor -> . FLOAT_NUMBER
-    (51) factor -> . STRING_LITERAL
-    (52) factor -> . TRUE
-    (53) factor -> . FALSE
-    (54) factor -> . ID
+    (66) comp_op -> EQUAL_EQUAL .
 
-    LPAREN          shift and go to state 85
-    CTEI            shift and go to state 87
-    FLOAT_NUMBER    shift and go to state 88
-    STRING_LITERAL  shift and go to state 89
-    TRUE            shift and go to state 90
-    FALSE           shift and go to state 91
-    ID              shift and go to state 100
+    LPAREN          reduce using rule 66 (comp_op -> EQUAL_EQUAL .)
+    CTEI            reduce using rule 66 (comp_op -> EQUAL_EQUAL .)
+    FLOAT_NUMBER    reduce using rule 66 (comp_op -> EQUAL_EQUAL .)
+    STRING_LITERAL  reduce using rule 66 (comp_op -> EQUAL_EQUAL .)
+    TRUE            reduce using rule 66 (comp_op -> EQUAL_EQUAL .)
+    FALSE           reduce using rule 66 (comp_op -> EQUAL_EQUAL .)
+    ID              reduce using rule 66 (comp_op -> EQUAL_EQUAL .)
 
-    expr                           shift and go to state 143
-    term                           shift and go to state 144
-    factor                         shift and go to state 86
 
 state 129
 
-    (68) loop -> WHILE LPAREN comp_expr RPAREN . LBRACE stmt_list RBRACE
+    (67) comp_op -> NOT_EQUAL .
 
-    LBRACE          shift and go to state 145
+    LPAREN          reduce using rule 67 (comp_op -> NOT_EQUAL .)
+    CTEI            reduce using rule 67 (comp_op -> NOT_EQUAL .)
+    FLOAT_NUMBER    reduce using rule 67 (comp_op -> NOT_EQUAL .)
+    STRING_LITERAL  reduce using rule 67 (comp_op -> NOT_EQUAL .)
+    TRUE            reduce using rule 67 (comp_op -> NOT_EQUAL .)
+    FALSE           reduce using rule 67 (comp_op -> NOT_EQUAL .)
+    ID              reduce using rule 67 (comp_op -> NOT_EQUAL .)
 
 
 state 130
 
-    (78) param -> type . ID
+    (48) term -> term MULTIPLY . factor
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
 
-    ID              shift and go to state 146
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 92
+    FLOAT_NUMBER    shift and go to state 93
+    STRING_LITERAL  shift and go to state 94
+    TRUE            shift and go to state 95
+    FALSE           shift and go to state 96
+    ID              shift and go to state 105
 
+    factor                         shift and go to state 145
 
 state 131
 
-    (70) function_decl -> type ID LPAREN create_function_scope param_list . RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
+    (49) term -> term DIVIDE . factor
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
 
-    RPAREN          shift and go to state 147
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 92
+    FLOAT_NUMBER    shift and go to state 93
+    STRING_LITERAL  shift and go to state 94
+    TRUE            shift and go to state 95
+    FALSE           shift and go to state 96
+    ID              shift and go to state 105
 
+    factor                         shift and go to state 146
 
 state 132
 
-    (75) param_list -> param . COMMA param_list
-    (76) param_list -> param .
+    (51) factor -> LPAREN expr . RPAREN
+    (44) expr -> expr . PLUS term
+    (45) expr -> expr . MINUS term
+    (46) expr -> expr . comp_op term
+    (62) comp_op -> . LESS_THAN
+    (63) comp_op -> . GREATER_THAN
+    (64) comp_op -> . LESS_EQUAL
+    (65) comp_op -> . GREATER_EQUAL
+    (66) comp_op -> . EQUAL_EQUAL
+    (67) comp_op -> . NOT_EQUAL
 
-    COMMA           shift and go to state 148
-    RPAREN          reduce using rule 76 (param_list -> param .)
+    RPAREN          shift and go to state 147
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 122
+    LESS_THAN       shift and go to state 124
+    GREATER_THAN    shift and go to state 125
+    LESS_EQUAL      shift and go to state 126
+    GREATER_EQUAL   shift and go to state 127
+    EQUAL_EQUAL     shift and go to state 128
+    NOT_EQUAL       shift and go to state 129
 
+    comp_op                        shift and go to state 123
 
 state 133
 
-    (77) param_list -> empty .
+    (77) function_call -> ID LPAREN arg_list RPAREN .
 
-    RPAREN          reduce using rule 77 (param_list -> empty .)
+    SEMICOLON       reduce using rule 77 (function_call -> ID LPAREN arg_list RPAREN .)
 
 
 state 134
 
-    (71) function_decl -> VOID ID LPAREN create_function_scope param_list . RPAREN LBRACE stmt_list end_scopes RBRACE
+    (83) arg_list -> expr1 COMMA . arg_list
+    (82) arg_list -> . expr1
+    (83) arg_list -> . expr1 COMMA arg_list
+    (41) expr1 -> . term1
+    (42) term1 -> . factor1
+    (43) factor1 -> . ID
 
-    RPAREN          shift and go to state 149
+    ID              shift and go to state 97
 
+    expr1                          shift and go to state 99
+    arg_list                       shift and go to state 148
+    term1                          shift and go to state 100
+    factor1                        shift and go to state 101
 
 state 135
 
-    (41) expr -> expr PLUS term .
-    (45) term -> term . MULTIPLY factor
-    (46) term -> term . DIVIDE factor
+    (59) conditional -> IF LPAREN comp_expr RPAREN . LBRACE stmt_list RBRACE else_stmt
+    (60) conditional -> IF LPAREN comp_expr RPAREN . LBRACE stmt_list RBRACE
 
-    PLUS            reduce using rule 41 (expr -> expr PLUS term .)
-    MINUS           reduce using rule 41 (expr -> expr PLUS term .)
-    LESS_THAN       reduce using rule 41 (expr -> expr PLUS term .)
-    GREATER_THAN    reduce using rule 41 (expr -> expr PLUS term .)
-    LESS_EQUAL      reduce using rule 41 (expr -> expr PLUS term .)
-    GREATER_EQUAL   reduce using rule 41 (expr -> expr PLUS term .)
-    EQUAL_EQUAL     reduce using rule 41 (expr -> expr PLUS term .)
-    NOT_EQUAL       reduce using rule 41 (expr -> expr PLUS term .)
-    SEMICOLON       reduce using rule 41 (expr -> expr PLUS term .)
-    RPAREN          reduce using rule 41 (expr -> expr PLUS term .)
-    MULTIPLY        shift and go to state 122
-    DIVIDE          shift and go to state 123
+    LBRACE          shift and go to state 149
 
 
 state 136
 
-    (42) expr -> expr MINUS term .
-    (45) term -> term . MULTIPLY factor
-    (46) term -> term . DIVIDE factor
+    (61) comp_expr -> expr comp_op . expr
+    (46) expr -> expr comp_op . term
+    (44) expr -> . expr PLUS term
+    (45) expr -> . expr MINUS term
+    (46) expr -> . expr comp_op term
+    (47) expr -> . term
+    (48) term -> . term MULTIPLY factor
+    (49) term -> . term DIVIDE factor
+    (50) term -> . factor
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
 
-    PLUS            reduce using rule 42 (expr -> expr MINUS term .)
-    MINUS           reduce using rule 42 (expr -> expr MINUS term .)
-    LESS_THAN       reduce using rule 42 (expr -> expr MINUS term .)
-    GREATER_THAN    reduce using rule 42 (expr -> expr MINUS term .)
-    LESS_EQUAL      reduce using rule 42 (expr -> expr MINUS term .)
-    GREATER_EQUAL   reduce using rule 42 (expr -> expr MINUS term .)
-    EQUAL_EQUAL     reduce using rule 42 (expr -> expr MINUS term .)
-    NOT_EQUAL       reduce using rule 42 (expr -> expr MINUS term .)
-    SEMICOLON       reduce using rule 42 (expr -> expr MINUS term .)
-    RPAREN          reduce using rule 42 (expr -> expr MINUS term .)
-    MULTIPLY        shift and go to state 122
-    DIVIDE          shift and go to state 123
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 92
+    FLOAT_NUMBER    shift and go to state 93
+    STRING_LITERAL  shift and go to state 94
+    TRUE            shift and go to state 95
+    FALSE           shift and go to state 96
+    ID              shift and go to state 105
 
+    expr                           shift and go to state 150
+    term                           shift and go to state 151
+    factor                         shift and go to state 91
 
 state 137
 
-    (43) expr -> expr comp_op term .
-    (45) term -> term . MULTIPLY factor
-    (46) term -> term . DIVIDE factor
-
-    PLUS            reduce using rule 43 (expr -> expr comp_op term .)
-    MINUS           reduce using rule 43 (expr -> expr comp_op term .)
-    LESS_THAN       reduce using rule 43 (expr -> expr comp_op term .)
-    GREATER_THAN    reduce using rule 43 (expr -> expr comp_op term .)
-    LESS_EQUAL      reduce using rule 43 (expr -> expr comp_op term .)
-    GREATER_EQUAL   reduce using rule 43 (expr -> expr comp_op term .)
-    EQUAL_EQUAL     reduce using rule 43 (expr -> expr comp_op term .)
-    NOT_EQUAL       reduce using rule 43 (expr -> expr comp_op term .)
-    SEMICOLON       reduce using rule 43 (expr -> expr comp_op term .)
-    RPAREN          reduce using rule 43 (expr -> expr comp_op term .)
-    MULTIPLY        shift and go to state 122
-    DIVIDE          shift and go to state 123
-
-
-state 138
-
-    (45) term -> term MULTIPLY factor .
-
-    MULTIPLY        reduce using rule 45 (term -> term MULTIPLY factor .)
-    DIVIDE          reduce using rule 45 (term -> term MULTIPLY factor .)
-    PLUS            reduce using rule 45 (term -> term MULTIPLY factor .)
-    MINUS           reduce using rule 45 (term -> term MULTIPLY factor .)
-    LESS_THAN       reduce using rule 45 (term -> term MULTIPLY factor .)
-    GREATER_THAN    reduce using rule 45 (term -> term MULTIPLY factor .)
-    LESS_EQUAL      reduce using rule 45 (term -> term MULTIPLY factor .)
-    GREATER_EQUAL   reduce using rule 45 (term -> term MULTIPLY factor .)
-    EQUAL_EQUAL     reduce using rule 45 (term -> term MULTIPLY factor .)
-    NOT_EQUAL       reduce using rule 45 (term -> term MULTIPLY factor .)
-    SEMICOLON       reduce using rule 45 (term -> term MULTIPLY factor .)
-    RPAREN          reduce using rule 45 (term -> term MULTIPLY factor .)
-
-
-state 139
-
-    (46) term -> term DIVIDE factor .
-
-    MULTIPLY        reduce using rule 46 (term -> term DIVIDE factor .)
-    DIVIDE          reduce using rule 46 (term -> term DIVIDE factor .)
-    PLUS            reduce using rule 46 (term -> term DIVIDE factor .)
-    MINUS           reduce using rule 46 (term -> term DIVIDE factor .)
-    LESS_THAN       reduce using rule 46 (term -> term DIVIDE factor .)
-    GREATER_THAN    reduce using rule 46 (term -> term DIVIDE factor .)
-    LESS_EQUAL      reduce using rule 46 (term -> term DIVIDE factor .)
-    GREATER_EQUAL   reduce using rule 46 (term -> term DIVIDE factor .)
-    EQUAL_EQUAL     reduce using rule 46 (term -> term DIVIDE factor .)
-    NOT_EQUAL       reduce using rule 46 (term -> term DIVIDE factor .)
-    SEMICOLON       reduce using rule 46 (term -> term DIVIDE factor .)
-    RPAREN          reduce using rule 46 (term -> term DIVIDE factor .)
-
-
-state 140
-
-    (48) factor -> LPAREN expr RPAREN .
-
-    MULTIPLY        reduce using rule 48 (factor -> LPAREN expr RPAREN .)
-    DIVIDE          reduce using rule 48 (factor -> LPAREN expr RPAREN .)
-    PLUS            reduce using rule 48 (factor -> LPAREN expr RPAREN .)
-    MINUS           reduce using rule 48 (factor -> LPAREN expr RPAREN .)
-    LESS_THAN       reduce using rule 48 (factor -> LPAREN expr RPAREN .)
-    GREATER_THAN    reduce using rule 48 (factor -> LPAREN expr RPAREN .)
-    LESS_EQUAL      reduce using rule 48 (factor -> LPAREN expr RPAREN .)
-    GREATER_EQUAL   reduce using rule 48 (factor -> LPAREN expr RPAREN .)
-    EQUAL_EQUAL     reduce using rule 48 (factor -> LPAREN expr RPAREN .)
-    NOT_EQUAL       reduce using rule 48 (factor -> LPAREN expr RPAREN .)
-    SEMICOLON       reduce using rule 48 (factor -> LPAREN expr RPAREN .)
-    RPAREN          reduce using rule 48 (factor -> LPAREN expr RPAREN .)
-
-
-state 141
-
-    (80) arg_list -> expr1 COMMA arg_list .
-
-    RPAREN          reduce using rule 80 (arg_list -> expr1 COMMA arg_list .)
-
-
-state 142
-
-    (56) conditional -> IF LPAREN comp_expr RPAREN LBRACE . stmt_list RBRACE else_stmt
-    (57) conditional -> IF LPAREN comp_expr RPAREN LBRACE . stmt_list RBRACE
-    (18) stmt_list -> . stmt SEMICOLON stmt_list
-    (19) stmt_list -> . stmt SEMICOLON
-    (20) stmt -> . assign
-    (21) stmt -> . print
-    (22) stmt -> . conditional
-    (23) stmt -> . loop
-    (24) stmt -> . function_call
-    (25) stmt -> . decl
-    (26) stmt -> . built_in_function
-    (36) assign -> . ID EQUALS expr
-    (37) assign -> . ID EQUALS function_call
-    (55) print -> . PRINT COLON ID
-    (56) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (57) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (68) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (74) function_call -> . ID LPAREN arg_list RPAREN
-    (12) decl -> . type ID
-    (13) decl -> . array_decl SEMICOLON
-    (27) built_in_function -> . TEACH_SUM LPAREN RPAREN
-    (28) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
-    (29) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
-    (30) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
-    (31) built_in_function -> . TEACH_IF LPAREN RPAREN
-    (32) built_in_function -> . TEACH_WHILE LPAREN RPAREN
-    (33) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
-    (34) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
-    (35) built_in_function -> . AYUDA LPAREN RPAREN
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
-    (81) array_decl -> . type ID LBRACKET CTEI RBRACKET
-
-    ID              shift and go to state 44
-    PRINT           shift and go to state 45
-    IF              shift and go to state 46
-    WHILE           shift and go to state 47
-    TEACH_SUM       shift and go to state 48
-    TEACH_SUBSTRACTION shift and go to state 49
-    TEACH_MULTIPLICATION shift and go to state 50
-    TEACH_DIVISION  shift and go to state 51
-    TEACH_IF        shift and go to state 52
-    TEACH_WHILE     shift and go to state 53
-    TEACH_FUNCTION_DECLARATION shift and go to state 54
-    TEACH_FUNCTION_CALL shift and go to state 55
-    AYUDA           shift and go to state 56
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
-
-    stmt_list                      shift and go to state 150
-    stmt                           shift and go to state 36
-    assign                         shift and go to state 37
-    print                          shift and go to state 38
-    conditional                    shift and go to state 39
-    loop                           shift and go to state 40
-    function_call                  shift and go to state 41
-    decl                           shift and go to state 42
-    built_in_function              shift and go to state 43
-    type                           shift and go to state 16
-    array_decl                     shift and go to state 17
-
-state 143
-
-    (58) comp_expr -> expr comp_op expr .
-    (41) expr -> expr . PLUS term
-    (42) expr -> expr . MINUS term
-    (43) expr -> expr . comp_op term
-    (59) comp_op -> . LESS_THAN
-    (60) comp_op -> . GREATER_THAN
-    (61) comp_op -> . LESS_EQUAL
-    (62) comp_op -> . GREATER_EQUAL
-    (63) comp_op -> . EQUAL_EQUAL
-    (64) comp_op -> . NOT_EQUAL
-
-    RPAREN          reduce using rule 58 (comp_expr -> expr comp_op expr .)
-    PLUS            shift and go to state 113
-    MINUS           shift and go to state 114
-    LESS_THAN       shift and go to state 116
-    GREATER_THAN    shift and go to state 117
-    LESS_EQUAL      shift and go to state 118
-    GREATER_EQUAL   shift and go to state 119
-    EQUAL_EQUAL     shift and go to state 120
-    NOT_EQUAL       shift and go to state 121
-
-    comp_op                        shift and go to state 115
-
-state 144
-
-    (43) expr -> expr comp_op term .
-    (44) expr -> term .
-    (45) term -> term . MULTIPLY factor
-    (46) term -> term . DIVIDE factor
-
-  ! reduce/reduce conflict for PLUS resolved using rule 43 (expr -> expr comp_op term .)
-  ! reduce/reduce conflict for MINUS resolved using rule 43 (expr -> expr comp_op term .)
-  ! reduce/reduce conflict for LESS_THAN resolved using rule 43 (expr -> expr comp_op term .)
-  ! reduce/reduce conflict for GREATER_THAN resolved using rule 43 (expr -> expr comp_op term .)
-  ! reduce/reduce conflict for LESS_EQUAL resolved using rule 43 (expr -> expr comp_op term .)
-  ! reduce/reduce conflict for GREATER_EQUAL resolved using rule 43 (expr -> expr comp_op term .)
-  ! reduce/reduce conflict for EQUAL_EQUAL resolved using rule 43 (expr -> expr comp_op term .)
-  ! reduce/reduce conflict for NOT_EQUAL resolved using rule 43 (expr -> expr comp_op term .)
-    PLUS            reduce using rule 43 (expr -> expr comp_op term .)
-    MINUS           reduce using rule 43 (expr -> expr comp_op term .)
-    LESS_THAN       reduce using rule 43 (expr -> expr comp_op term .)
-    GREATER_THAN    reduce using rule 43 (expr -> expr comp_op term .)
-    LESS_EQUAL      reduce using rule 43 (expr -> expr comp_op term .)
-    GREATER_EQUAL   reduce using rule 43 (expr -> expr comp_op term .)
-    EQUAL_EQUAL     reduce using rule 43 (expr -> expr comp_op term .)
-    NOT_EQUAL       reduce using rule 43 (expr -> expr comp_op term .)
-    RPAREN          reduce using rule 44 (expr -> term .)
-    MULTIPLY        shift and go to state 122
-    DIVIDE          shift and go to state 123
-
-  ! PLUS            [ reduce using rule 44 (expr -> term .) ]
-  ! MINUS           [ reduce using rule 44 (expr -> term .) ]
-  ! LESS_THAN       [ reduce using rule 44 (expr -> term .) ]
-  ! GREATER_THAN    [ reduce using rule 44 (expr -> term .) ]
-  ! LESS_EQUAL      [ reduce using rule 44 (expr -> term .) ]
-  ! GREATER_EQUAL   [ reduce using rule 44 (expr -> term .) ]
-  ! EQUAL_EQUAL     [ reduce using rule 44 (expr -> term .) ]
-  ! NOT_EQUAL       [ reduce using rule 44 (expr -> term .) ]
-
-
-state 145
-
-    (68) loop -> WHILE LPAREN comp_expr RPAREN LBRACE . stmt_list RBRACE
-    (18) stmt_list -> . stmt SEMICOLON stmt_list
-    (19) stmt_list -> . stmt SEMICOLON
-    (20) stmt -> . assign
-    (21) stmt -> . print
-    (22) stmt -> . conditional
-    (23) stmt -> . loop
-    (24) stmt -> . function_call
-    (25) stmt -> . decl
-    (26) stmt -> . built_in_function
-    (36) assign -> . ID EQUALS expr
-    (37) assign -> . ID EQUALS function_call
-    (55) print -> . PRINT COLON ID
-    (56) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (57) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (68) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (74) function_call -> . ID LPAREN arg_list RPAREN
-    (12) decl -> . type ID
-    (13) decl -> . array_decl SEMICOLON
-    (27) built_in_function -> . TEACH_SUM LPAREN RPAREN
-    (28) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
-    (29) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
-    (30) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
-    (31) built_in_function -> . TEACH_IF LPAREN RPAREN
-    (32) built_in_function -> . TEACH_WHILE LPAREN RPAREN
-    (33) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
-    (34) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
-    (35) built_in_function -> . AYUDA LPAREN RPAREN
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
-    (81) array_decl -> . type ID LBRACKET CTEI RBRACKET
-
-    ID              shift and go to state 44
-    PRINT           shift and go to state 45
-    IF              shift and go to state 46
-    WHILE           shift and go to state 47
-    TEACH_SUM       shift and go to state 48
-    TEACH_SUBSTRACTION shift and go to state 49
-    TEACH_MULTIPLICATION shift and go to state 50
-    TEACH_DIVISION  shift and go to state 51
-    TEACH_IF        shift and go to state 52
-    TEACH_WHILE     shift and go to state 53
-    TEACH_FUNCTION_DECLARATION shift and go to state 54
-    TEACH_FUNCTION_CALL shift and go to state 55
-    AYUDA           shift and go to state 56
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
-
-    stmt_list                      shift and go to state 151
-    stmt                           shift and go to state 36
-    assign                         shift and go to state 37
-    print                          shift and go to state 38
-    conditional                    shift and go to state 39
-    loop                           shift and go to state 40
-    function_call                  shift and go to state 41
-    decl                           shift and go to state 42
-    built_in_function              shift and go to state 43
-    type                           shift and go to state 16
-    array_decl                     shift and go to state 17
-
-state 146
-
-    (78) param -> type ID .
-
-    COMMA           reduce using rule 78 (param -> type ID .)
-    RPAREN          reduce using rule 78 (param -> type ID .)
-
-
-state 147
-
-    (70) function_decl -> type ID LPAREN create_function_scope param_list RPAREN . LBRACE stmt_list return_stmt end_scopes RBRACE
+    (71) loop -> WHILE LPAREN comp_expr RPAREN . LBRACE stmt_list RBRACE
 
     LBRACE          shift and go to state 152
 
 
+state 138
+
+    (81) param -> type ID .
+
+    COMMA           reduce using rule 81 (param -> type ID .)
+    RPAREN          reduce using rule 81 (param -> type ID .)
+
+
+state 139
+
+    (73) function_decl -> type ID LPAREN create_function_scope param_list RPAREN . LBRACE stmt_list return_stmt end_scopes RBRACE
+
+    LBRACE          shift and go to state 153
+
+
+state 140
+
+    (78) param_list -> param COMMA . param_list
+    (78) param_list -> . param COMMA param_list
+    (79) param_list -> . param
+    (80) param_list -> . empty
+    (81) param -> . type ID
+    (85) empty -> .
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+
+    RPAREN          reduce using rule 85 (empty -> .)
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
+
+    param                          shift and go to state 118
+    param_list                     shift and go to state 154
+    empty                          shift and go to state 119
+    type                           shift and go to state 116
+
+state 141
+
+    (74) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN . LBRACE stmt_list end_scopes RBRACE
+
+    LBRACE          shift and go to state 155
+
+
+state 142
+
+    (44) expr -> expr PLUS term .
+    (48) term -> term . MULTIPLY factor
+    (49) term -> term . DIVIDE factor
+
+    PLUS            reduce using rule 44 (expr -> expr PLUS term .)
+    MINUS           reduce using rule 44 (expr -> expr PLUS term .)
+    LESS_THAN       reduce using rule 44 (expr -> expr PLUS term .)
+    GREATER_THAN    reduce using rule 44 (expr -> expr PLUS term .)
+    LESS_EQUAL      reduce using rule 44 (expr -> expr PLUS term .)
+    GREATER_EQUAL   reduce using rule 44 (expr -> expr PLUS term .)
+    EQUAL_EQUAL     reduce using rule 44 (expr -> expr PLUS term .)
+    NOT_EQUAL       reduce using rule 44 (expr -> expr PLUS term .)
+    SEMICOLON       reduce using rule 44 (expr -> expr PLUS term .)
+    RPAREN          reduce using rule 44 (expr -> expr PLUS term .)
+    MULTIPLY        shift and go to state 130
+    DIVIDE          shift and go to state 131
+
+
+state 143
+
+    (45) expr -> expr MINUS term .
+    (48) term -> term . MULTIPLY factor
+    (49) term -> term . DIVIDE factor
+
+    PLUS            reduce using rule 45 (expr -> expr MINUS term .)
+    MINUS           reduce using rule 45 (expr -> expr MINUS term .)
+    LESS_THAN       reduce using rule 45 (expr -> expr MINUS term .)
+    GREATER_THAN    reduce using rule 45 (expr -> expr MINUS term .)
+    LESS_EQUAL      reduce using rule 45 (expr -> expr MINUS term .)
+    GREATER_EQUAL   reduce using rule 45 (expr -> expr MINUS term .)
+    EQUAL_EQUAL     reduce using rule 45 (expr -> expr MINUS term .)
+    NOT_EQUAL       reduce using rule 45 (expr -> expr MINUS term .)
+    SEMICOLON       reduce using rule 45 (expr -> expr MINUS term .)
+    RPAREN          reduce using rule 45 (expr -> expr MINUS term .)
+    MULTIPLY        shift and go to state 130
+    DIVIDE          shift and go to state 131
+
+
+state 144
+
+    (46) expr -> expr comp_op term .
+    (48) term -> term . MULTIPLY factor
+    (49) term -> term . DIVIDE factor
+
+    PLUS            reduce using rule 46 (expr -> expr comp_op term .)
+    MINUS           reduce using rule 46 (expr -> expr comp_op term .)
+    LESS_THAN       reduce using rule 46 (expr -> expr comp_op term .)
+    GREATER_THAN    reduce using rule 46 (expr -> expr comp_op term .)
+    LESS_EQUAL      reduce using rule 46 (expr -> expr comp_op term .)
+    GREATER_EQUAL   reduce using rule 46 (expr -> expr comp_op term .)
+    EQUAL_EQUAL     reduce using rule 46 (expr -> expr comp_op term .)
+    NOT_EQUAL       reduce using rule 46 (expr -> expr comp_op term .)
+    SEMICOLON       reduce using rule 46 (expr -> expr comp_op term .)
+    RPAREN          reduce using rule 46 (expr -> expr comp_op term .)
+    MULTIPLY        shift and go to state 130
+    DIVIDE          shift and go to state 131
+
+
+state 145
+
+    (48) term -> term MULTIPLY factor .
+
+    MULTIPLY        reduce using rule 48 (term -> term MULTIPLY factor .)
+    DIVIDE          reduce using rule 48 (term -> term MULTIPLY factor .)
+    PLUS            reduce using rule 48 (term -> term MULTIPLY factor .)
+    MINUS           reduce using rule 48 (term -> term MULTIPLY factor .)
+    LESS_THAN       reduce using rule 48 (term -> term MULTIPLY factor .)
+    GREATER_THAN    reduce using rule 48 (term -> term MULTIPLY factor .)
+    LESS_EQUAL      reduce using rule 48 (term -> term MULTIPLY factor .)
+    GREATER_EQUAL   reduce using rule 48 (term -> term MULTIPLY factor .)
+    EQUAL_EQUAL     reduce using rule 48 (term -> term MULTIPLY factor .)
+    NOT_EQUAL       reduce using rule 48 (term -> term MULTIPLY factor .)
+    SEMICOLON       reduce using rule 48 (term -> term MULTIPLY factor .)
+    RPAREN          reduce using rule 48 (term -> term MULTIPLY factor .)
+
+
+state 146
+
+    (49) term -> term DIVIDE factor .
+
+    MULTIPLY        reduce using rule 49 (term -> term DIVIDE factor .)
+    DIVIDE          reduce using rule 49 (term -> term DIVIDE factor .)
+    PLUS            reduce using rule 49 (term -> term DIVIDE factor .)
+    MINUS           reduce using rule 49 (term -> term DIVIDE factor .)
+    LESS_THAN       reduce using rule 49 (term -> term DIVIDE factor .)
+    GREATER_THAN    reduce using rule 49 (term -> term DIVIDE factor .)
+    LESS_EQUAL      reduce using rule 49 (term -> term DIVIDE factor .)
+    GREATER_EQUAL   reduce using rule 49 (term -> term DIVIDE factor .)
+    EQUAL_EQUAL     reduce using rule 49 (term -> term DIVIDE factor .)
+    NOT_EQUAL       reduce using rule 49 (term -> term DIVIDE factor .)
+    SEMICOLON       reduce using rule 49 (term -> term DIVIDE factor .)
+    RPAREN          reduce using rule 49 (term -> term DIVIDE factor .)
+
+
+state 147
+
+    (51) factor -> LPAREN expr RPAREN .
+
+    MULTIPLY        reduce using rule 51 (factor -> LPAREN expr RPAREN .)
+    DIVIDE          reduce using rule 51 (factor -> LPAREN expr RPAREN .)
+    PLUS            reduce using rule 51 (factor -> LPAREN expr RPAREN .)
+    MINUS           reduce using rule 51 (factor -> LPAREN expr RPAREN .)
+    LESS_THAN       reduce using rule 51 (factor -> LPAREN expr RPAREN .)
+    GREATER_THAN    reduce using rule 51 (factor -> LPAREN expr RPAREN .)
+    LESS_EQUAL      reduce using rule 51 (factor -> LPAREN expr RPAREN .)
+    GREATER_EQUAL   reduce using rule 51 (factor -> LPAREN expr RPAREN .)
+    EQUAL_EQUAL     reduce using rule 51 (factor -> LPAREN expr RPAREN .)
+    NOT_EQUAL       reduce using rule 51 (factor -> LPAREN expr RPAREN .)
+    SEMICOLON       reduce using rule 51 (factor -> LPAREN expr RPAREN .)
+    RPAREN          reduce using rule 51 (factor -> LPAREN expr RPAREN .)
+
+
 state 148
 
-    (75) param_list -> param COMMA . param_list
-    (75) param_list -> . param COMMA param_list
-    (76) param_list -> . param
-    (77) param_list -> . empty
-    (78) param -> . type ID
-    (82) empty -> .
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
+    (83) arg_list -> expr1 COMMA arg_list .
 
-    RPAREN          reduce using rule 82 (empty -> .)
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
+    RPAREN          reduce using rule 83 (arg_list -> expr1 COMMA arg_list .)
 
-    param                          shift and go to state 132
-    param_list                     shift and go to state 153
-    empty                          shift and go to state 133
-    type                           shift and go to state 130
 
 state 149
 
-    (71) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN . LBRACE stmt_list end_scopes RBRACE
+    (59) conditional -> IF LPAREN comp_expr RPAREN LBRACE . stmt_list RBRACE else_stmt
+    (60) conditional -> IF LPAREN comp_expr RPAREN LBRACE . stmt_list RBRACE
+    (21) stmt_list -> . stmt SEMICOLON stmt_list
+    (22) stmt_list -> . stmt SEMICOLON
+    (23) stmt -> . assign
+    (24) stmt -> . print
+    (25) stmt -> . conditional
+    (26) stmt -> . loop
+    (27) stmt -> . function_call
+    (28) stmt -> . decl
+    (29) stmt -> . built_in_function
+    (39) assign -> . ID EQUALS expr
+    (40) assign -> . ID EQUALS function_call
+    (58) print -> . PRINT COLON ID
+    (59) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (71) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (77) function_call -> . ID LPAREN arg_list RPAREN
+    (15) decl -> . type ID
+    (16) decl -> . array_decl SEMICOLON
+    (30) built_in_function -> . TEACH_SUM LPAREN RPAREN
+    (31) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
+    (32) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
+    (33) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
+    (34) built_in_function -> . TEACH_IF LPAREN RPAREN
+    (35) built_in_function -> . TEACH_WHILE LPAREN RPAREN
+    (36) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
+    (37) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
+    (38) built_in_function -> . AYUDA LPAREN RPAREN
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+    (84) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
-    LBRACE          shift and go to state 154
+    ID              shift and go to state 51
+    PRINT           shift and go to state 52
+    IF              shift and go to state 53
+    WHILE           shift and go to state 54
+    TEACH_SUM       shift and go to state 55
+    TEACH_SUBSTRACTION shift and go to state 56
+    TEACH_MULTIPLICATION shift and go to state 57
+    TEACH_DIVISION  shift and go to state 58
+    TEACH_IF        shift and go to state 59
+    TEACH_WHILE     shift and go to state 60
+    TEACH_FUNCTION_DECLARATION shift and go to state 61
+    TEACH_FUNCTION_CALL shift and go to state 62
+    AYUDA           shift and go to state 63
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
+    stmt_list                      shift and go to state 156
+    stmt                           shift and go to state 43
+    assign                         shift and go to state 44
+    print                          shift and go to state 45
+    conditional                    shift and go to state 46
+    loop                           shift and go to state 47
+    function_call                  shift and go to state 48
+    decl                           shift and go to state 49
+    built_in_function              shift and go to state 50
+    type                           shift and go to state 17
+    array_decl                     shift and go to state 18
 
 state 150
 
-    (56) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list . RBRACE else_stmt
-    (57) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list . RBRACE
+    (61) comp_expr -> expr comp_op expr .
+    (44) expr -> expr . PLUS term
+    (45) expr -> expr . MINUS term
+    (46) expr -> expr . comp_op term
+    (62) comp_op -> . LESS_THAN
+    (63) comp_op -> . GREATER_THAN
+    (64) comp_op -> . LESS_EQUAL
+    (65) comp_op -> . GREATER_EQUAL
+    (66) comp_op -> . EQUAL_EQUAL
+    (67) comp_op -> . NOT_EQUAL
 
-    RBRACE          shift and go to state 155
+    RPAREN          reduce using rule 61 (comp_expr -> expr comp_op expr .)
+    PLUS            shift and go to state 121
+    MINUS           shift and go to state 122
+    LESS_THAN       shift and go to state 124
+    GREATER_THAN    shift and go to state 125
+    LESS_EQUAL      shift and go to state 126
+    GREATER_EQUAL   shift and go to state 127
+    EQUAL_EQUAL     shift and go to state 128
+    NOT_EQUAL       shift and go to state 129
 
+    comp_op                        shift and go to state 123
 
 state 151
 
-    (68) loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list . RBRACE
+    (46) expr -> expr comp_op term .
+    (47) expr -> term .
+    (48) term -> term . MULTIPLY factor
+    (49) term -> term . DIVIDE factor
 
-    RBRACE          shift and go to state 156
+  ! reduce/reduce conflict for PLUS resolved using rule 46 (expr -> expr comp_op term .)
+  ! reduce/reduce conflict for MINUS resolved using rule 46 (expr -> expr comp_op term .)
+  ! reduce/reduce conflict for LESS_THAN resolved using rule 46 (expr -> expr comp_op term .)
+  ! reduce/reduce conflict for GREATER_THAN resolved using rule 46 (expr -> expr comp_op term .)
+  ! reduce/reduce conflict for LESS_EQUAL resolved using rule 46 (expr -> expr comp_op term .)
+  ! reduce/reduce conflict for GREATER_EQUAL resolved using rule 46 (expr -> expr comp_op term .)
+  ! reduce/reduce conflict for EQUAL_EQUAL resolved using rule 46 (expr -> expr comp_op term .)
+  ! reduce/reduce conflict for NOT_EQUAL resolved using rule 46 (expr -> expr comp_op term .)
+    PLUS            reduce using rule 46 (expr -> expr comp_op term .)
+    MINUS           reduce using rule 46 (expr -> expr comp_op term .)
+    LESS_THAN       reduce using rule 46 (expr -> expr comp_op term .)
+    GREATER_THAN    reduce using rule 46 (expr -> expr comp_op term .)
+    LESS_EQUAL      reduce using rule 46 (expr -> expr comp_op term .)
+    GREATER_EQUAL   reduce using rule 46 (expr -> expr comp_op term .)
+    EQUAL_EQUAL     reduce using rule 46 (expr -> expr comp_op term .)
+    NOT_EQUAL       reduce using rule 46 (expr -> expr comp_op term .)
+    RPAREN          reduce using rule 47 (expr -> term .)
+    MULTIPLY        shift and go to state 130
+    DIVIDE          shift and go to state 131
+
+  ! PLUS            [ reduce using rule 47 (expr -> term .) ]
+  ! MINUS           [ reduce using rule 47 (expr -> term .) ]
+  ! LESS_THAN       [ reduce using rule 47 (expr -> term .) ]
+  ! GREATER_THAN    [ reduce using rule 47 (expr -> term .) ]
+  ! LESS_EQUAL      [ reduce using rule 47 (expr -> term .) ]
+  ! GREATER_EQUAL   [ reduce using rule 47 (expr -> term .) ]
+  ! EQUAL_EQUAL     [ reduce using rule 47 (expr -> term .) ]
+  ! NOT_EQUAL       [ reduce using rule 47 (expr -> term .) ]
 
 
 state 152
 
-    (70) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE . stmt_list return_stmt end_scopes RBRACE
-    (18) stmt_list -> . stmt SEMICOLON stmt_list
-    (19) stmt_list -> . stmt SEMICOLON
-    (20) stmt -> . assign
-    (21) stmt -> . print
-    (22) stmt -> . conditional
-    (23) stmt -> . loop
-    (24) stmt -> . function_call
-    (25) stmt -> . decl
-    (26) stmt -> . built_in_function
-    (36) assign -> . ID EQUALS expr
-    (37) assign -> . ID EQUALS function_call
-    (55) print -> . PRINT COLON ID
-    (56) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (57) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (68) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (74) function_call -> . ID LPAREN arg_list RPAREN
-    (12) decl -> . type ID
-    (13) decl -> . array_decl SEMICOLON
-    (27) built_in_function -> . TEACH_SUM LPAREN RPAREN
-    (28) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
-    (29) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
-    (30) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
-    (31) built_in_function -> . TEACH_IF LPAREN RPAREN
-    (32) built_in_function -> . TEACH_WHILE LPAREN RPAREN
-    (33) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
-    (34) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
-    (35) built_in_function -> . AYUDA LPAREN RPAREN
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
-    (81) array_decl -> . type ID LBRACKET CTEI RBRACKET
+    (71) loop -> WHILE LPAREN comp_expr RPAREN LBRACE . stmt_list RBRACE
+    (21) stmt_list -> . stmt SEMICOLON stmt_list
+    (22) stmt_list -> . stmt SEMICOLON
+    (23) stmt -> . assign
+    (24) stmt -> . print
+    (25) stmt -> . conditional
+    (26) stmt -> . loop
+    (27) stmt -> . function_call
+    (28) stmt -> . decl
+    (29) stmt -> . built_in_function
+    (39) assign -> . ID EQUALS expr
+    (40) assign -> . ID EQUALS function_call
+    (58) print -> . PRINT COLON ID
+    (59) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (71) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (77) function_call -> . ID LPAREN arg_list RPAREN
+    (15) decl -> . type ID
+    (16) decl -> . array_decl SEMICOLON
+    (30) built_in_function -> . TEACH_SUM LPAREN RPAREN
+    (31) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
+    (32) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
+    (33) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
+    (34) built_in_function -> . TEACH_IF LPAREN RPAREN
+    (35) built_in_function -> . TEACH_WHILE LPAREN RPAREN
+    (36) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
+    (37) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
+    (38) built_in_function -> . AYUDA LPAREN RPAREN
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+    (84) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
-    ID              shift and go to state 44
-    PRINT           shift and go to state 45
-    IF              shift and go to state 46
-    WHILE           shift and go to state 47
-    TEACH_SUM       shift and go to state 48
-    TEACH_SUBSTRACTION shift and go to state 49
-    TEACH_MULTIPLICATION shift and go to state 50
-    TEACH_DIVISION  shift and go to state 51
-    TEACH_IF        shift and go to state 52
-    TEACH_WHILE     shift and go to state 53
-    TEACH_FUNCTION_DECLARATION shift and go to state 54
-    TEACH_FUNCTION_CALL shift and go to state 55
-    AYUDA           shift and go to state 56
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
+    ID              shift and go to state 51
+    PRINT           shift and go to state 52
+    IF              shift and go to state 53
+    WHILE           shift and go to state 54
+    TEACH_SUM       shift and go to state 55
+    TEACH_SUBSTRACTION shift and go to state 56
+    TEACH_MULTIPLICATION shift and go to state 57
+    TEACH_DIVISION  shift and go to state 58
+    TEACH_IF        shift and go to state 59
+    TEACH_WHILE     shift and go to state 60
+    TEACH_FUNCTION_DECLARATION shift and go to state 61
+    TEACH_FUNCTION_CALL shift and go to state 62
+    AYUDA           shift and go to state 63
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
-    type                           shift and go to state 16
     stmt_list                      shift and go to state 157
-    stmt                           shift and go to state 36
-    assign                         shift and go to state 37
-    print                          shift and go to state 38
-    conditional                    shift and go to state 39
-    loop                           shift and go to state 40
-    function_call                  shift and go to state 41
-    decl                           shift and go to state 42
-    built_in_function              shift and go to state 43
-    array_decl                     shift and go to state 17
+    stmt                           shift and go to state 43
+    assign                         shift and go to state 44
+    print                          shift and go to state 45
+    conditional                    shift and go to state 46
+    loop                           shift and go to state 47
+    function_call                  shift and go to state 48
+    decl                           shift and go to state 49
+    built_in_function              shift and go to state 50
+    type                           shift and go to state 17
+    array_decl                     shift and go to state 18
 
 state 153
 
-    (75) param_list -> param COMMA param_list .
+    (73) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE . stmt_list return_stmt end_scopes RBRACE
+    (21) stmt_list -> . stmt SEMICOLON stmt_list
+    (22) stmt_list -> . stmt SEMICOLON
+    (23) stmt -> . assign
+    (24) stmt -> . print
+    (25) stmt -> . conditional
+    (26) stmt -> . loop
+    (27) stmt -> . function_call
+    (28) stmt -> . decl
+    (29) stmt -> . built_in_function
+    (39) assign -> . ID EQUALS expr
+    (40) assign -> . ID EQUALS function_call
+    (58) print -> . PRINT COLON ID
+    (59) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (71) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (77) function_call -> . ID LPAREN arg_list RPAREN
+    (15) decl -> . type ID
+    (16) decl -> . array_decl SEMICOLON
+    (30) built_in_function -> . TEACH_SUM LPAREN RPAREN
+    (31) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
+    (32) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
+    (33) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
+    (34) built_in_function -> . TEACH_IF LPAREN RPAREN
+    (35) built_in_function -> . TEACH_WHILE LPAREN RPAREN
+    (36) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
+    (37) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
+    (38) built_in_function -> . AYUDA LPAREN RPAREN
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+    (84) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
-    RPAREN          reduce using rule 75 (param_list -> param COMMA param_list .)
+    ID              shift and go to state 51
+    PRINT           shift and go to state 52
+    IF              shift and go to state 53
+    WHILE           shift and go to state 54
+    TEACH_SUM       shift and go to state 55
+    TEACH_SUBSTRACTION shift and go to state 56
+    TEACH_MULTIPLICATION shift and go to state 57
+    TEACH_DIVISION  shift and go to state 58
+    TEACH_IF        shift and go to state 59
+    TEACH_WHILE     shift and go to state 60
+    TEACH_FUNCTION_DECLARATION shift and go to state 61
+    TEACH_FUNCTION_CALL shift and go to state 62
+    AYUDA           shift and go to state 63
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
+    type                           shift and go to state 17
+    stmt_list                      shift and go to state 158
+    stmt                           shift and go to state 43
+    assign                         shift and go to state 44
+    print                          shift and go to state 45
+    conditional                    shift and go to state 46
+    loop                           shift and go to state 47
+    function_call                  shift and go to state 48
+    decl                           shift and go to state 49
+    built_in_function              shift and go to state 50
+    array_decl                     shift and go to state 18
 
 state 154
 
-    (71) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE . stmt_list end_scopes RBRACE
-    (18) stmt_list -> . stmt SEMICOLON stmt_list
-    (19) stmt_list -> . stmt SEMICOLON
-    (20) stmt -> . assign
-    (21) stmt -> . print
-    (22) stmt -> . conditional
-    (23) stmt -> . loop
-    (24) stmt -> . function_call
-    (25) stmt -> . decl
-    (26) stmt -> . built_in_function
-    (36) assign -> . ID EQUALS expr
-    (37) assign -> . ID EQUALS function_call
-    (55) print -> . PRINT COLON ID
-    (56) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (57) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (68) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (74) function_call -> . ID LPAREN arg_list RPAREN
-    (12) decl -> . type ID
-    (13) decl -> . array_decl SEMICOLON
-    (27) built_in_function -> . TEACH_SUM LPAREN RPAREN
-    (28) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
-    (29) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
-    (30) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
-    (31) built_in_function -> . TEACH_IF LPAREN RPAREN
-    (32) built_in_function -> . TEACH_WHILE LPAREN RPAREN
-    (33) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
-    (34) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
-    (35) built_in_function -> . AYUDA LPAREN RPAREN
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
-    (81) array_decl -> . type ID LBRACKET CTEI RBRACKET
+    (78) param_list -> param COMMA param_list .
 
-    ID              shift and go to state 44
-    PRINT           shift and go to state 45
-    IF              shift and go to state 46
-    WHILE           shift and go to state 47
-    TEACH_SUM       shift and go to state 48
-    TEACH_SUBSTRACTION shift and go to state 49
-    TEACH_MULTIPLICATION shift and go to state 50
-    TEACH_DIVISION  shift and go to state 51
-    TEACH_IF        shift and go to state 52
-    TEACH_WHILE     shift and go to state 53
-    TEACH_FUNCTION_DECLARATION shift and go to state 54
-    TEACH_FUNCTION_CALL shift and go to state 55
-    AYUDA           shift and go to state 56
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
+    RPAREN          reduce using rule 78 (param_list -> param COMMA param_list .)
 
-    stmt_list                      shift and go to state 158
-    stmt                           shift and go to state 36
-    assign                         shift and go to state 37
-    print                          shift and go to state 38
-    conditional                    shift and go to state 39
-    loop                           shift and go to state 40
-    function_call                  shift and go to state 41
-    decl                           shift and go to state 42
-    built_in_function              shift and go to state 43
-    type                           shift and go to state 16
-    array_decl                     shift and go to state 17
 
 state 155
 
-    (56) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE . else_stmt
-    (57) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .
-    (65) else_stmt -> . ELSE LBRACE else_part stmt_list RBRACE
-    (66) else_stmt -> . empty
-    (82) empty -> .
+    (74) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE . stmt_list end_scopes RBRACE
+    (21) stmt_list -> . stmt SEMICOLON stmt_list
+    (22) stmt_list -> . stmt SEMICOLON
+    (23) stmt -> . assign
+    (24) stmt -> . print
+    (25) stmt -> . conditional
+    (26) stmt -> . loop
+    (27) stmt -> . function_call
+    (28) stmt -> . decl
+    (29) stmt -> . built_in_function
+    (39) assign -> . ID EQUALS expr
+    (40) assign -> . ID EQUALS function_call
+    (58) print -> . PRINT COLON ID
+    (59) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (71) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (77) function_call -> . ID LPAREN arg_list RPAREN
+    (15) decl -> . type ID
+    (16) decl -> . array_decl SEMICOLON
+    (30) built_in_function -> . TEACH_SUM LPAREN RPAREN
+    (31) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
+    (32) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
+    (33) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
+    (34) built_in_function -> . TEACH_IF LPAREN RPAREN
+    (35) built_in_function -> . TEACH_WHILE LPAREN RPAREN
+    (36) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
+    (37) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
+    (38) built_in_function -> . AYUDA LPAREN RPAREN
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+    (84) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
-  ! reduce/reduce conflict for SEMICOLON resolved using rule 57 (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .)
-    SEMICOLON       reduce using rule 57 (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .)
-    ELSE            shift and go to state 160
+    ID              shift and go to state 51
+    PRINT           shift and go to state 52
+    IF              shift and go to state 53
+    WHILE           shift and go to state 54
+    TEACH_SUM       shift and go to state 55
+    TEACH_SUBSTRACTION shift and go to state 56
+    TEACH_MULTIPLICATION shift and go to state 57
+    TEACH_DIVISION  shift and go to state 58
+    TEACH_IF        shift and go to state 59
+    TEACH_WHILE     shift and go to state 60
+    TEACH_FUNCTION_DECLARATION shift and go to state 61
+    TEACH_FUNCTION_CALL shift and go to state 62
+    AYUDA           shift and go to state 63
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
-  ! SEMICOLON       [ reduce using rule 82 (empty -> .) ]
-
-    else_stmt                      shift and go to state 159
-    empty                          shift and go to state 161
+    stmt_list                      shift and go to state 159
+    stmt                           shift and go to state 43
+    assign                         shift and go to state 44
+    print                          shift and go to state 45
+    conditional                    shift and go to state 46
+    loop                           shift and go to state 47
+    function_call                  shift and go to state 48
+    decl                           shift and go to state 49
+    built_in_function              shift and go to state 50
+    type                           shift and go to state 17
+    array_decl                     shift and go to state 18
 
 state 156
 
-    (68) loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .
+    (59) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list . RBRACE else_stmt
+    (60) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list . RBRACE
 
-    SEMICOLON       reduce using rule 68 (loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .)
+    RBRACE          shift and go to state 160
 
 
 state 157
 
-    (70) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list . return_stmt end_scopes RBRACE
-    (72) return_stmt -> . RETURN expr1 SEMICOLON
-    (73) return_stmt -> . empty
-    (82) empty -> .
+    (71) loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list . RBRACE
+
+    RBRACE          shift and go to state 161
+
+
+state 158
+
+    (73) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list . return_stmt end_scopes RBRACE
+    (75) return_stmt -> . RETURN expr1 SEMICOLON
+    (76) return_stmt -> . empty
+    (85) empty -> .
 
     RETURN          shift and go to state 163
-    RBRACE          reduce using rule 82 (empty -> .)
+    RBRACE          reduce using rule 85 (empty -> .)
 
     return_stmt                    shift and go to state 162
     empty                          shift and go to state 164
 
-state 158
+state 159
 
-    (71) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list . end_scopes RBRACE
-    (8) end_scopes -> .
+    (74) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list . end_scopes RBRACE
+    (11) end_scopes -> .
 
-    RBRACE          reduce using rule 8 (end_scopes -> .)
+    RBRACE          reduce using rule 11 (end_scopes -> .)
 
     end_scopes                     shift and go to state 165
 
-state 159
-
-    (56) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt .
-
-    SEMICOLON       reduce using rule 56 (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt .)
-
-
 state 160
 
-    (65) else_stmt -> ELSE . LBRACE else_part stmt_list RBRACE
+    (59) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE . else_stmt
+    (60) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .
+    (68) else_stmt -> . ELSE LBRACE else_part stmt_list RBRACE
+    (69) else_stmt -> . empty
+    (85) empty -> .
 
-    LBRACE          shift and go to state 166
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 60 (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .)
+    SEMICOLON       reduce using rule 60 (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .)
+    ELSE            shift and go to state 167
 
+  ! SEMICOLON       [ reduce using rule 85 (empty -> .) ]
+
+    else_stmt                      shift and go to state 166
+    empty                          shift and go to state 168
 
 state 161
 
-    (66) else_stmt -> empty .
+    (71) loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .
 
-    SEMICOLON       reduce using rule 66 (else_stmt -> empty .)
+    SEMICOLON       reduce using rule 71 (loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .)
 
 
 state 162
 
-    (70) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt . end_scopes RBRACE
-    (8) end_scopes -> .
+    (73) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt . end_scopes RBRACE
+    (11) end_scopes -> .
 
-    RBRACE          reduce using rule 8 (end_scopes -> .)
+    RBRACE          reduce using rule 11 (end_scopes -> .)
 
-    end_scopes                     shift and go to state 167
+    end_scopes                     shift and go to state 169
 
 state 163
 
-    (72) return_stmt -> RETURN . expr1 SEMICOLON
-    (38) expr1 -> . term1
-    (39) term1 -> . factor1
-    (40) factor1 -> . ID
+    (75) return_stmt -> RETURN . expr1 SEMICOLON
+    (41) expr1 -> . term1
+    (42) term1 -> . factor1
+    (43) factor1 -> . ID
 
-    ID              shift and go to state 92
+    ID              shift and go to state 97
 
-    expr1                          shift and go to state 168
-    term1                          shift and go to state 95
-    factor1                        shift and go to state 96
+    expr1                          shift and go to state 170
+    term1                          shift and go to state 100
+    factor1                        shift and go to state 101
 
 state 164
 
-    (73) return_stmt -> empty .
+    (76) return_stmt -> empty .
 
-    RBRACE          reduce using rule 73 (return_stmt -> empty .)
+    RBRACE          reduce using rule 76 (return_stmt -> empty .)
 
 
 state 165
 
-    (71) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes . RBRACE
-
-    RBRACE          shift and go to state 169
-
-
-state 166
-
-    (65) else_stmt -> ELSE LBRACE . else_part stmt_list RBRACE
-    (67) else_part -> .
-
-    ID              reduce using rule 67 (else_part -> .)
-    PRINT           reduce using rule 67 (else_part -> .)
-    IF              reduce using rule 67 (else_part -> .)
-    WHILE           reduce using rule 67 (else_part -> .)
-    TEACH_SUM       reduce using rule 67 (else_part -> .)
-    TEACH_SUBSTRACTION reduce using rule 67 (else_part -> .)
-    TEACH_MULTIPLICATION reduce using rule 67 (else_part -> .)
-    TEACH_DIVISION  reduce using rule 67 (else_part -> .)
-    TEACH_IF        reduce using rule 67 (else_part -> .)
-    TEACH_WHILE     reduce using rule 67 (else_part -> .)
-    TEACH_FUNCTION_DECLARATION reduce using rule 67 (else_part -> .)
-    TEACH_FUNCTION_CALL reduce using rule 67 (else_part -> .)
-    AYUDA           reduce using rule 67 (else_part -> .)
-    INT             reduce using rule 67 (else_part -> .)
-    FLOAT           reduce using rule 67 (else_part -> .)
-    STRING          reduce using rule 67 (else_part -> .)
-    BOOL            reduce using rule 67 (else_part -> .)
-
-    else_part                      shift and go to state 170
-
-state 167
-
-    (70) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes . RBRACE
+    (74) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes . RBRACE
 
     RBRACE          shift and go to state 171
 
 
+state 166
+
+    (59) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt .
+
+    SEMICOLON       reduce using rule 59 (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt .)
+
+
+state 167
+
+    (68) else_stmt -> ELSE . LBRACE else_part stmt_list RBRACE
+
+    LBRACE          shift and go to state 172
+
+
 state 168
 
-    (72) return_stmt -> RETURN expr1 . SEMICOLON
+    (69) else_stmt -> empty .
 
-    SEMICOLON       shift and go to state 172
+    SEMICOLON       reduce using rule 69 (else_stmt -> empty .)
 
 
 state 169
 
-    (71) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .
+    (73) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes . RBRACE
 
-    VOID            reduce using rule 71 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    INT             reduce using rule 71 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    FLOAT           reduce using rule 71 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    STRING          reduce using rule 71 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    BOOL            reduce using rule 71 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    MAIN            reduce using rule 71 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    RBRACE          shift and go to state 173
 
 
 state 170
 
-    (65) else_stmt -> ELSE LBRACE else_part . stmt_list RBRACE
-    (18) stmt_list -> . stmt SEMICOLON stmt_list
-    (19) stmt_list -> . stmt SEMICOLON
-    (20) stmt -> . assign
-    (21) stmt -> . print
-    (22) stmt -> . conditional
-    (23) stmt -> . loop
-    (24) stmt -> . function_call
-    (25) stmt -> . decl
-    (26) stmt -> . built_in_function
-    (36) assign -> . ID EQUALS expr
-    (37) assign -> . ID EQUALS function_call
-    (55) print -> . PRINT COLON ID
-    (56) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (57) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (68) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (74) function_call -> . ID LPAREN arg_list RPAREN
-    (12) decl -> . type ID
-    (13) decl -> . array_decl SEMICOLON
-    (27) built_in_function -> . TEACH_SUM LPAREN RPAREN
-    (28) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
-    (29) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
-    (30) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
-    (31) built_in_function -> . TEACH_IF LPAREN RPAREN
-    (32) built_in_function -> . TEACH_WHILE LPAREN RPAREN
-    (33) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
-    (34) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
-    (35) built_in_function -> . AYUDA LPAREN RPAREN
-    (14) type -> . INT
-    (15) type -> . FLOAT
-    (16) type -> . STRING
-    (17) type -> . BOOL
-    (81) array_decl -> . type ID LBRACKET CTEI RBRACKET
+    (75) return_stmt -> RETURN expr1 . SEMICOLON
 
-    ID              shift and go to state 44
-    PRINT           shift and go to state 45
-    IF              shift and go to state 46
-    WHILE           shift and go to state 47
-    TEACH_SUM       shift and go to state 48
-    TEACH_SUBSTRACTION shift and go to state 49
-    TEACH_MULTIPLICATION shift and go to state 50
-    TEACH_DIVISION  shift and go to state 51
-    TEACH_IF        shift and go to state 52
-    TEACH_WHILE     shift and go to state 53
-    TEACH_FUNCTION_DECLARATION shift and go to state 54
-    TEACH_FUNCTION_CALL shift and go to state 55
-    AYUDA           shift and go to state 56
-    INT             shift and go to state 18
-    FLOAT           shift and go to state 19
-    STRING          shift and go to state 20
-    BOOL            shift and go to state 21
+    SEMICOLON       shift and go to state 174
 
-    stmt_list                      shift and go to state 173
-    stmt                           shift and go to state 36
-    assign                         shift and go to state 37
-    print                          shift and go to state 38
-    conditional                    shift and go to state 39
-    loop                           shift and go to state 40
-    function_call                  shift and go to state 41
-    decl                           shift and go to state 42
-    built_in_function              shift and go to state 43
-    type                           shift and go to state 16
-    array_decl                     shift and go to state 17
 
 state 171
 
-    (70) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .
+    (74) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .
 
-    VOID            reduce using rule 70 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .)
-    INT             reduce using rule 70 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .)
-    FLOAT           reduce using rule 70 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .)
-    STRING          reduce using rule 70 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .)
-    BOOL            reduce using rule 70 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .)
-    MAIN            reduce using rule 70 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .)
+    VOID            reduce using rule 74 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    INT             reduce using rule 74 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    FLOAT           reduce using rule 74 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    STRING          reduce using rule 74 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    BOOL            reduce using rule 74 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    MAIN            reduce using rule 74 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
 
 
 state 172
 
-    (72) return_stmt -> RETURN expr1 SEMICOLON .
+    (68) else_stmt -> ELSE LBRACE . else_part stmt_list RBRACE
+    (70) else_part -> .
 
-    RBRACE          reduce using rule 72 (return_stmt -> RETURN expr1 SEMICOLON .)
+    ID              reduce using rule 70 (else_part -> .)
+    PRINT           reduce using rule 70 (else_part -> .)
+    IF              reduce using rule 70 (else_part -> .)
+    WHILE           reduce using rule 70 (else_part -> .)
+    TEACH_SUM       reduce using rule 70 (else_part -> .)
+    TEACH_SUBSTRACTION reduce using rule 70 (else_part -> .)
+    TEACH_MULTIPLICATION reduce using rule 70 (else_part -> .)
+    TEACH_DIVISION  reduce using rule 70 (else_part -> .)
+    TEACH_IF        reduce using rule 70 (else_part -> .)
+    TEACH_WHILE     reduce using rule 70 (else_part -> .)
+    TEACH_FUNCTION_DECLARATION reduce using rule 70 (else_part -> .)
+    TEACH_FUNCTION_CALL reduce using rule 70 (else_part -> .)
+    AYUDA           reduce using rule 70 (else_part -> .)
+    INT             reduce using rule 70 (else_part -> .)
+    FLOAT           reduce using rule 70 (else_part -> .)
+    STRING          reduce using rule 70 (else_part -> .)
+    BOOL            reduce using rule 70 (else_part -> .)
 
+    else_part                      shift and go to state 175
 
 state 173
 
-    (65) else_stmt -> ELSE LBRACE else_part stmt_list . RBRACE
+    (73) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .
 
-    RBRACE          shift and go to state 174
+    VOID            reduce using rule 73 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .)
+    INT             reduce using rule 73 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .)
+    FLOAT           reduce using rule 73 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .)
+    STRING          reduce using rule 73 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .)
+    BOOL            reduce using rule 73 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .)
+    MAIN            reduce using rule 73 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE .)
 
 
 state 174
 
-    (65) else_stmt -> ELSE LBRACE else_part stmt_list RBRACE .
+    (75) return_stmt -> RETURN expr1 SEMICOLON .
 
-    SEMICOLON       reduce using rule 65 (else_stmt -> ELSE LBRACE else_part stmt_list RBRACE .)
+    RBRACE          reduce using rule 75 (return_stmt -> RETURN expr1 SEMICOLON .)
+
+
+state 175
+
+    (68) else_stmt -> ELSE LBRACE else_part . stmt_list RBRACE
+    (21) stmt_list -> . stmt SEMICOLON stmt_list
+    (22) stmt_list -> . stmt SEMICOLON
+    (23) stmt -> . assign
+    (24) stmt -> . print
+    (25) stmt -> . conditional
+    (26) stmt -> . loop
+    (27) stmt -> . function_call
+    (28) stmt -> . decl
+    (29) stmt -> . built_in_function
+    (39) assign -> . ID EQUALS expr
+    (40) assign -> . ID EQUALS function_call
+    (58) print -> . PRINT COLON ID
+    (59) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (71) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (77) function_call -> . ID LPAREN arg_list RPAREN
+    (15) decl -> . type ID
+    (16) decl -> . array_decl SEMICOLON
+    (30) built_in_function -> . TEACH_SUM LPAREN RPAREN
+    (31) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
+    (32) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
+    (33) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
+    (34) built_in_function -> . TEACH_IF LPAREN RPAREN
+    (35) built_in_function -> . TEACH_WHILE LPAREN RPAREN
+    (36) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
+    (37) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
+    (38) built_in_function -> . AYUDA LPAREN RPAREN
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+    (84) array_decl -> . type ID LBRACKET CTEI RBRACKET
+
+    ID              shift and go to state 51
+    PRINT           shift and go to state 52
+    IF              shift and go to state 53
+    WHILE           shift and go to state 54
+    TEACH_SUM       shift and go to state 55
+    TEACH_SUBSTRACTION shift and go to state 56
+    TEACH_MULTIPLICATION shift and go to state 57
+    TEACH_DIVISION  shift and go to state 58
+    TEACH_IF        shift and go to state 59
+    TEACH_WHILE     shift and go to state 60
+    TEACH_FUNCTION_DECLARATION shift and go to state 61
+    TEACH_FUNCTION_CALL shift and go to state 62
+    AYUDA           shift and go to state 63
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
+
+    stmt_list                      shift and go to state 176
+    stmt                           shift and go to state 43
+    assign                         shift and go to state 44
+    print                          shift and go to state 45
+    conditional                    shift and go to state 46
+    loop                           shift and go to state 47
+    function_call                  shift and go to state 48
+    decl                           shift and go to state 49
+    built_in_function              shift and go to state 50
+    type                           shift and go to state 17
+    array_decl                     shift and go to state 18
+
+state 176
+
+    (68) else_stmt -> ELSE LBRACE else_part stmt_list . RBRACE
+
+    RBRACE          shift and go to state 177
+
+
+state 177
+
+    (68) else_stmt -> ELSE LBRACE else_part stmt_list RBRACE .
+
+    SEMICOLON       reduce using rule 68 (else_stmt -> ELSE LBRACE else_part stmt_list RBRACE .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: reduce/reduce conflict in state 23 resolved using rule (global_scope -> VARIABLES LBRACE decl_list RBRACE)
-WARNING: rejected rule (empty -> <empty>) in state 23
-WARNING: reduce/reduce conflict in state 24 resolved using rule (decl_list -> decl SEMICOLON)
-WARNING: rejected rule (empty -> <empty>) in state 24
-WARNING: reduce/reduce conflict in state 144 resolved using rule (expr -> expr comp_op term)
-WARNING: rejected rule (expr -> term) in state 144
-WARNING: reduce/reduce conflict in state 155 resolved using rule (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE)
-WARNING: rejected rule (empty -> <empty>) in state 155
+WARNING: reduce/reduce conflict in state 25 resolved using rule (global_scope -> VARIABLES LBRACE decl_list RBRACE)
+WARNING: rejected rule (empty -> <empty>) in state 25
+WARNING: reduce/reduce conflict in state 26 resolved using rule (decl_list -> decl SEMICOLON)
+WARNING: rejected rule (empty -> <empty>) in state 26
+WARNING: reduce/reduce conflict in state 151 resolved using rule (expr -> expr comp_op term)
+WARNING: rejected rule (expr -> term) in state 151
+WARNING: reduce/reduce conflict in state 160 resolved using rule (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE)
+WARNING: rejected rule (empty -> <empty>) in state 160

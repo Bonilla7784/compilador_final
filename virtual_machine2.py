@@ -326,7 +326,6 @@ def execute(obj_filename):
         'temp': 5000,
         'const': 6000
     })
-    
 
     temp_memory = TempMemory({
         'int': 12000,

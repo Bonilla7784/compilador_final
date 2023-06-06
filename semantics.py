@@ -450,9 +450,9 @@ def end_while():
     # Get the 'GotoF' quadruple index
     false_jump = jump_stack.pop()
     # Jump back to condition check
-    quadruples.append(('Goto', None, None, false_jump))
+    quadruples.append(('Goto', None, None, false_jump - 1))
     # Fill in jump destination in start_while
-    quadruples[false_jump] = quadruples[false_jump][:3] + (len(quadruples) + 1,)
+    quadruples[false_jump] = quadruples[false_jump][:3] + (len(quadruples),)
 
 def handle_function_declaration(func_name, param_list, local_vars_list, return_type):
     global dir_func
@@ -509,7 +509,7 @@ def handle_function_call(func_name, arg_list):
 
     # Generate GOSUB action
     quadruples.append(
-        ('GOSUB', func_name, None, dir_func[func_name]['start_quad']+1))
+        ('GOSUB', func_name, None, dir_func[func_name]['start_quad']))
 
     if dir_func[func_name]['return_type'] is not 'void':
         return_var_name = dir_func[func_name]['return_var']
