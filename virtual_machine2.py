@@ -1,3 +1,4 @@
+import pdb
 import json
 class Memory:
     def __init__(self, start_addresses):
@@ -45,6 +46,12 @@ class ExecutionStack:
          return self.stack[-1]
         else:
             return None
+        
+    def peek_second_from_top(self):
+        if len(self.stack) > 1:
+            return self.stack[-2]
+        else:
+            return None
 
 local_memory = LocalMemory({
     'int': 7000,
@@ -55,9 +62,10 @@ local_memory = LocalMemory({
 })
 
 class ExecutionContext:
-    def __init__(self, return_address, start_addresses):
+    def __init__(self, return_address, start_addresses, function_name=None):
         self.local_memory = LocalMemory(start_addresses)
         self.return_address = return_address
+        self.function_name = function_name
 
 
 def load_obj_file(filename):
@@ -80,9 +88,12 @@ def initialize_memory(dir_func, const_table, global_memory, const_memory):
         const_memory.set(const_attributes['memory_address'], const_value)
 
 def get_local_address_for_param(dir_func, param_number, current_function):
+    #print('IAAAAAM TRYING')
     function_info = dir_func[current_function]
+    # print(function_info)
     param_info = function_info['param_list'][param_number]
-    return param_info[2]  # Return the memory address of the parameter
+    # print(param_info)
+    return param_info['memory_address']  # Return the memory address of the parameter
 
 def teach_sum():
     print("La suma de dos números 'a' y 'b' se puede calcular con el operador '+': 'a + b'.")
@@ -142,6 +153,7 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
     while IP < len(quadruples):
         operation, operand1, operand2, result = quadruples[IP]
         #print(operation, operand1, operand2, result)
+           
         if operation == 'BUILTIN_FUNC':
             execute_built_in_function(operand1)
         if operation in ["+", "-", "*", "/"]:
@@ -166,7 +178,8 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
                 operand1_value = execution_stack.peek().local_memory.get(operand1)
             if operand2_value is None:
                 operand2_value = execution_stack.peek().local_memory.get(operand2)
-
+            print('DIRECCIONES: ', operand1, operation, operand2)
+            print('OPERATION', operand1_value, operation, operand2_value)
             if operation == "+":
                 temp_memory.set(result, operand1_value + operand2_value)
             elif operation == "-":
@@ -198,7 +211,8 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
                 operand1_value = execution_stack.peek().local_memory.get(operand1)
             if operand2_value is None:
                 operand2_value = execution_stack.peek().local_memory.get(operand2)
-
+            print('DIRECCIONES: ', operand1, operation, operand2)
+            print('OPERATION', operand1_value, operation, operand2_value)
             if operation == "==":
                 temp_memory.set(result, operand1_value == operand2_value)
             elif operation == "!=":
@@ -230,7 +244,8 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
                     value_to_assign = global_memory.get(operand1)
                     if value_to_assign is None:
                         value_to_assign = temp_memory.get(operand1)
-
+            print('DIRECCIONES ASIGNACIONES: ', operand1, operation, result)
+            print("Assigning", value_to_assign, "to", result)
             global_memory.set(result, value_to_assign)
 
         elif operation == "ASSIGN":
@@ -245,43 +260,67 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
                     if value_to_assign is None:
                         value_to_assign = temp_memory.get(operand1)
             # Assign return value to the return variable (result)
+            print("Assigning", value_to_assign, "to", result)
             temp_memory.set(result, value_to_assign)
 
         elif operation == "print":
-            print_value = global_memory.get(result)
-            print(print_value)
+            execution_context = execution_stack.peek()
+            print_value = execution_context.local_memory.get(result) if execution_context is not None else None
+
+            if print_value is None:
+                print_value = const_memory.get(result)
+                if print_value is None:
+                    print_value = global_memory.get(result)
+                    if print_value is None:
+                        print_value = temp_memory.get(result)
+    
+            if print_value is not None:
+                print(print_value)
+            else:
+                print("Error: Unable to find value for", result)
+
 
         elif operation == "ERA":
             # Save current context and create a new one for the function call
             return_address = IP
             start_addresses = {'int': 7000, 'float': 8000, 'bool': 9000, 'string': 10000, 'temp': 11000}
-            execution_stack.push(ExecutionContext(return_address, start_addresses))
+            execution_stack.push(ExecutionContext(return_address, start_addresses, operand1))
             current_function = operand1
 
         elif operation == "GOSUB":
             # Save the return address
             return_address = IP + 1 
-
             # Change the IP to the start of the function
             IP = result - 1
-
             # Set the return address in the current execution context
             execution_stack.peek().return_address = return_address
 
-
         elif operation == "PARAMETER":
             # Get value to pass as parameter
-            param_value = execution_stack.peek().local_memory.get(operand1)
+            #print(operand1)
+            # Try getting the value from the calling function's context
+            if execution_stack.peek_second_from_top() is not None:
+                param_value = execution_stack.peek_second_from_top().local_memory.get(operand1)
+            else:
+                # If there is no calling function context, get the value from the current context
+                param_value = execution_stack.peek().local_memory.get(operand1)
+            #print(param_value)
             if param_value is None:
+                param_value = execution_stack.peek().local_memory.get(operand1)
                 param_value = const_memory.get(operand1)
+                #print(param_value)
                 if param_value is None:
                     param_value = global_memory.get(operand1)
+                    #print(param_value)
                     if param_value is None:
                         param_value = temp_memory.get(operand1)
+                        #print(param_value)
+            #print('HEEEEELP', param_value)
             # Get the local address for the parameter in the current function
             param_local_address = get_local_address_for_param(dir_func, result, current_function)
             # Assign parameter value to the corresponding local memory address
             execution_stack.peek().local_memory.set(param_local_address, param_value)
+            #print('TROUBLEEEE', param_local_address, param_value)
 
         elif operation == "RETURN":
             # Try to get the operands from the local memory of the current execution context
@@ -295,6 +334,14 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
                         return_value = temp_memory.get(result)
             # Assign return value to the return variable (result)
             global_memory.set(result, return_value)
+            
+            if execution_stack.stack:
+                print("Entering ")
+                context = execution_stack.pop()
+                IP = context.return_address - 1
+                if len(execution_stack.stack) > 0:
+                    # If there are still functions on the stack, set current_function to the function on top of the stack
+                    current_function = execution_stack.peek().function_name
 
         elif operation == "ENDfunc":
             # Restore previous execution context
@@ -307,7 +354,7 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
             else:
                 # If the stack is empty, we're back in the global scope
                 current_function = "global"
-
+                
         elif operation == "End":
             break
 

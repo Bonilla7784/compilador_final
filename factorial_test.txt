@@ -6,11 +6,24 @@ Variables {
   bool z;
 }
 
+int fact(int a) {
+  int r;
+  if (a > 1) {
+    r = fact(a - 1) * a;
+    return r;
+  } else {
+    r = 1;
+    return r;
+  };
+}
+
 main() {
   x = 5;
-  t = 2;
-  string s;
-  z = x > t;
-  s = "Hola";
-  print: s;
+  t = 3;
+
+  int f;
+  f = fact(5) * 3;
+  print: f;
+
 }
+

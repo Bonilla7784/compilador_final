@@ -7,15 +7,20 @@ from obj_gen import generate_obj_file
 
 temp_variable_counter = 0
 main_start_index = None
+function_table = {}
 
 
-def create_scope(scope_name):
+def create_scope(scope_name, return_type=None):
     '''Create a new scope.'''
     global current_scope
     # Add scope to the stack
     current_scope.append(scope_name)
-    # Create a new symbol table for this scope in dir_func
-    dir_func[scope_name] = {'local_variables': {}, 'param_list': [], 'start_quad': len(quadruples), 'num_params': 0}
+    if return_type is not None:
+        # Create a new symbol table for this scope in dir_func
+        dir_func[scope_name] = {'local_variables': {}, 'param_list': [], 'start_quad': len(quadruples), 'num_params': 0, 'return_type': return_type, 'return_var': ''}
+    else:
+        # Create a new symbol table for this scope in dir_func
+        dir_func[scope_name] = {'local_variables': {}, 'param_list': [], 'start_quad': len(quadruples), 'num_params': 0}
 
 def end_scope():
     '''End the current scope.'''
@@ -24,7 +29,7 @@ def end_scope():
 
 def p_program(p):
     '''program : PROGRAM ID SEMICOLON placeholder_goto_main create_scopes global_scope main_function end_scopes fill_goto_main'''
-    print('Program')
+    #print('Program')
     p[0] = ('program', p[2], p[4], p[5], p[6], p[7])
 
 def p_placeholder_goto_main(p):
@@ -36,7 +41,7 @@ def p_placeholder_goto_main(p):
 def p_global_scope(p):
     '''global_scope : VARIABLES LBRACE decl_list RBRACE function_decl_list
                     | VARIABLES LBRACE decl_list RBRACE'''
-    print('In global')
+    #print('In global')
     if len(p) == 6:
         p[0] = ('global_scope', p[3], p[5])
     elif len(p) == 5:
@@ -45,7 +50,7 @@ def p_global_scope(p):
 def p_function_decl_list(p):
     '''function_decl_list : function_decl function_decl_list
                           | empty'''
-    print('In p_function_decl_list')
+    #print('In p_function_decl_list')
     if len(p) == 3:
         p[0] = [p[1]] + p[2]
     else:
@@ -53,7 +58,7 @@ def p_function_decl_list(p):
 
 def p_main_function(p):
     '''main_function : MAIN LPAREN RPAREN LBRACE start_main stmt_list RBRACE'''
-    print('in main')
+    #print('in main')
     p[0] = ('main', p[6])
 
 def p_start_main(p):
@@ -90,8 +95,8 @@ def p_decl_list(p):
 
 def p_decl(p):
     '''decl : type ID
-            | array_decl SEMICOLON'''
-    add_to_current_scope(p[2], p[1])
+            | array_decl'''
+    add_to_current_scope(p[2], p[1], should_declare=True)
     p[0] = ('decl', p[1], p[2])
 
 def p_type(p):
@@ -99,13 +104,13 @@ def p_type(p):
             | FLOAT
             | STRING
             | BOOL'''
-    print('In type')
+    #print('In type')
     p[0] = p[1]
 
 def p_stmt_list(p):
     '''stmt_list : stmt SEMICOLON stmt_list
                  | stmt SEMICOLON'''
-    print('In stmt_list')
+    #print('In stmt_list')
     if len(p) == 4:
         p[0] = [p[1]] + p[3]
     else:
@@ -119,8 +124,9 @@ def p_stmt(p):
             | loop
             | function_call
             | decl
-            | built_in_function'''
-    print('In stmt')
+            | built_in_function
+            | return_stmt'''
+    #print('In stmt')
     p[0] = p[1]
 
 def p_built_in_function(p):
@@ -133,7 +139,7 @@ def p_built_in_function(p):
                          | TEACH_FUNCTION_DECLARATION LPAREN RPAREN
                          | TEACH_FUNCTION_CALL LPAREN RPAREN
                          | AYUDA LPAREN RPAREN'''
-    print('In built_in_function')
+    #print('In built_in_function')
     p[0] = ('built_in_function', p[1])
     generate_built_in_function_call(p[1])  # Generate a quadruple for the built-in function call
 
@@ -143,9 +149,8 @@ def generate_built_in_function_call(function_name):
 
 
 def p_assign(p):
-    '''assign : ID EQUALS expr
-              | ID EQUALS function_call'''
-    print('assign', p[1])
+    '''assign : ID EQUALS expr'''
+    #print('assign', p[1])
     id_type = get_variable_type(p[1])
     if id_type is None:
         raise Exception("Variable " + p[1] + " not declared")
@@ -156,23 +161,12 @@ def p_assign(p):
     else:
         raise Exception("Type mismatch in assignment")
 
-def p_expr1(p):
-    '''expr1 : term1'''
-    p[0] = p[1]
-
-def p_term1(p):
-    '''term1 : factor1'''
-    p[0] = p[1]
-
-def p_factor1(p):
-    '''factor1 : ID'''
-    p[0] = p[1]
-
 def p_expr(p):
     '''expr : expr PLUS term
             | expr MINUS term
             | expr comp_op term
             | term'''
+    #print(f"expr invoked with {p.slice}")
     if len(p) == 4:
         right_type = types_stack.pop()
         left_type = types_stack.pop()
@@ -186,16 +180,21 @@ def p_expr(p):
             operands_stack.append(temp_address)
             types_stack.append(result_type)
             p[0] = temp_address  
+            #print(f"Returning {p[0]} from expr")
         else:
             raise Exception("Type mismatch in expression")
     else:
         p[0] = p[1]
+        #print(f"Returning {p[0]} from expr")
+
 
 
 def p_term(p):
     '''term : term MULTIPLY factor
             | term DIVIDE factor
-            | factor'''
+            | factor
+            | function_call'''
+    #print("Term:", len(p), p[1])
     if len(p) == 4:
         right_type = types_stack.pop()
         left_type = types_stack.pop()
@@ -209,6 +208,7 @@ def p_term(p):
                                right_operand, temp_address)
             operands_stack.append(temp_address)
             types_stack.append(result_type)
+            p[0] = temp_address 
         else:
             raise Exception("Type mismatch in term")
     else:
@@ -222,7 +222,9 @@ def p_factor(p):
               | STRING_LITERAL
               | TRUE
               | FALSE
-              | ID'''
+              | ID
+              | function_call'''
+    #print("factor:", len(p), p[1])
     if len(p) == 4:
         p[0] = p[2]
     else:
@@ -230,35 +232,38 @@ def p_factor(p):
             declare_constant(p[1], 'bool')
             operands_stack.append(get_memory_address(p[1]))
             types_stack.append('bool')
+            p[0] = p[1]  # Assign memory address to p[0]
         elif isinstance(p[1], int):
             declare_constant(p[1], 'int')
             operands_stack.append(get_memory_address(p[1]))
             types_stack.append('int')
+            p[0] = p[1]  # Assign memory address to p[0]
         elif isinstance(p[1], float):
             declare_constant(p[1], 'float')
             operands_stack.append(get_memory_address(p[1]))
             types_stack.append('float')
+            p[0] = p[1]  # Assign memory address to p[0]
         elif isinstance(p[1], str):
             # Check if the string is a variable identifier
             var_type = get_variable_type(p[1])
             if var_type is not None:  # The string is a variable identifier
+                #print(get_memory_address(p[1]))
                 operands_stack.append(get_memory_address(p[1]))
                 types_stack.append(var_type)
+                p[0] = p[1]  # Assign memory address to p[0]
             else:  # The string is a string literal
                 declare_constant(p[1], 'string')
                 operands_stack.append(get_memory_address(p[1]))
                 types_stack.append('string')
+                p[0] = p[1]  # Assign memory address to p[0]
         else:
             raise Exception("Variable " + p[1] + " not declared")
-    #print(f'Operand Stack: {operands_stack}')
-    #print(f'Type Stack: {types_stack}')
+
 
 
 def p_print(p):
-    '''print : PRINT COLON ID'''
-    id_type = get_variable_type(p[3])
-    if id_type is None:
-        raise Exception("Variable " + p[3] + " not declared")
+    '''print : PRINT COLON expr'''
+    print('print', p[3])
     generate_quadruple('print', None, None, p[3])
 
 
@@ -278,6 +283,7 @@ def p_comp_expr(p):
     right_type = types_stack.pop()
     left_type = types_stack.pop()
     operator = operators_stack.pop()
+    #print(quadruples)
     if semantic_cube[operator][left_type][right_type] is not None:
         result_type = semantic_cube[operator][left_type][right_type]
         right_operand = operands_stack.pop()
@@ -331,38 +337,45 @@ def p_loop(p):
 def p_create_function_scope(p):
     '''create_function_scope : '''
     func_name = p[-2]  # function name
+    #print('TYPEEEEEEEEEEEEEEEEEEEEEEEEEEEEE', p[-3])
     if func_name in dir_func:
         raise Exception(f"Function {func_name} already declared.")
-    create_scope(func_name)  # creates a new scope using the function name as the scope name
+    create_scope(func_name, p[-3])  # creates a new scope using the function name as the scope name
 
 def p_function_decl(p):
-    '''function_decl : type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list return_stmt end_scopes RBRACE
+    '''function_decl : type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
                      | VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE'''
-    
+
     global current_function
     current_function = p[2]  # Start the function's local scope
+    #print("IN FUNCTION DECLARATIOOOOOON")
 
     if p[1] == 'void':  # void function
-        p[0] = ('function_decl', 'void', current_function, p[5], p[8])
-        handle_function_declaration(current_function, p[5], p[8], 'void')  
+        p[0] = ('function_decl', 'void', current_function, p[5], p[7])
+        handle_function_declaration(current_function, p[5], p[7], 'void')  
     else:  # non-void function
-        p[0] = ('function_decl', p[1], current_function, p[5], p[8], p[8])
-        handle_function_declaration(current_function, p[5], p[8], p[1])  
-    
-    # Call handle_function_return with current_function as argument
-    handle_function_return(p[9][1], current_function) if p[1] != 'void' else None
-    
+        p[0] = ('function_decl', p[1], current_function, p[5], p[7], p[7])
+        handle_function_declaration(current_function, p[5], p[7], p[1])  
+
     quadruples.append(('ENDfunc', None, None, None))
+
 
     
 def p_return_stmt(p):
-    '''return_stmt : RETURN expr1 SEMICOLON
+    '''return_stmt : RETURN expr
                    | empty'''  # empty in case of void function
-    if len(p) == 4:
+    #print('IIIIIIIIINNNNNN RETUUUUUUUUUURN')
+    #print(len(p), p[0])
+    if len(p) == 3:
         p[0] = ('return_stmt', p[2])
         global current_function
-        current_function = p[-7]  # Start the function's local scope
-        dir_func[current_function]['return_var'] = p[2]
+        current_function = current_scope[-1]  # Use the last scope added as the current function
+        #print(current_function)
+        if p[2] not in dir_func[current_function]['local_variables']:
+            raise Exception(f"Return variable {p[2]} not found in function {current_function}.")
+        handle_function_return(p[2], current_function)
+        
+
 
 
 def p_function_call(p):
@@ -371,6 +384,14 @@ def p_function_call(p):
     arg_list = p[3]
     p[0] = ('function_call', function_name, arg_list)
     handle_function_call(function_name, arg_list)
+
+def p_arg_list(p):
+    '''arg_list : arg_list COMMA expr
+                | expr'''
+    if len(p) == 4:
+        p[0] = p[1] + [p[3]]
+    else:
+        p[0] = [p[1]]
 
 
 def p_param_list(p):
@@ -386,30 +407,49 @@ def p_param_list(p):
 def p_param(p):
     '''param : type ID'''
     p[0] = ('param', p[1], p[2])
-    add_to_current_scope(p[2], p[1])
+    #print("DECLARING A PARAAAAAAAAM")
+    # add_to_current_scope(p[2], p[1], should_declare=True)
+    declare_param_variable(p[2], p[1])
 
-def add_to_current_scope(var_name, var_type, is_temp=False):
+def add_to_current_scope(var_name, var_type, is_temp=False, should_declare=False):
     '''Add a variable to the current scope.'''
     global current_scope
-    print(var_name, var_type)
-    declare_variable(var_name, var_type)
-    print(dir_func)
-
-def p_arg_list_single(p):
-    '''arg_list : expr1'''
-    p[0] = [p[1]]
-
-def p_arg_list_multiple(p):
-    '''arg_list : expr1 COMMA arg_list'''
-    p[0] = [p[1]] + p[3]
+    #print(var_name, var_type)
+    if should_declare:
+        declare_variable(var_name, var_type)
+    #print(dir_func)
 
 # Array declaration
 def p_array_decl(p):
     '''array_decl : type ID LBRACKET CTEI RBRACKET'''
-    print('In array_decl')
+    #print('In array_decl')
     dimensions = [(0, p[4] - 1)]  # Assuming zero-based array
     declare_array(p[2], p[1], dimensions)  # Store array in symbol table
     p[0] = ('array_decl', p[2], dimensions, p[1])
+
+def p_array_init(p):
+    '''array_init : array_decl EQUALS LBRACE CTE_list RBRACE SEMICOLON'''
+    # p[1] refers to array declaration
+    # p[4] refers to a list of values
+    validate_array_initialization(p[1], p[4])
+    handle_array_initialization(p[1], p[4])  # Assuming this function generates required quadruples for initialization
+    p[0] = ('array_init', p[1], p[4])
+
+def p_CTE_list(p):
+    '''CTE_list : CTE_list COMMA CTEI
+                | CTEI'''
+    if len(p) == 4:
+        p[0] = p[1] + [p[3]]  # if list is already started
+    else:
+        p[0] = [p[1]]  # if this is the first element of the list
+
+def p_array_access(p):
+    '''array_access : ID LBRACKET expr RBRACKET'''
+    # p[1] is the array ID
+    # p[3] is the index expression
+    validate_array_access(p[1], p[3])
+    handle_array_access(p[1], p[3])  # Assuming this function generates required quadruples for access
+    p[0] = ('array_access', p[1], p[3])
 
 
 # # Array initialization
