@@ -388,7 +388,7 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
     return global_memory.memory
 
 def execute(obj_filename):
-    dir_func, const_table, quadruples = load_obj_file('factorial_test.txt.obj')
+    dir_func, const_table, quadruples = load_obj_file('input.txt.obj')
 
     global_memory = GlobalMemory({
         'int': 1000,

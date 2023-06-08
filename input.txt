@@ -1,0 +1,22 @@
+Program example;
+
+Variables {
+  int x;
+  int t;
+  int arr[5];
+}
+
+
+main() {
+  x = 5;
+  t = 1;
+  int r;
+  arr = {5, 3, 6, 7, 8};
+
+  while (t < 6) {
+    r = arr[t] * 2;
+    print: r;
+    t = t + 1;
+  };
+
+}
