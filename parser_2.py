@@ -96,8 +96,11 @@ def p_decl_list(p):
 def p_decl(p):
     '''decl : type ID
             | array_decl'''
-    add_to_current_scope(p[2], p[1], should_declare=True)
-    p[0] = ('decl', p[1], p[2])
+    if len(p) == 3:
+        add_to_current_scope(p[2], p[1], should_declare=True)
+        p[0] = ('decl', p[1], p[2])
+    else:
+        p[0] = p[1]
 
 def p_type(p):
     '''type : INT
@@ -119,6 +122,7 @@ def p_stmt_list(p):
 
 def p_stmt(p):
     '''stmt : assign
+            | array_assign
             | print
             | conditional
             | loop
@@ -193,7 +197,8 @@ def p_term(p):
     '''term : term MULTIPLY factor
             | term DIVIDE factor
             | factor
-            | function_call'''
+            | function_call
+            | array_access'''
     #print("Term:", len(p), p[1])
     if len(p) == 4:
         right_type = types_stack.pop()
@@ -225,6 +230,7 @@ def p_factor(p):
               | ID
               | function_call'''
     #print("factor:", len(p), p[1])
+    print("factor:", len(p))
     if len(p) == 4:
         p[0] = p[2]
     else:
@@ -422,34 +428,46 @@ def add_to_current_scope(var_name, var_type, is_temp=False, should_declare=False
 # Array declaration
 def p_array_decl(p):
     '''array_decl : type ID LBRACKET CTEI RBRACKET'''
-    #print('In array_decl')
-    dimensions = [(0, p[4] - 1)]  # Assuming zero-based array
-    declare_array(p[2], p[1], dimensions)  # Store array in symbol table
-    p[0] = ('array_decl', p[2], dimensions, p[1])
+    print('In array_decl', p[4])
+    # dimensions = [(0, p[4] - 1)]  # Assuming zero-based array
+    declare_array(p[2], p[1], p[4])  # Store array in symbol table
+    p[0] = ('array_decl', p[2], p[4], p[1])
 
-def p_array_init(p):
-    '''array_init : array_decl EQUALS LBRACE CTE_list RBRACE SEMICOLON'''
-    # p[1] refers to array declaration
+# Array assignment after declaration
+def p_array_assign(p):
+    '''array_assign : ID EQUALS LBRACE CTEI_list RBRACE '''
+    # p[1] refers to array ID
     # p[4] refers to a list of values
-    validate_array_initialization(p[1], p[4])
-    handle_array_initialization(p[1], p[4])  # Assuming this function generates required quadruples for initialization
-    p[0] = ('array_init', p[1], p[4])
 
-def p_CTE_list(p):
-    '''CTE_list : CTE_list COMMA CTEI
-                | CTEI'''
-    if len(p) == 4:
-        p[0] = p[1] + [p[3]]  # if list is already started
-    else:
-        p[0] = [p[1]]  # if this is the first element of the list
+    array_size = dir_func[current_scope[-1]]['local_variables'][p[1]]['size']
+    array_type = dir_func[current_scope[-1]]['local_variables'][p[1]]['type']
+
+    array_decl = ('array_decl', p[1], array_size, array_type)
+
+    # validate_array_initialization(array_decl, p[4])
+    handle_array_initialization(array_decl, p[4])  # Assuming this function generates required quadruples for initialization
+
+    p[0] = ('array_assign', array_decl, p[4])
+
+
+
+def p_CTEI_list(p):
+    '''CTEI_list : CTEI
+                | CTEI_list COMMA CTEI'''
+    if len(p) == 2:  # Single constant
+        p[0] = [p[1]]
+    else:  # Constant list
+        p[0] = p[1] + [p[3]]
+
 
 def p_array_access(p):
     '''array_access : ID LBRACKET expr RBRACKET'''
     # p[1] is the array ID
     # p[3] is the index expression
-    validate_array_access(p[1], p[3])
-    handle_array_access(p[1], p[3])  # Assuming this function generates required quadruples for access
-    p[0] = ('array_access', p[1], p[3])
+    print('Array access', p[1], p[3])
+    # validate_array_access(p[1], p[3])
+    p[0] = handle_array_access(p[1], p[3])  # Assuming this function generates required quadruples for access and returns the final address
+
 
 
 # # Array initialization
@@ -486,17 +504,6 @@ def p_error(p):
             f"Syntax error at '{p.value}', line {p.lineno}, position {p.lexpos}")
     else:
         print("Syntax error at EOF")
-
-def add_goto_main_quadruple():
-    if not any(op == 'ENDfunc'for op, _, _, _ in quadruples):
-        return
-    for i in range(len(quadruples) - 1, -1, -1):
-        operation, operand1, operand2, result = quadruples[i]
-        if operation == 'ENDfunc':
-            main_start_index = i + 1
-            break
-
-    quadruples.insert(0, ('Goto', None, None, main_start_index + 1))
 
 
 yacc.yacc()

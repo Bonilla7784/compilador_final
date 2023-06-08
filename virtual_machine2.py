@@ -93,7 +93,7 @@ def get_local_address_for_param(dir_func, param_number, current_function):
     # print(function_info)
     param_info = function_info['param_list'][param_number]
     # print(param_info)
-    return param_info['memory_address']  # Return the memory address of the parameter
+    return param_info['memory_address']
 
 def teach_sum():
     print("La suma de dos números 'a' y 'b' se puede calcular con el operador '+': 'a + b'.")
@@ -178,8 +178,8 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
                 operand1_value = execution_stack.peek().local_memory.get(operand1)
             if operand2_value is None:
                 operand2_value = execution_stack.peek().local_memory.get(operand2)
-            print('DIRECCIONES: ', operand1, operation, operand2)
-            print('OPERATION', operand1_value, operation, operand2_value)
+            #print('DIRECCIONES: ', operand1, operation, operand2)
+            #print('OPERATION', operand1_value, operation, operand2_value)
             if operation == "+":
                 temp_memory.set(result, operand1_value + operand2_value)
             elif operation == "-":
@@ -211,8 +211,8 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
                 operand1_value = execution_stack.peek().local_memory.get(operand1)
             if operand2_value is None:
                 operand2_value = execution_stack.peek().local_memory.get(operand2)
-            print('DIRECCIONES: ', operand1, operation, operand2)
-            print('OPERATION', operand1_value, operation, operand2_value)
+            #print('DIRECCIONES: ', operand1, operation, operand2)
+            #print('OPERATION', operand1_value, operation, operand2_value)
             if operation == "==":
                 temp_memory.set(result, operand1_value == operand2_value)
             elif operation == "!=":
@@ -233,7 +233,8 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
                 IP = result - 1
 
         elif operation == "Goto":
-            IP = result - 1 
+            IP = result - 1
+
         elif operation == "=":
             execution_context = execution_stack.peek()
             value_to_assign = execution_context.local_memory.get(operand1) if execution_context is not None else None
@@ -244,9 +245,33 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
                     value_to_assign = global_memory.get(operand1)
                     if value_to_assign is None:
                         value_to_assign = temp_memory.get(operand1)
-            print('DIRECCIONES ASIGNACIONES: ', operand1, operation, result)
-            print("Assigning", value_to_assign, "to", result)
+            #print('DIRECCIONES ASIGNACIONES: ', operand1, operation, result)
+            #print("Assigning", value_to_assign, "to", result)
             global_memory.set(result, value_to_assign)
+
+        elif operation == "DEREF":
+            execution_context = execution_stack.peek()
+
+            # Fetch the index to dereference
+            index_to_dereference = execution_context.local_memory.get(operand1) if execution_context is not None else None
+
+            if index_to_dereference is None:
+                index_to_dereference = const_memory.get(operand1)
+                if index_to_dereference is None:
+                    index_to_dereference = global_memory.get(operand1)
+                    if index_to_dereference is None:
+                        index_to_dereference = temp_memory.get(operand1)
+            
+            #print('1.- Dereferencing address:', 'Operand', operand1, 'Address to refer', index_to_dereference)   
+            # Compute the actual address by adding the base address of the array
+            actual_address = dir_func[current_function]['local_variables']['arr']['virtual_address'] + index_to_dereference
+
+            # Get the value at the actual address
+            value_at_address = global_memory.get(actual_address)
+
+            # Store the dereferenced value in the result
+            temp_memory.set(result, value_at_address)
+
 
         elif operation == "ASSIGN":
             # Get the return value (stored in temporary memory during the RETURN operation)
@@ -260,7 +285,7 @@ def execute_quadruples(quadruples, dir_func, const_table, global_memory, temp_me
                     if value_to_assign is None:
                         value_to_assign = temp_memory.get(operand1)
             # Assign return value to the return variable (result)
-            print("Assigning", value_to_assign, "to", result)
+            #print("Assigning", value_to_assign, "to", result)
             temp_memory.set(result, value_to_assign)
 
         elif operation == "print":

@@ -610,111 +610,185 @@ def get_expression_type(expression):
 
     
     
-def declare_array(id, type, dimensions):
-    dir_func[current_scope[-1]]['local_variables'][id] = {'type': type, 'isArray': True}
+def declare_array(id, type, size):
+    global dir_func
+    global current_scope
+    global global_memory
+    
+    if isinstance(size, list):  # if the size is a list, probably it's an array size
+        size = size[0]
 
-    LiDIM, LSDIM = dimensions[0]
-    R = LSDIM - LiDIM + 1
+    if not isinstance(size, int):
+        raise TypeError("Size must be an integer")
+    
+    # Create the array variable in the current function scope
+    dir_func[current_scope[-1]]['local_variables'][id] = {
+        'type': type,
+        'isArray': True,
+        'virtual_address': global_memory[type],  # The base virtual address of the array
+        'size': size
+    }
+    print(dir_func)
 
-    dimension_node = {'LiDIM': LiDIM, 'LSDIM': LSDIM, 'DIM': 1, 'mDIM': 0}
+    # Update the global memory index
+    global_memory[type] += size
 
-    mDIM = R
-    dimension_node['mDIM'] = mDIM
-    K = LiDIM * mDIM
 
-    dimension_node['K'] = -K
-
-    dir_func[current_scope[-1]]['local_variables'][id]['virtual_address'] = global_memory[type]
-    global_memory[type] += R
-
-    dir_func[current_scope[-1]]['local_variables'][id]['dimensions'] = [dimension_node]
-
-    #print(dir_func)
-
-# def array_access(id, index_expr):
-#     if not isinstance(index_expr, int):
-#         raise Exception("Array index must be an integer")
-
-#     var_info = check_variable_declared(id)
-#     if var_info is None:
-#         raise Exception(f"Variable {id} is not declared")
-#     if not var_info['isArray']:
-#         raise Exception(f"Variable {id} is not an array")
-
-#     dimensions = var_info['dimensions']
-#     if index_expr < dimensions[0]['LiDIM'] or index_expr > dimensions[0]['LSDIM']:
-#         raise Exception(f"Array {id} index out of range")
-
-#     memory_address = var_info['memory_address'] + index_expr
-#     return memory_address  # return the memory address of the array element
-
-# def array_assign(id, index_expr, value):
-#     memory_address = array_access(id, index_expr)
-
-#     # assignment operation
-#     memory[memory_address] = value
 
 def handle_array_access(array_id, index_expression):
     array_info = dir_func[current_scope[-1]]['local_variables'][array_id]
 
-    # Generate quadruples for the index_expression
+    # Check if the index_expression is a temporary memory address
+    if index_expression in temp_variables:
+        indx_address = temp_variables[index_expression]['memory_address']
+    else:
+        # The address of index_expression is the evaluated result of index_expression
+        indx_address = index_expression
+    
+    # Declare index_expression constant
+    declare_constant(index_expression, 'int')
+    indx_address = get_memory_address(index_expression)
     temp1, address1 = create_temp_variable('int')  # Assuming index_expression is of 'int' type
-    quadruples.append(('=', index_expression, None, address1))
+    quadruples.append(('=', indx_address, None, address1))
+    print(('=', indx_address, None, address1))
 
-    # Generate quadruples for the mDIM
-    mDIM = array_info['dimensions'][0]['mDIM']
-    temp2, address2 = create_temp_variable('int')  # Assuming mDIM is of 'int' type
-    quadruples.append(('=', mDIM, None, address2))
+    # Generate quadruple for the verification
+    lower_limit = array_info['dimensions'][0]['LiDIM']
+    upper_limit = array_info['dimensions'][0]['LSDIM']
+    declare_constant(lower_limit, 'int')
+    lowLim_address = get_memory_address(lower_limit)
+    declare_constant(upper_limit, 'int')
+    uppLim_address = get_memory_address(upper_limit)
+    quadruples.append(('VER', address1, lowLim_address, uppLim_address))
 
-    # Multiply index_expression and mDIM
-    temp3, address3 = create_temp_variable('int')  # Assuming the multiplication result is of 'int' type
-    quadruples.append(('*', address1, address2, address3))
-
-    # Generate quadruples for the K
+    # Generate quadruple for the K addition
     K = array_info['dimensions'][0]['K']
-    temp4, address4 = create_temp_variable('int')  # Assuming K is of 'int' type
-    quadruples.append(('=', K, None, address4))
+    declare_constant(K, 'int')
+    K_address = get_memory_address(K)
+    temp2, address2 = create_temp_variable('int')  # Assuming K is of 'int' type
+    quadruples.append(('+', address1, K_address, address2))
 
-    # Add the result of the multiplication and K
-    temp5, address5 = create_temp_variable('int')  # Assuming the addition result is of 'int' type
-    quadruples.append(('+', address3, address4, address5))
+    # # Generate quadruple for adding base virtual address
+    # base_address = array_info['virtual_address']
+    # temp3, address3 = create_temp_variable('int')  # Assuming the address result is of 'int' type
+    # quadruples.append(('+', base_address, address2, address3))
 
-    # Add the result to the base virtual address
-    base_address = array_info['virtual_address']
-    temp6, address6 = create_temp_variable('int')  # Assuming the address result is of 'int' type
-    quadruples.append(('+', base_address, address5, address6))
+    # Now, we need to dereference the address stored in address3
+    # First, create a new temp variable to store the dereferenced value
+    temp4, address4 = create_temp_variable(array_info['type'])  # the type should match the array's type
 
-    # Push the address to PilaO
-    PilaO.append((temp6, address6))
+    # Generate a quadruple that fetches the value at the address stored in address3
+    quadruples.append(('DEREF', address2, None, address4)) 
+
+    # Push the dereferenced address to the operands_stack and types_stack
+    operands_stack.append(address4)
+    types_stack.append(array_info['type'])
 
 
 def validate_array_initialization(array_declaration, initialization_list):
+    print(f"Array declaration: {array_declaration}")  # Debugging line
     array_id = array_declaration[1]
-    array_size = array_declaration[2][0][1] + 1
-    if len(initialization_list) != array_size:
+    array_size = array_declaration[2][0]['LSDIM'] + 1  # Extract LSDIM from the first dictionary in the list
+    print(array_size)
+    if len(initialization_list) - 1 != array_size:
         raise SyntaxError(f"Array '{array_id}' declared of size {array_size}, but initialized with {len(initialization_list)} values.")
+    print("BYE")
+
 
 def validate_array_access(array_id, index):
+    declare_constant(index, 'int')
+    indx_address = get_memory_address(index)
+
     array_size = dir_func[current_scope[-1]]['local_variables'][array_id]['dimensions'][0]['LSDIM'] + 1
-    if not 0 <= index < array_size:
+    if not 0 <= indx_address < array_size:
         raise SyntaxError(f"Index {index} out of bounds for array '{array_id}' of size {array_size}.")
 
 def handle_array_initialization(array_declaration, initialization_list):
+    global current_scope
+    global dir_func
+    global const_table
     array_id = array_declaration[1]  # Extract array id from the declaration
     array_type = array_declaration[3]
 
     array_info = dir_func[current_scope[-1]]['local_variables'][array_id]
 
     # Verify if the initialization list length matches the array size
-    if len(initialization_list) != (array_info['dimensions'][0]['LSDIM'] - array_info['dimensions'][0]['LiDIM'] + 1):
+    if len(initialization_list) != (array_info['size']):
         raise ValueError(f"Initialization size mismatch for array '{array_id}'.")
+
+    LiDIM = 1
+    last_value = len(initialization_list)
+    LSDIM = last_value
+    R = LSDIM - LiDIM + 1  # The range of the array
+    print(R)
+    mDIM = array_info['size'] / R
+    print('Geeettting KKK',LiDIM, mDIM, -LiDIM * mDIM)
+    K = -LiDIM * mDIM
+
+    # Create the dimension node with the appropriate information
+    print(array_info)
+    dimension_node = {
+        'LiDIM': LiDIM,
+        'LSDIM': LSDIM,
+        'DIM': 1,
+        'mDIM': mDIM,
+        'K': K
+    }
+
+    # Save the dimension node to the array information in the current function scope
+    dir_func[current_scope[-1]]['local_variables'][array_id]['dimensions'] = [dimension_node]
 
     # Generate quadruples for each initialization value
     for i, value in enumerate(initialization_list):
-        temp, address = create_temp_variable(array_type)
-        # Assign the value to a temporary variable
-        quadruples.append(('=', value, None, address))
+        # Declare the constant and get its memory address
+        declare_constant(value, array_type)
+        address = get_memory_address(value)
+
         # Calculate the address for the current array element
         element_address = array_info['virtual_address'] + i
+
         # Generate the assignment quadruple
         quadruples.append(('=', address, None, element_address))
+
+
+def handle_function_call_output(function_call_tuple):
+    global dir_func
+    
+    # Retrieve function name and arguments from the tuple
+    function_name, arg_list = function_call_tuple[1], function_call_tuple[2]
+    
+    # Compute the result's memory address (here, it's assumed that the result
+    # of the function call is stored in a temporary variable whose name is 
+    # the function name followed by the string '_result')
+    print(dir_func)
+    result_address = get_memory_address(function_name + '_result')
+    
+    # Push result's memory address to the operand stack
+    operands_stack.append(result_address)
+    
+    # Push result's type to the type stack (here, it's assumed that the type
+    # of the function call's result can be retrieved with get_function_result_type)
+    types_stack.append(dir_func[function_name]['return_type'])
+    
+    return result_address
+
+
+def handle_array_access_output(array_access_tuple):
+    global dir_func
+    
+    # Retrieve array name and index expression from the tuple
+    array_name, index_expr = array_access_tuple[1], array_access_tuple[2]
+    
+    # Compute the result's memory address (here, it's assumed that the result
+    # of the array access is stored in a temporary variable whose name is 
+    # the array name followed by the string '_access_result')
+    result_address = get_memory_address(array_name + '_access_result')
+    
+    # Push result's memory address to the operand stack
+    operands_stack.append(result_address)
+    
+    # Push result's type to the type stack (here, it's assumed that the type
+    # of the array access's result can be retrieved with get_array_type)
+    types_stack.append(dir_func[array_name]['type'])
+    
+    return result_address

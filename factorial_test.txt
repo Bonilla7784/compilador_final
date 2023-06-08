@@ -3,27 +3,20 @@ Program example;
 Variables {
   int x;
   int t;
-  bool z;
+  int arr[5];
 }
 
-int fact(int a) {
-  int r;
-  if (a > 1) {
-    r = fact(a - 1) * a;
-    return r;
-  } else {
-    r = 1;
-    return r;
-  };
-}
 
 main() {
   x = 5;
-  t = 3;
+  t = 1;
+  int r;
+  arr = {5, 3, 6, 7, 8};
 
-  int f;
-  f = fact(5) * 3;
-  print: f;
+  while (t < 6) {
+    r = arr[t] * 2;
+    print: r;
+    t = t + 1;
+  };
 
 }
-
