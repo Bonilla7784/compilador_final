@@ -29,7 +29,6 @@ def end_scope():
 
 def p_program(p):
     '''program : PROGRAM ID SEMICOLON placeholder_goto_main create_scopes global_scope main_function end_scopes fill_goto_main'''
-    #print('Program')
     p[0] = ('program', p[2], p[4], p[5], p[6], p[7])
 
 def p_placeholder_goto_main(p):
@@ -58,7 +57,6 @@ def p_function_decl_list(p):
 
 def p_main_function(p):
     '''main_function : MAIN LPAREN RPAREN LBRACE start_main stmt_list RBRACE'''
-    #print('in main')
     p[0] = ('main', p[6])
 
 def p_start_main(p):
@@ -70,7 +68,7 @@ def p_start_main(p):
 
 def p_fill_goto_main(p):
     '''fill_goto_main : '''
-    # Now that we know the starting index of the main function, we can replace the placeholder GOTO MAIN quadruple.
+    # Replace the placeholder GOTO MAIN quadruple.
     quadruples[0] = ('Goto', None, None, main_start_index)
 
 
@@ -130,7 +128,6 @@ def p_stmt(p):
             | decl
             | built_in_function
             | return_stmt'''
-    #print('In stmt')
     p[0] = p[1]
 
 def p_built_in_function(p):
@@ -143,7 +140,6 @@ def p_built_in_function(p):
                          | TEACH_FUNCTION_DECLARATION LPAREN RPAREN
                          | TEACH_FUNCTION_CALL LPAREN RPAREN
                          | AYUDA LPAREN RPAREN'''
-    #print('In built_in_function')
     p[0] = ('built_in_function', p[1])
     generate_built_in_function_call(p[1])  # Generate a quadruple for the built-in function call
 
@@ -170,7 +166,6 @@ def p_expr(p):
             | expr MINUS term
             | expr comp_op term
             | term'''
-    #print(f"expr invoked with {p.slice}")
     if len(p) == 4:
         right_type = types_stack.pop()
         left_type = types_stack.pop()
@@ -184,12 +179,10 @@ def p_expr(p):
             operands_stack.append(temp_address)
             types_stack.append(result_type)
             p[0] = temp_address  
-            #print(f"Returning {p[0]} from expr")
         else:
             raise Exception("Type mismatch in expression")
     else:
         p[0] = p[1]
-        #print(f"Returning {p[0]} from expr")
 
 
 
@@ -199,7 +192,6 @@ def p_term(p):
             | factor
             | function_call
             | array_access'''
-    #print("Term:", len(p), p[1])
     if len(p) == 4:
         right_type = types_stack.pop()
         left_type = types_stack.pop()
@@ -229,8 +221,6 @@ def p_factor(p):
               | FALSE
               | ID
               | function_call'''
-    #print("factor:", len(p), p[1])
-    print("factor:", len(p))
     if len(p) == 4:
         p[0] = p[2]
     else:
@@ -253,7 +243,6 @@ def p_factor(p):
             # Check if the string is a variable identifier
             var_type = get_variable_type(p[1])
             if var_type is not None:  # The string is a variable identifier
-                #print(get_memory_address(p[1]))
                 operands_stack.append(get_memory_address(p[1]))
                 types_stack.append(var_type)
                 p[0] = p[1]  # Assign memory address to p[0]
@@ -268,8 +257,8 @@ def p_factor(p):
 
 
 def p_print(p):
-    '''print : PRINT COLON expr'''
-    print('print', p[3])
+    '''print : PRINT COLON expr
+             | PRINT COLON expr COMMA expr'''
     generate_quadruple('print', None, None, p[3])
 
 
@@ -289,7 +278,6 @@ def p_comp_expr(p):
     right_type = types_stack.pop()
     left_type = types_stack.pop()
     operator = operators_stack.pop()
-    #print(quadruples)
     if semantic_cube[operator][left_type][right_type] is not None:
         result_type = semantic_cube[operator][left_type][right_type]
         right_operand = operands_stack.pop()
@@ -329,7 +317,6 @@ def p_else_stmt(p):
 
 def p_else_part(p):
     '''else_part : '''
-    # This function is called right before parsing the 'stmt_list' of the 'else' part
     else_part()
 
 
@@ -337,26 +324,23 @@ def p_loop(p):
     '''loop : WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE'''
     start_while()  # Start while before evaluating the condition expression
     p[3] = ('while', p[3], p[6])
-    end_while()  # You need to call this at the end of the loop
+    end_while()
     p[0] = p[3]
 
 def p_create_function_scope(p):
     '''create_function_scope : '''
     func_name = p[-2]  # function name
-    #print('TYPEEEEEEEEEEEEEEEEEEEEEEEEEEEEE', p[-3])
     if func_name in dir_func:
         raise Exception(f"Function {func_name} already declared.")
     create_scope(func_name, p[-3])  # creates a new scope using the function name as the scope name
 
 def p_function_decl(p):
     '''function_decl : type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-                     | VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE'''
+                     | VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE'''
 
     global current_function
     current_function = p[2]  # Start the function's local scope
-    #print("IN FUNCTION DECLARATIOOOOOON")
-
-    if p[1] == 'void':  # void function
+    if p[1] == 'void':
         p[0] = ('function_decl', 'void', current_function, p[5], p[7])
         handle_function_declaration(current_function, p[5], p[7], 'void')  
     else:  # non-void function
@@ -366,12 +350,40 @@ def p_function_decl(p):
     quadruples.append(('ENDfunc', None, None, None))
 
 
-    
+def p_stmt_list_without_return(p):
+    '''stmt_list_without_return : stmt_without_return SEMICOLON stmt_list_without_return
+                 | stmt_without_return SEMICOLON'''
+    #print('In stmt_list')
+    if len(p) == 4:
+        p[0] = [p[1]] + p[3]
+    else:
+        p[0] = [p[1]]
+
+
+def p_stmt_without_return(p):
+    '''stmt_without_return : assign
+            | array_assign
+            | print
+            | conditional_without_return
+            | loop
+            | function_call
+            | decl
+            | built_in_function'''
+    #print('In stmt')
+    p[0] = p[1]    
+
+def p_conditional_without_return(p):
+    '''conditional_without_return : IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE else_stmt
+                   | IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE'''
+    if len(p) == 9:
+        p[0] = ('if', p[3], p[6], p[8])
+        end_else()  # Here, we make sure that end_else() is called after both the 'if' and 'else' parts are parsed
+    else:
+        p[0] = ('if', p[3], p[6])
+        end_if()  # If there's no 'else' part, we can simply call end_if() here
+
 def p_return_stmt(p):
-    '''return_stmt : RETURN expr
-                   | empty'''  # empty in case of void function
-    #print('IIIIIIIIINNNNNN RETUUUUUUUUUURN')
-    #print(len(p), p[0])
+    '''return_stmt : RETURN expr'''
     if len(p) == 3:
         p[0] = ('return_stmt', p[2])
         global current_function
@@ -380,9 +392,6 @@ def p_return_stmt(p):
         if p[2] not in dir_func[current_function]['local_variables']:
             raise Exception(f"Return variable {p[2]} not found in function {current_function}.")
         handle_function_return(p[2], current_function)
-        
-
-
 
 def p_function_call(p):
     '''function_call : ID LPAREN arg_list RPAREN'''
@@ -413,7 +422,6 @@ def p_param_list(p):
 def p_param(p):
     '''param : type ID'''
     p[0] = ('param', p[1], p[2])
-    #print("DECLARING A PARAAAAAAAAM")
     # add_to_current_scope(p[2], p[1], should_declare=True)
     declare_param_variable(p[2], p[1])
 
@@ -428,7 +436,7 @@ def add_to_current_scope(var_name, var_type, is_temp=False, should_declare=False
 # Array declaration
 def p_array_decl(p):
     '''array_decl : type ID LBRACKET CTEI RBRACKET'''
-    print('In array_decl', p[4])
+    #print('In array_decl', p[4])
     # dimensions = [(0, p[4] - 1)]  # Assuming zero-based array
     declare_array(p[2], p[1], p[4])  # Store array in symbol table
     p[0] = ('array_decl', p[2], p[4], p[1])
@@ -445,11 +453,9 @@ def p_array_assign(p):
     array_decl = ('array_decl', p[1], array_size, array_type)
 
     # validate_array_initialization(array_decl, p[4])
-    handle_array_initialization(array_decl, p[4])  # Assuming this function generates required quadruples for initialization
+    handle_array_initialization(array_decl, p[4])
 
     p[0] = ('array_assign', array_decl, p[4])
-
-
 
 def p_CTEI_list(p):
     '''CTEI_list : CTEI
@@ -464,34 +470,9 @@ def p_array_access(p):
     '''array_access : ID LBRACKET expr RBRACKET'''
     # p[1] is the array ID
     # p[3] is the index expression
-    print('Array access', p[1], p[3])
+    #print('Array access', p[1], p[3])
     # validate_array_access(p[1], p[3])
     p[0] = handle_array_access(p[1], p[3])  # Assuming this function generates required quadruples for access and returns the final address
-
-
-
-# # Array initialization
-# def p_array_init(p):
-#     '''array_init : array_decl EQUALS LBRACE num_list RBRACE SEMICOLON'''
-#     print('In array_init')
-#     initialize_array(p[1], p[4])  # Initialize array in symbol table
-#     p[0] = ('array_init', p[1], p[4])
-
-# # Number list for array initialization
-# def p_num_list(p):
-#     '''num_list : CTEI
-#                 | CTEI COMMA num_list'''
-#     print('In num_list')
-#     if len(p) == 4:
-#         p[0] = p[1] + [p[3]]
-#     else:
-#         p[0] = [p[1]]
-
-# # Array access
-# def p_array_access(p):
-#     '''array_access : ID LBRACKET CTEI RBRACKET'''
-#     print('In array_access')
-#     p[0] = ('array_access', p[1], p[3])
 
 def p_empty(p):
     '''empty :'''
@@ -520,9 +501,9 @@ def parse(filename):
                         # END program
                         quadruples.append(('End', None, None, None))
                         #add_goto_main_quadruple()  # Call the function here
-                        print(result)  # Imprimir el resultado
+                        #print(result)  # Imprimir el resultado
                         print_quadruples()  # Imprimir los quadruples
-                        print(dir_func)
+                        #print(dir_func)
                         generate_obj_file(file + '.obj', dir_func, const_table, quadruples)
                     elif result:
                         print(result)

@@ -62,74 +62,86 @@ Rule 56    factor -> FALSE
 Rule 57    factor -> ID
 Rule 58    factor -> function_call
 Rule 59    print -> PRINT COLON expr
-Rule 60    conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-Rule 61    conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-Rule 62    comp_expr -> expr comp_op expr
-Rule 63    comp_op -> LESS_THAN
-Rule 64    comp_op -> GREATER_THAN
-Rule 65    comp_op -> LESS_EQUAL
-Rule 66    comp_op -> GREATER_EQUAL
-Rule 67    comp_op -> EQUAL_EQUAL
-Rule 68    comp_op -> NOT_EQUAL
-Rule 69    else_stmt -> ELSE LBRACE else_part stmt_list RBRACE
-Rule 70    else_stmt -> empty
-Rule 71    else_part -> <empty>
-Rule 72    loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-Rule 73    create_function_scope -> <empty>
-Rule 74    function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-Rule 75    function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-Rule 76    return_stmt -> RETURN expr
-Rule 77    return_stmt -> empty
-Rule 78    function_call -> ID LPAREN arg_list RPAREN
-Rule 79    arg_list -> arg_list COMMA expr
-Rule 80    arg_list -> expr
-Rule 81    param_list -> param COMMA param_list
-Rule 82    param_list -> param
-Rule 83    param_list -> empty
-Rule 84    param -> type ID
-Rule 85    array_decl -> type ID LBRACKET CTEI RBRACKET
-Rule 86    array_assign -> ID EQUALS LBRACE CTEI_list RBRACE
-Rule 87    CTEI_list -> CTEI
-Rule 88    CTEI_list -> CTEI_list COMMA CTEI
-Rule 89    array_access -> ID LBRACKET expr RBRACKET
-Rule 90    empty -> <empty>
+Rule 60    print -> PRINT COLON expr COMMA expr
+Rule 61    conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+Rule 62    conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+Rule 63    comp_expr -> expr comp_op expr
+Rule 64    comp_op -> LESS_THAN
+Rule 65    comp_op -> GREATER_THAN
+Rule 66    comp_op -> LESS_EQUAL
+Rule 67    comp_op -> GREATER_EQUAL
+Rule 68    comp_op -> EQUAL_EQUAL
+Rule 69    comp_op -> NOT_EQUAL
+Rule 70    else_stmt -> ELSE LBRACE else_part stmt_list RBRACE
+Rule 71    else_stmt -> empty
+Rule 72    else_part -> <empty>
+Rule 73    loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+Rule 74    create_function_scope -> <empty>
+Rule 75    function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+Rule 76    function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE
+Rule 77    stmt_list_without_return -> stmt_without_return SEMICOLON stmt_list_without_return
+Rule 78    stmt_list_without_return -> stmt_without_return SEMICOLON
+Rule 79    stmt_without_return -> assign
+Rule 80    stmt_without_return -> array_assign
+Rule 81    stmt_without_return -> print
+Rule 82    stmt_without_return -> conditional_without_return
+Rule 83    stmt_without_return -> loop
+Rule 84    stmt_without_return -> function_call
+Rule 85    stmt_without_return -> decl
+Rule 86    stmt_without_return -> built_in_function
+Rule 87    conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE else_stmt
+Rule 88    conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE
+Rule 89    return_stmt -> RETURN expr
+Rule 90    function_call -> ID LPAREN arg_list RPAREN
+Rule 91    arg_list -> arg_list COMMA expr
+Rule 92    arg_list -> expr
+Rule 93    param_list -> param COMMA param_list
+Rule 94    param_list -> param
+Rule 95    param_list -> empty
+Rule 96    param -> type ID
+Rule 97    array_decl -> type ID LBRACKET CTEI RBRACKET
+Rule 98    array_assign -> ID EQUALS LBRACE CTEI_list RBRACE
+Rule 99    CTEI_list -> CTEI
+Rule 100   CTEI_list -> CTEI_list COMMA CTEI
+Rule 101   array_access -> ID LBRACKET expr RBRACKET
+Rule 102   empty -> <empty>
 
 Terminals, with rules where they appear
 
 AYUDA                : 40
 BOOL                 : 20
-COLON                : 59
-COMMA                : 79 81 88
-CTEI                 : 52 85 87 88
+COLON                : 59 60
+COMMA                : 60 91 93 100
+CTEI                 : 52 97 99 100
 DIVIDE               : 47
-ELSE                 : 69
-EQUALS               : 41 86
-EQUAL_EQUAL          : 67
+ELSE                 : 70
+EQUALS               : 41 98
+EQUAL_EQUAL          : 68
 FALSE                : 56
 FLOAT                : 18
 FLOAT_NUMBER         : 53
-GREATER_EQUAL        : 66
-GREATER_THAN         : 64
-ID                   : 1 15 41 57 74 75 78 84 85 86 89
-IF                   : 60 61
+GREATER_EQUAL        : 67
+GREATER_THAN         : 65
+ID                   : 1 15 41 57 75 76 90 96 97 98 101
+IF                   : 61 62 87 88
 INT                  : 17
-LBRACE               : 3 4 7 60 61 69 72 74 75 86
-LBRACKET             : 85 89
-LESS_EQUAL           : 65
-LESS_THAN            : 63
-LPAREN               : 7 32 33 34 35 36 37 38 39 40 51 60 61 72 74 75 78
+LBRACE               : 3 4 7 61 62 70 73 75 76 87 88 98
+LBRACKET             : 97 101
+LESS_EQUAL           : 66
+LESS_THAN            : 64
+LPAREN               : 7 32 33 34 35 36 37 38 39 40 51 61 62 73 75 76 87 88 90
 MAIN                 : 7
 MINUS                : 43
 MULTIPLY             : 46
-NOT_EQUAL            : 68
+NOT_EQUAL            : 69
 PLUS                 : 42
-PRINT                : 59
+PRINT                : 59 60
 PROGRAM              : 1
-RBRACE               : 3 4 7 60 61 69 72 74 75 86
-RBRACKET             : 85 89
-RETURN               : 76
-RPAREN               : 7 32 33 34 35 36 37 38 39 40 51 60 61 72 74 75 78
-SEMICOLON            : 1 12 13 21 22
+RBRACE               : 3 4 7 61 62 70 73 75 76 87 88 98
+RBRACKET             : 97 101
+RETURN               : 89
+RPAREN               : 7 32 33 34 35 36 37 38 39 40 51 61 62 73 75 76 87 88 90
+SEMICOLON            : 1 12 13 21 22 77 78
 STRING               : 19
 STRING_LITERAL       : 54
 TEACH_DIVISION       : 35
@@ -142,50 +154,53 @@ TEACH_SUM            : 32
 TEACH_WHILE          : 37
 TRUE                 : 55
 VARIABLES            : 3 4
-VOID                 : 75
-WHILE                : 72
+VOID                 : 76
+WHILE                : 73
 error                : 
 
 Nonterminals, with rules where they appear
 
-CTEI_list            : 86 88
-arg_list             : 78 79
+CTEI_list            : 98 100
+arg_list             : 90 91
 array_access         : 50
-array_assign         : 24
+array_assign         : 24 80
 array_decl           : 16
-assign               : 23
-built_in_function    : 30
-comp_expr            : 60 61 72
-comp_op              : 44 62
+assign               : 23 79
+built_in_function    : 30 86
+comp_expr            : 61 62 73 87 88
+comp_op              : 44 63
 conditional          : 26
-create_function_scope : 74 75
+conditional_without_return : 82
+create_function_scope : 75 76
 create_scopes        : 1
-decl                 : 12 13 29
+decl                 : 12 13 29 85
 decl_list            : 3 4 12
-else_part            : 69
-else_stmt            : 60
-empty                : 6 14 70 77 83
-end_scopes           : 1 74 75
-expr                 : 41 42 43 44 51 59 62 62 76 79 80 89
+else_part            : 70
+else_stmt            : 61 87
+empty                : 6 14 71 95
+end_scopes           : 1 75 76
+expr                 : 41 42 43 44 51 59 60 60 63 63 89 91 92 101
 factor               : 46 47 48
 fill_goto_main       : 1
-function_call        : 28 49 58
+function_call        : 28 49 58 84
 function_decl        : 5
 function_decl_list   : 3 5
 global_scope         : 1
-loop                 : 27
+loop                 : 27 83
 main_function        : 1
-param                : 81 82
-param_list           : 74 75 81
+param                : 93 94
+param_list           : 75 76 93
 placeholder_goto_main : 1
-print                : 25
+print                : 25 81
 program              : 0
 return_stmt          : 31
 start_main           : 7
 stmt                 : 21 22
-stmt_list            : 7 21 60 61 69 72 74 75
+stmt_list            : 7 21 61 62 70 73 75
+stmt_list_without_return : 76 77 87 88
+stmt_without_return  : 77 78
 term                 : 42 43 44 45 46 47
-type                 : 15 74 84 85
+type                 : 15 75 96 97
 
 Parsing method: LALR
 
@@ -288,14 +303,14 @@ state 11
     (14) decl_list -> . empty
     (15) decl -> . type ID
     (16) decl -> . array_decl
-    (90) empty -> .
+    (102) empty -> .
     (17) type -> . INT
     (18) type -> . FLOAT
     (19) type -> . STRING
     (20) type -> . BOOL
-    (85) array_decl -> . type ID LBRACKET CTEI RBRACKET
+    (97) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
-    RBRACE          reduce using rule 90 (empty -> .)
+    RBRACE          reduce using rule 102 (empty -> .)
     INT             shift and go to state 19
     FLOAT           shift and go to state 20
     STRING          shift and go to state 21
@@ -349,7 +364,7 @@ state 16
 state 17
 
     (15) decl -> type . ID
-    (85) array_decl -> type . ID LBRACKET CTEI RBRACKET
+    (97) array_decl -> type . ID LBRACKET CTEI RBRACKET
 
     ID              shift and go to state 27
 
@@ -409,9 +424,9 @@ state 25
     (4) global_scope -> VARIABLES LBRACE decl_list RBRACE .
     (5) function_decl_list -> . function_decl function_decl_list
     (6) function_decl_list -> . empty
-    (74) function_decl -> . type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-    (75) function_decl -> . VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-    (90) empty -> .
+    (75) function_decl -> . type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (76) function_decl -> . VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE
+    (102) empty -> .
     (17) type -> . INT
     (18) type -> . FLOAT
     (19) type -> . STRING
@@ -425,7 +440,7 @@ state 25
     STRING          shift and go to state 21
     BOOL            shift and go to state 22
 
-  ! MAIN            [ reduce using rule 90 (empty -> .) ]
+  ! MAIN            [ reduce using rule 102 (empty -> .) ]
 
     function_decl_list             shift and go to state 29
     function_decl                  shift and go to state 30
@@ -441,12 +456,12 @@ state 26
     (14) decl_list -> . empty
     (15) decl -> . type ID
     (16) decl -> . array_decl
-    (90) empty -> .
+    (102) empty -> .
     (17) type -> . INT
     (18) type -> . FLOAT
     (19) type -> . STRING
     (20) type -> . BOOL
-    (85) array_decl -> . type ID LBRACKET CTEI RBRACKET
+    (97) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
   ! reduce/reduce conflict for RBRACE resolved using rule 13 (decl_list -> decl SEMICOLON .)
     RBRACE          reduce using rule 13 (decl_list -> decl SEMICOLON .)
@@ -455,7 +470,7 @@ state 26
     STRING          shift and go to state 21
     BOOL            shift and go to state 22
 
-  ! RBRACE          [ reduce using rule 90 (empty -> .) ]
+  ! RBRACE          [ reduce using rule 102 (empty -> .) ]
 
     decl                           shift and go to state 15
     decl_list                      shift and go to state 34
@@ -466,7 +481,7 @@ state 26
 state 27
 
     (15) decl -> type ID .
-    (85) array_decl -> type ID . LBRACKET CTEI RBRACKET
+    (97) array_decl -> type ID . LBRACKET CTEI RBRACKET
 
     SEMICOLON       reduce using rule 15 (decl -> type ID .)
     LBRACKET        shift and go to state 35
@@ -495,7 +510,6 @@ state 28
     FLOAT           reduce using rule 8 (start_main -> .)
     STRING          reduce using rule 8 (start_main -> .)
     BOOL            reduce using rule 8 (start_main -> .)
-    SEMICOLON       reduce using rule 8 (start_main -> .)
 
     start_main                     shift and go to state 36
 
@@ -511,16 +525,16 @@ state 30
     (5) function_decl_list -> function_decl . function_decl_list
     (5) function_decl_list -> . function_decl function_decl_list
     (6) function_decl_list -> . empty
-    (74) function_decl -> . type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-    (75) function_decl -> . VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-    (90) empty -> .
+    (75) function_decl -> . type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (76) function_decl -> . VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE
+    (102) empty -> .
     (17) type -> . INT
     (18) type -> . FLOAT
     (19) type -> . STRING
     (20) type -> . BOOL
 
     VOID            shift and go to state 33
-    MAIN            reduce using rule 90 (empty -> .)
+    MAIN            reduce using rule 102 (empty -> .)
     INT             shift and go to state 19
     FLOAT           shift and go to state 20
     STRING          shift and go to state 21
@@ -540,14 +554,14 @@ state 31
 
 state 32
 
-    (74) function_decl -> type . ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (75) function_decl -> type . ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
 
     ID              shift and go to state 38
 
 
 state 33
 
-    (75) function_decl -> VOID . ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (76) function_decl -> VOID . ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE
 
     ID              shift and go to state 39
 
@@ -561,7 +575,7 @@ state 34
 
 state 35
 
-    (85) array_decl -> type ID LBRACKET . CTEI RBRACKET
+    (97) array_decl -> type ID LBRACKET . CTEI RBRACKET
 
     CTEI            shift and go to state 40
 
@@ -581,12 +595,13 @@ state 36
     (30) stmt -> . built_in_function
     (31) stmt -> . return_stmt
     (41) assign -> . ID EQUALS expr
-    (86) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
+    (98) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
     (59) print -> . PRINT COLON expr
-    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (72) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (78) function_call -> . ID LPAREN arg_list RPAREN
+    (60) print -> . PRINT COLON expr COMMA expr
+    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (62) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (73) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (90) function_call -> . ID LPAREN arg_list RPAREN
     (15) decl -> . type ID
     (16) decl -> . array_decl
     (32) built_in_function -> . TEACH_SUM LPAREN RPAREN
@@ -598,14 +613,12 @@ state 36
     (38) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
     (39) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
     (40) built_in_function -> . AYUDA LPAREN RPAREN
-    (76) return_stmt -> . RETURN expr
-    (77) return_stmt -> . empty
+    (89) return_stmt -> . RETURN expr
     (17) type -> . INT
     (18) type -> . FLOAT
     (19) type -> . STRING
     (20) type -> . BOOL
-    (85) array_decl -> . type ID LBRACKET CTEI RBRACKET
-    (90) empty -> .
+    (97) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
     ID              shift and go to state 52
     PRINT           shift and go to state 53
@@ -625,7 +638,6 @@ state 36
     FLOAT           shift and go to state 20
     STRING          shift and go to state 21
     BOOL            shift and go to state 22
-    SEMICOLON       reduce using rule 90 (empty -> .)
 
     stmt_list                      shift and go to state 41
     stmt                           shift and go to state 42
@@ -640,7 +652,6 @@ state 36
     return_stmt                    shift and go to state 51
     type                           shift and go to state 17
     array_decl                     shift and go to state 18
-    empty                          shift and go to state 66
 
 state 37
 
@@ -651,30 +662,30 @@ state 37
 
 state 38
 
-    (74) function_decl -> type ID . LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (75) function_decl -> type ID . LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
 
-    LPAREN          shift and go to state 67
+    LPAREN          shift and go to state 66
 
 
 state 39
 
-    (75) function_decl -> VOID ID . LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (76) function_decl -> VOID ID . LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE
 
-    LPAREN          shift and go to state 68
+    LPAREN          shift and go to state 67
 
 
 state 40
 
-    (85) array_decl -> type ID LBRACKET CTEI . RBRACKET
+    (97) array_decl -> type ID LBRACKET CTEI . RBRACKET
 
-    RBRACKET        shift and go to state 69
+    RBRACKET        shift and go to state 68
 
 
 state 41
 
     (7) main_function -> MAIN LPAREN RPAREN LBRACE start_main stmt_list . RBRACE
 
-    RBRACE          shift and go to state 70
+    RBRACE          shift and go to state 69
 
 
 state 42
@@ -682,7 +693,7 @@ state 42
     (21) stmt_list -> stmt . SEMICOLON stmt_list
     (22) stmt_list -> stmt . SEMICOLON
 
-    SEMICOLON       shift and go to state 71
+    SEMICOLON       shift and go to state 70
 
 
 state 43
@@ -751,101 +762,102 @@ state 51
 state 52
 
     (41) assign -> ID . EQUALS expr
-    (86) array_assign -> ID . EQUALS LBRACE CTEI_list RBRACE
-    (78) function_call -> ID . LPAREN arg_list RPAREN
+    (98) array_assign -> ID . EQUALS LBRACE CTEI_list RBRACE
+    (90) function_call -> ID . LPAREN arg_list RPAREN
 
-    EQUALS          shift and go to state 72
-    LPAREN          shift and go to state 73
+    EQUALS          shift and go to state 71
+    LPAREN          shift and go to state 72
 
 
 state 53
 
     (59) print -> PRINT . COLON expr
+    (60) print -> PRINT . COLON expr COMMA expr
 
-    COLON           shift and go to state 74
+    COLON           shift and go to state 73
 
 
 state 54
 
-    (60) conditional -> IF . LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (61) conditional -> IF . LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (61) conditional -> IF . LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (62) conditional -> IF . LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
 
-    LPAREN          shift and go to state 75
+    LPAREN          shift and go to state 74
 
 
 state 55
 
-    (72) loop -> WHILE . LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (73) loop -> WHILE . LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
 
-    LPAREN          shift and go to state 76
+    LPAREN          shift and go to state 75
 
 
 state 56
 
     (32) built_in_function -> TEACH_SUM . LPAREN RPAREN
 
-    LPAREN          shift and go to state 77
+    LPAREN          shift and go to state 76
 
 
 state 57
 
     (33) built_in_function -> TEACH_SUBSTRACTION . LPAREN RPAREN
 
-    LPAREN          shift and go to state 78
+    LPAREN          shift and go to state 77
 
 
 state 58
 
     (34) built_in_function -> TEACH_MULTIPLICATION . LPAREN RPAREN
 
-    LPAREN          shift and go to state 79
+    LPAREN          shift and go to state 78
 
 
 state 59
 
     (35) built_in_function -> TEACH_DIVISION . LPAREN RPAREN
 
-    LPAREN          shift and go to state 80
+    LPAREN          shift and go to state 79
 
 
 state 60
 
     (36) built_in_function -> TEACH_IF . LPAREN RPAREN
 
-    LPAREN          shift and go to state 81
+    LPAREN          shift and go to state 80
 
 
 state 61
 
     (37) built_in_function -> TEACH_WHILE . LPAREN RPAREN
 
-    LPAREN          shift and go to state 82
+    LPAREN          shift and go to state 81
 
 
 state 62
 
     (38) built_in_function -> TEACH_FUNCTION_DECLARATION . LPAREN RPAREN
 
-    LPAREN          shift and go to state 83
+    LPAREN          shift and go to state 82
 
 
 state 63
 
     (39) built_in_function -> TEACH_FUNCTION_CALL . LPAREN RPAREN
 
-    LPAREN          shift and go to state 84
+    LPAREN          shift and go to state 83
 
 
 state 64
 
     (40) built_in_function -> AYUDA . LPAREN RPAREN
 
-    LPAREN          shift and go to state 85
+    LPAREN          shift and go to state 84
 
 
 state 65
 
-    (76) return_stmt -> RETURN . expr
+    (89) return_stmt -> RETURN . expr
     (42) expr -> . expr PLUS term
     (43) expr -> . expr MINUS term
     (44) expr -> . expr comp_op term
@@ -863,71 +875,64 @@ state 65
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
 
-    expr                           shift and go to state 86
-    term                           shift and go to state 87
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
+    expr                           shift and go to state 85
+    term                           shift and go to state 86
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
 
 state 66
 
-    (77) return_stmt -> empty .
+    (75) function_decl -> type ID LPAREN . create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (74) create_function_scope -> .
 
-    SEMICOLON       reduce using rule 77 (return_stmt -> empty .)
+    INT             reduce using rule 74 (create_function_scope -> .)
+    FLOAT           reduce using rule 74 (create_function_scope -> .)
+    STRING          reduce using rule 74 (create_function_scope -> .)
+    BOOL            reduce using rule 74 (create_function_scope -> .)
+    RPAREN          reduce using rule 74 (create_function_scope -> .)
 
+    create_function_scope          shift and go to state 97
 
 state 67
 
-    (74) function_decl -> type ID LPAREN . create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-    (73) create_function_scope -> .
+    (76) function_decl -> VOID ID LPAREN . create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE
+    (74) create_function_scope -> .
 
-    INT             reduce using rule 73 (create_function_scope -> .)
-    FLOAT           reduce using rule 73 (create_function_scope -> .)
-    STRING          reduce using rule 73 (create_function_scope -> .)
-    BOOL            reduce using rule 73 (create_function_scope -> .)
-    RPAREN          reduce using rule 73 (create_function_scope -> .)
+    INT             reduce using rule 74 (create_function_scope -> .)
+    FLOAT           reduce using rule 74 (create_function_scope -> .)
+    STRING          reduce using rule 74 (create_function_scope -> .)
+    BOOL            reduce using rule 74 (create_function_scope -> .)
+    RPAREN          reduce using rule 74 (create_function_scope -> .)
 
     create_function_scope          shift and go to state 98
 
 state 68
 
-    (75) function_decl -> VOID ID LPAREN . create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-    (73) create_function_scope -> .
+    (97) array_decl -> type ID LBRACKET CTEI RBRACKET .
 
-    INT             reduce using rule 73 (create_function_scope -> .)
-    FLOAT           reduce using rule 73 (create_function_scope -> .)
-    STRING          reduce using rule 73 (create_function_scope -> .)
-    BOOL            reduce using rule 73 (create_function_scope -> .)
-    RPAREN          reduce using rule 73 (create_function_scope -> .)
+    SEMICOLON       reduce using rule 97 (array_decl -> type ID LBRACKET CTEI RBRACKET .)
 
-    create_function_scope          shift and go to state 99
 
 state 69
-
-    (85) array_decl -> type ID LBRACKET CTEI RBRACKET .
-
-    SEMICOLON       reduce using rule 85 (array_decl -> type ID LBRACKET CTEI RBRACKET .)
-
-
-state 70
 
     (7) main_function -> MAIN LPAREN RPAREN LBRACE start_main stmt_list RBRACE .
 
     $end            reduce using rule 7 (main_function -> MAIN LPAREN RPAREN LBRACE start_main stmt_list RBRACE .)
 
 
-state 71
+state 70
 
     (21) stmt_list -> stmt SEMICOLON . stmt_list
     (22) stmt_list -> stmt SEMICOLON .
@@ -943,12 +948,13 @@ state 71
     (30) stmt -> . built_in_function
     (31) stmt -> . return_stmt
     (41) assign -> . ID EQUALS expr
-    (86) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
+    (98) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
     (59) print -> . PRINT COLON expr
-    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (72) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (78) function_call -> . ID LPAREN arg_list RPAREN
+    (60) print -> . PRINT COLON expr COMMA expr
+    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (62) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (73) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (90) function_call -> . ID LPAREN arg_list RPAREN
     (15) decl -> . type ID
     (16) decl -> . array_decl
     (32) built_in_function -> . TEACH_SUM LPAREN RPAREN
@@ -960,14 +966,12 @@ state 71
     (38) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
     (39) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
     (40) built_in_function -> . AYUDA LPAREN RPAREN
-    (76) return_stmt -> . RETURN expr
-    (77) return_stmt -> . empty
+    (89) return_stmt -> . RETURN expr
     (17) type -> . INT
     (18) type -> . FLOAT
     (19) type -> . STRING
     (20) type -> . BOOL
-    (85) array_decl -> . type ID LBRACKET CTEI RBRACKET
-    (90) empty -> .
+    (97) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
     RBRACE          reduce using rule 22 (stmt_list -> stmt SEMICOLON .)
     ID              shift and go to state 52
@@ -988,10 +992,9 @@ state 71
     FLOAT           shift and go to state 20
     STRING          shift and go to state 21
     BOOL            shift and go to state 22
-    SEMICOLON       reduce using rule 90 (empty -> .)
 
     stmt                           shift and go to state 42
-    stmt_list                      shift and go to state 100
+    stmt_list                      shift and go to state 99
     assign                         shift and go to state 43
     array_assign                   shift and go to state 44
     print                          shift and go to state 45
@@ -1003,12 +1006,51 @@ state 71
     return_stmt                    shift and go to state 51
     type                           shift and go to state 17
     array_decl                     shift and go to state 18
-    empty                          shift and go to state 66
+
+state 71
+
+    (41) assign -> ID EQUALS . expr
+    (98) array_assign -> ID EQUALS . LBRACE CTEI_list RBRACE
+    (42) expr -> . expr PLUS term
+    (43) expr -> . expr MINUS term
+    (44) expr -> . expr comp_op term
+    (45) expr -> . term
+    (46) term -> . term MULTIPLY factor
+    (47) term -> . term DIVIDE factor
+    (48) term -> . factor
+    (49) term -> . function_call
+    (50) term -> . array_access
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
+    (58) factor -> . function_call
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
+
+    LBRACE          shift and go to state 101
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
+
+    expr                           shift and go to state 100
+    term                           shift and go to state 86
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
 
 state 72
 
-    (41) assign -> ID EQUALS . expr
-    (86) array_assign -> ID EQUALS . LBRACE CTEI_list RBRACE
+    (90) function_call -> ID LPAREN . arg_list RPAREN
+    (91) arg_list -> . arg_list COMMA expr
+    (92) arg_list -> . expr
     (42) expr -> . expr PLUS term
     (43) expr -> . expr MINUS term
     (44) expr -> . expr comp_op term
@@ -1026,29 +1068,28 @@ state 72
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
 
-    LBRACE          shift and go to state 102
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
 
-    expr                           shift and go to state 101
-    term                           shift and go to state 87
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
+    arg_list                       shift and go to state 102
+    expr                           shift and go to state 103
+    term                           shift and go to state 86
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
 
 state 73
 
-    (78) function_call -> ID LPAREN . arg_list RPAREN
-    (79) arg_list -> . arg_list COMMA expr
-    (80) arg_list -> . expr
+    (59) print -> PRINT COLON . expr
+    (60) print -> PRINT COLON . expr COMMA expr
     (42) expr -> . expr PLUS term
     (43) expr -> . expr MINUS term
     (44) expr -> . expr comp_op term
@@ -1066,27 +1107,28 @@ state 73
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
 
-    arg_list                       shift and go to state 103
     expr                           shift and go to state 104
-    term                           shift and go to state 87
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
+    term                           shift and go to state 86
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
 
 state 74
 
-    (59) print -> PRINT COLON . expr
+    (61) conditional -> IF LPAREN . comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (62) conditional -> IF LPAREN . comp_expr RPAREN LBRACE stmt_list RBRACE
+    (63) comp_expr -> . expr comp_op expr
     (42) expr -> . expr PLUS term
     (43) expr -> . expr MINUS term
     (44) expr -> . expr comp_op term
@@ -1104,28 +1146,28 @@ state 74
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
 
-    expr                           shift and go to state 105
-    term                           shift and go to state 87
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
+    comp_expr                      shift and go to state 105
+    expr                           shift and go to state 106
+    term                           shift and go to state 86
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
 
 state 75
 
-    (60) conditional -> IF LPAREN . comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (61) conditional -> IF LPAREN . comp_expr RPAREN LBRACE stmt_list RBRACE
-    (62) comp_expr -> . expr comp_op expr
+    (73) loop -> WHILE LPAREN . comp_expr RPAREN LBRACE stmt_list RBRACE
+    (63) comp_expr -> . expr comp_op expr
     (42) expr -> . expr PLUS term
     (43) expr -> . expr MINUS term
     (44) expr -> . expr comp_op term
@@ -1143,152 +1185,113 @@ state 75
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
 
-    comp_expr                      shift and go to state 106
-    expr                           shift and go to state 107
-    term                           shift and go to state 87
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
+    comp_expr                      shift and go to state 107
+    expr                           shift and go to state 106
+    term                           shift and go to state 86
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
 
 state 76
 
-    (72) loop -> WHILE LPAREN . comp_expr RPAREN LBRACE stmt_list RBRACE
-    (62) comp_expr -> . expr comp_op expr
-    (42) expr -> . expr PLUS term
-    (43) expr -> . expr MINUS term
-    (44) expr -> . expr comp_op term
-    (45) expr -> . term
-    (46) term -> . term MULTIPLY factor
-    (47) term -> . term DIVIDE factor
-    (48) term -> . factor
-    (49) term -> . function_call
-    (50) term -> . array_access
-    (51) factor -> . LPAREN expr RPAREN
-    (52) factor -> . CTEI
-    (53) factor -> . FLOAT_NUMBER
-    (54) factor -> . STRING_LITERAL
-    (55) factor -> . TRUE
-    (56) factor -> . FALSE
-    (57) factor -> . ID
-    (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (32) built_in_function -> TEACH_SUM LPAREN . RPAREN
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    RPAREN          shift and go to state 108
 
-    comp_expr                      shift and go to state 108
-    expr                           shift and go to state 107
-    term                           shift and go to state 87
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
 
 state 77
 
-    (32) built_in_function -> TEACH_SUM LPAREN . RPAREN
+    (33) built_in_function -> TEACH_SUBSTRACTION LPAREN . RPAREN
 
     RPAREN          shift and go to state 109
 
 
 state 78
 
-    (33) built_in_function -> TEACH_SUBSTRACTION LPAREN . RPAREN
+    (34) built_in_function -> TEACH_MULTIPLICATION LPAREN . RPAREN
 
     RPAREN          shift and go to state 110
 
 
 state 79
 
-    (34) built_in_function -> TEACH_MULTIPLICATION LPAREN . RPAREN
+    (35) built_in_function -> TEACH_DIVISION LPAREN . RPAREN
 
     RPAREN          shift and go to state 111
 
 
 state 80
 
-    (35) built_in_function -> TEACH_DIVISION LPAREN . RPAREN
+    (36) built_in_function -> TEACH_IF LPAREN . RPAREN
 
     RPAREN          shift and go to state 112
 
 
 state 81
 
-    (36) built_in_function -> TEACH_IF LPAREN . RPAREN
+    (37) built_in_function -> TEACH_WHILE LPAREN . RPAREN
 
     RPAREN          shift and go to state 113
 
 
 state 82
 
-    (37) built_in_function -> TEACH_WHILE LPAREN . RPAREN
+    (38) built_in_function -> TEACH_FUNCTION_DECLARATION LPAREN . RPAREN
 
     RPAREN          shift and go to state 114
 
 
 state 83
 
-    (38) built_in_function -> TEACH_FUNCTION_DECLARATION LPAREN . RPAREN
+    (39) built_in_function -> TEACH_FUNCTION_CALL LPAREN . RPAREN
 
     RPAREN          shift and go to state 115
 
 
 state 84
 
-    (39) built_in_function -> TEACH_FUNCTION_CALL LPAREN . RPAREN
+    (40) built_in_function -> AYUDA LPAREN . RPAREN
 
     RPAREN          shift and go to state 116
 
 
 state 85
 
-    (40) built_in_function -> AYUDA LPAREN . RPAREN
-
-    RPAREN          shift and go to state 117
-
-
-state 86
-
-    (76) return_stmt -> RETURN expr .
+    (89) return_stmt -> RETURN expr .
     (42) expr -> expr . PLUS term
     (43) expr -> expr . MINUS term
     (44) expr -> expr . comp_op term
-    (63) comp_op -> . LESS_THAN
-    (64) comp_op -> . GREATER_THAN
-    (65) comp_op -> . LESS_EQUAL
-    (66) comp_op -> . GREATER_EQUAL
-    (67) comp_op -> . EQUAL_EQUAL
-    (68) comp_op -> . NOT_EQUAL
+    (64) comp_op -> . LESS_THAN
+    (65) comp_op -> . GREATER_THAN
+    (66) comp_op -> . LESS_EQUAL
+    (67) comp_op -> . GREATER_EQUAL
+    (68) comp_op -> . EQUAL_EQUAL
+    (69) comp_op -> . NOT_EQUAL
 
-    SEMICOLON       reduce using rule 76 (return_stmt -> RETURN expr .)
-    PLUS            shift and go to state 118
-    MINUS           shift and go to state 119
-    LESS_THAN       shift and go to state 121
-    GREATER_THAN    shift and go to state 122
-    LESS_EQUAL      shift and go to state 123
-    GREATER_EQUAL   shift and go to state 124
-    EQUAL_EQUAL     shift and go to state 125
-    NOT_EQUAL       shift and go to state 126
+    SEMICOLON       reduce using rule 89 (return_stmt -> RETURN expr .)
+    PLUS            shift and go to state 117
+    MINUS           shift and go to state 118
+    LESS_THAN       shift and go to state 120
+    GREATER_THAN    shift and go to state 121
+    LESS_EQUAL      shift and go to state 122
+    GREATER_EQUAL   shift and go to state 123
+    EQUAL_EQUAL     shift and go to state 124
+    NOT_EQUAL       shift and go to state 125
 
-    comp_op                        shift and go to state 120
+    comp_op                        shift and go to state 119
 
-state 87
+state 86
 
     (45) expr -> term .
     (46) term -> term . MULTIPLY factor
@@ -1306,11 +1309,11 @@ state 87
     RPAREN          reduce using rule 45 (expr -> term .)
     COMMA           reduce using rule 45 (expr -> term .)
     RBRACKET        reduce using rule 45 (expr -> term .)
-    MULTIPLY        shift and go to state 127
-    DIVIDE          shift and go to state 128
+    MULTIPLY        shift and go to state 126
+    DIVIDE          shift and go to state 127
 
 
-state 88
+state 87
 
     (48) term -> factor .
 
@@ -1330,7 +1333,7 @@ state 88
     RBRACKET        reduce using rule 48 (term -> factor .)
 
 
-state 89
+state 88
 
     (49) term -> function_call .
     (58) factor -> function_call .
@@ -1380,7 +1383,7 @@ state 89
   ! RBRACKET        [ reduce using rule 58 (factor -> function_call .) ]
 
 
-state 90
+state 89
 
     (50) term -> array_access .
 
@@ -1400,7 +1403,7 @@ state 90
     RBRACKET        reduce using rule 50 (term -> array_access .)
 
 
-state 91
+state 90
 
     (51) factor -> LPAREN . expr RPAREN
     (42) expr -> . expr PLUS term
@@ -1420,24 +1423,24 @@ state 91
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
 
-    expr                           shift and go to state 129
-    term                           shift and go to state 87
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
+    expr                           shift and go to state 128
+    term                           shift and go to state 86
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
 
-state 92
+state 91
 
     (52) factor -> CTEI .
 
@@ -1457,7 +1460,7 @@ state 92
     RBRACKET        reduce using rule 52 (factor -> CTEI .)
 
 
-state 93
+state 92
 
     (53) factor -> FLOAT_NUMBER .
 
@@ -1477,7 +1480,7 @@ state 93
     RBRACKET        reduce using rule 53 (factor -> FLOAT_NUMBER .)
 
 
-state 94
+state 93
 
     (54) factor -> STRING_LITERAL .
 
@@ -1497,7 +1500,7 @@ state 94
     RBRACKET        reduce using rule 54 (factor -> STRING_LITERAL .)
 
 
-state 95
+state 94
 
     (55) factor -> TRUE .
 
@@ -1517,7 +1520,7 @@ state 95
     RBRACKET        reduce using rule 55 (factor -> TRUE .)
 
 
-state 96
+state 95
 
     (56) factor -> FALSE .
 
@@ -1537,11 +1540,11 @@ state 96
     RBRACKET        reduce using rule 56 (factor -> FALSE .)
 
 
-state 97
+state 96
 
     (57) factor -> ID .
-    (78) function_call -> ID . LPAREN arg_list RPAREN
-    (89) array_access -> ID . LBRACKET expr RBRACKET
+    (90) function_call -> ID . LPAREN arg_list RPAREN
+    (101) array_access -> ID . LBRACKET expr RBRACKET
 
     MULTIPLY        reduce using rule 57 (factor -> ID .)
     DIVIDE          reduce using rule 57 (factor -> ID .)
@@ -1557,263 +1560,265 @@ state 97
     RPAREN          reduce using rule 57 (factor -> ID .)
     COMMA           reduce using rule 57 (factor -> ID .)
     RBRACKET        reduce using rule 57 (factor -> ID .)
-    LPAREN          shift and go to state 73
-    LBRACKET        shift and go to state 130
+    LPAREN          shift and go to state 72
+    LBRACKET        shift and go to state 129
 
+
+state 97
+
+    (75) function_decl -> type ID LPAREN create_function_scope . param_list RPAREN LBRACE stmt_list end_scopes RBRACE
+    (93) param_list -> . param COMMA param_list
+    (94) param_list -> . param
+    (95) param_list -> . empty
+    (96) param -> . type ID
+    (102) empty -> .
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+
+    RPAREN          reduce using rule 102 (empty -> .)
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
+
+    type                           shift and go to state 130
+    param_list                     shift and go to state 131
+    param                          shift and go to state 132
+    empty                          shift and go to state 133
 
 state 98
 
-    (74) function_decl -> type ID LPAREN create_function_scope . param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-    (81) param_list -> . param COMMA param_list
-    (82) param_list -> . param
-    (83) param_list -> . empty
-    (84) param -> . type ID
-    (90) empty -> .
+    (76) function_decl -> VOID ID LPAREN create_function_scope . param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE
+    (93) param_list -> . param COMMA param_list
+    (94) param_list -> . param
+    (95) param_list -> . empty
+    (96) param -> . type ID
+    (102) empty -> .
     (17) type -> . INT
     (18) type -> . FLOAT
     (19) type -> . STRING
     (20) type -> . BOOL
 
-    RPAREN          reduce using rule 90 (empty -> .)
+    RPAREN          reduce using rule 102 (empty -> .)
     INT             shift and go to state 19
     FLOAT           shift and go to state 20
     STRING          shift and go to state 21
     BOOL            shift and go to state 22
 
-    type                           shift and go to state 131
-    param_list                     shift and go to state 132
-    param                          shift and go to state 133
-    empty                          shift and go to state 134
+    param_list                     shift and go to state 134
+    param                          shift and go to state 132
+    empty                          shift and go to state 133
+    type                           shift and go to state 130
 
 state 99
-
-    (75) function_decl -> VOID ID LPAREN create_function_scope . param_list RPAREN LBRACE stmt_list end_scopes RBRACE
-    (81) param_list -> . param COMMA param_list
-    (82) param_list -> . param
-    (83) param_list -> . empty
-    (84) param -> . type ID
-    (90) empty -> .
-    (17) type -> . INT
-    (18) type -> . FLOAT
-    (19) type -> . STRING
-    (20) type -> . BOOL
-
-    RPAREN          reduce using rule 90 (empty -> .)
-    INT             shift and go to state 19
-    FLOAT           shift and go to state 20
-    STRING          shift and go to state 21
-    BOOL            shift and go to state 22
-
-    param_list                     shift and go to state 135
-    param                          shift and go to state 133
-    empty                          shift and go to state 134
-    type                           shift and go to state 131
-
-state 100
 
     (21) stmt_list -> stmt SEMICOLON stmt_list .
 
     RBRACE          reduce using rule 21 (stmt_list -> stmt SEMICOLON stmt_list .)
 
 
-state 101
+state 100
 
     (41) assign -> ID EQUALS expr .
     (42) expr -> expr . PLUS term
     (43) expr -> expr . MINUS term
     (44) expr -> expr . comp_op term
-    (63) comp_op -> . LESS_THAN
-    (64) comp_op -> . GREATER_THAN
-    (65) comp_op -> . LESS_EQUAL
-    (66) comp_op -> . GREATER_EQUAL
-    (67) comp_op -> . EQUAL_EQUAL
-    (68) comp_op -> . NOT_EQUAL
+    (64) comp_op -> . LESS_THAN
+    (65) comp_op -> . GREATER_THAN
+    (66) comp_op -> . LESS_EQUAL
+    (67) comp_op -> . GREATER_EQUAL
+    (68) comp_op -> . EQUAL_EQUAL
+    (69) comp_op -> . NOT_EQUAL
 
     SEMICOLON       reduce using rule 41 (assign -> ID EQUALS expr .)
-    PLUS            shift and go to state 118
-    MINUS           shift and go to state 119
-    LESS_THAN       shift and go to state 121
-    GREATER_THAN    shift and go to state 122
-    LESS_EQUAL      shift and go to state 123
-    GREATER_EQUAL   shift and go to state 124
-    EQUAL_EQUAL     shift and go to state 125
-    NOT_EQUAL       shift and go to state 126
+    PLUS            shift and go to state 117
+    MINUS           shift and go to state 118
+    LESS_THAN       shift and go to state 120
+    GREATER_THAN    shift and go to state 121
+    LESS_EQUAL      shift and go to state 122
+    GREATER_EQUAL   shift and go to state 123
+    EQUAL_EQUAL     shift and go to state 124
+    NOT_EQUAL       shift and go to state 125
 
-    comp_op                        shift and go to state 120
+    comp_op                        shift and go to state 119
+
+state 101
+
+    (98) array_assign -> ID EQUALS LBRACE . CTEI_list RBRACE
+    (99) CTEI_list -> . CTEI
+    (100) CTEI_list -> . CTEI_list COMMA CTEI
+
+    CTEI            shift and go to state 136
+
+    CTEI_list                      shift and go to state 135
 
 state 102
 
-    (86) array_assign -> ID EQUALS LBRACE . CTEI_list RBRACE
-    (87) CTEI_list -> . CTEI
-    (88) CTEI_list -> . CTEI_list COMMA CTEI
+    (90) function_call -> ID LPAREN arg_list . RPAREN
+    (91) arg_list -> arg_list . COMMA expr
 
-    CTEI            shift and go to state 137
+    RPAREN          shift and go to state 137
+    COMMA           shift and go to state 138
 
-    CTEI_list                      shift and go to state 136
 
 state 103
 
-    (78) function_call -> ID LPAREN arg_list . RPAREN
-    (79) arg_list -> arg_list . COMMA expr
+    (92) arg_list -> expr .
+    (42) expr -> expr . PLUS term
+    (43) expr -> expr . MINUS term
+    (44) expr -> expr . comp_op term
+    (64) comp_op -> . LESS_THAN
+    (65) comp_op -> . GREATER_THAN
+    (66) comp_op -> . LESS_EQUAL
+    (67) comp_op -> . GREATER_EQUAL
+    (68) comp_op -> . EQUAL_EQUAL
+    (69) comp_op -> . NOT_EQUAL
 
-    RPAREN          shift and go to state 138
-    COMMA           shift and go to state 139
+    RPAREN          reduce using rule 92 (arg_list -> expr .)
+    COMMA           reduce using rule 92 (arg_list -> expr .)
+    PLUS            shift and go to state 117
+    MINUS           shift and go to state 118
+    LESS_THAN       shift and go to state 120
+    GREATER_THAN    shift and go to state 121
+    LESS_EQUAL      shift and go to state 122
+    GREATER_EQUAL   shift and go to state 123
+    EQUAL_EQUAL     shift and go to state 124
+    NOT_EQUAL       shift and go to state 125
 
+    comp_op                        shift and go to state 119
 
 state 104
 
-    (80) arg_list -> expr .
+    (59) print -> PRINT COLON expr .
+    (60) print -> PRINT COLON expr . COMMA expr
     (42) expr -> expr . PLUS term
     (43) expr -> expr . MINUS term
     (44) expr -> expr . comp_op term
-    (63) comp_op -> . LESS_THAN
-    (64) comp_op -> . GREATER_THAN
-    (65) comp_op -> . LESS_EQUAL
-    (66) comp_op -> . GREATER_EQUAL
-    (67) comp_op -> . EQUAL_EQUAL
-    (68) comp_op -> . NOT_EQUAL
+    (64) comp_op -> . LESS_THAN
+    (65) comp_op -> . GREATER_THAN
+    (66) comp_op -> . LESS_EQUAL
+    (67) comp_op -> . GREATER_EQUAL
+    (68) comp_op -> . EQUAL_EQUAL
+    (69) comp_op -> . NOT_EQUAL
 
-    RPAREN          reduce using rule 80 (arg_list -> expr .)
-    COMMA           reduce using rule 80 (arg_list -> expr .)
-    PLUS            shift and go to state 118
-    MINUS           shift and go to state 119
-    LESS_THAN       shift and go to state 121
-    GREATER_THAN    shift and go to state 122
-    LESS_EQUAL      shift and go to state 123
-    GREATER_EQUAL   shift and go to state 124
-    EQUAL_EQUAL     shift and go to state 125
-    NOT_EQUAL       shift and go to state 126
+    SEMICOLON       reduce using rule 59 (print -> PRINT COLON expr .)
+    COMMA           shift and go to state 139
+    PLUS            shift and go to state 117
+    MINUS           shift and go to state 118
+    LESS_THAN       shift and go to state 120
+    GREATER_THAN    shift and go to state 121
+    LESS_EQUAL      shift and go to state 122
+    GREATER_EQUAL   shift and go to state 123
+    EQUAL_EQUAL     shift and go to state 124
+    NOT_EQUAL       shift and go to state 125
 
-    comp_op                        shift and go to state 120
+    comp_op                        shift and go to state 119
 
 state 105
 
-    (59) print -> PRINT COLON expr .
-    (42) expr -> expr . PLUS term
-    (43) expr -> expr . MINUS term
-    (44) expr -> expr . comp_op term
-    (63) comp_op -> . LESS_THAN
-    (64) comp_op -> . GREATER_THAN
-    (65) comp_op -> . LESS_EQUAL
-    (66) comp_op -> . GREATER_EQUAL
-    (67) comp_op -> . EQUAL_EQUAL
-    (68) comp_op -> . NOT_EQUAL
-
-    SEMICOLON       reduce using rule 59 (print -> PRINT COLON expr .)
-    PLUS            shift and go to state 118
-    MINUS           shift and go to state 119
-    LESS_THAN       shift and go to state 121
-    GREATER_THAN    shift and go to state 122
-    LESS_EQUAL      shift and go to state 123
-    GREATER_EQUAL   shift and go to state 124
-    EQUAL_EQUAL     shift and go to state 125
-    NOT_EQUAL       shift and go to state 126
-
-    comp_op                        shift and go to state 120
-
-state 106
-
-    (60) conditional -> IF LPAREN comp_expr . RPAREN LBRACE stmt_list RBRACE else_stmt
-    (61) conditional -> IF LPAREN comp_expr . RPAREN LBRACE stmt_list RBRACE
+    (61) conditional -> IF LPAREN comp_expr . RPAREN LBRACE stmt_list RBRACE else_stmt
+    (62) conditional -> IF LPAREN comp_expr . RPAREN LBRACE stmt_list RBRACE
 
     RPAREN          shift and go to state 140
 
 
-state 107
+state 106
 
-    (62) comp_expr -> expr . comp_op expr
+    (63) comp_expr -> expr . comp_op expr
     (42) expr -> expr . PLUS term
     (43) expr -> expr . MINUS term
     (44) expr -> expr . comp_op term
-    (63) comp_op -> . LESS_THAN
-    (64) comp_op -> . GREATER_THAN
-    (65) comp_op -> . LESS_EQUAL
-    (66) comp_op -> . GREATER_EQUAL
-    (67) comp_op -> . EQUAL_EQUAL
-    (68) comp_op -> . NOT_EQUAL
+    (64) comp_op -> . LESS_THAN
+    (65) comp_op -> . GREATER_THAN
+    (66) comp_op -> . LESS_EQUAL
+    (67) comp_op -> . GREATER_EQUAL
+    (68) comp_op -> . EQUAL_EQUAL
+    (69) comp_op -> . NOT_EQUAL
 
-    PLUS            shift and go to state 118
-    MINUS           shift and go to state 119
-    LESS_THAN       shift and go to state 121
-    GREATER_THAN    shift and go to state 122
-    LESS_EQUAL      shift and go to state 123
-    GREATER_EQUAL   shift and go to state 124
-    EQUAL_EQUAL     shift and go to state 125
-    NOT_EQUAL       shift and go to state 126
+    PLUS            shift and go to state 117
+    MINUS           shift and go to state 118
+    LESS_THAN       shift and go to state 120
+    GREATER_THAN    shift and go to state 121
+    LESS_EQUAL      shift and go to state 122
+    GREATER_EQUAL   shift and go to state 123
+    EQUAL_EQUAL     shift and go to state 124
+    NOT_EQUAL       shift and go to state 125
 
     comp_op                        shift and go to state 141
 
-state 108
+state 107
 
-    (72) loop -> WHILE LPAREN comp_expr . RPAREN LBRACE stmt_list RBRACE
+    (73) loop -> WHILE LPAREN comp_expr . RPAREN LBRACE stmt_list RBRACE
 
     RPAREN          shift and go to state 142
 
 
-state 109
+state 108
 
     (32) built_in_function -> TEACH_SUM LPAREN RPAREN .
 
     SEMICOLON       reduce using rule 32 (built_in_function -> TEACH_SUM LPAREN RPAREN .)
 
 
-state 110
+state 109
 
     (33) built_in_function -> TEACH_SUBSTRACTION LPAREN RPAREN .
 
     SEMICOLON       reduce using rule 33 (built_in_function -> TEACH_SUBSTRACTION LPAREN RPAREN .)
 
 
-state 111
+state 110
 
     (34) built_in_function -> TEACH_MULTIPLICATION LPAREN RPAREN .
 
     SEMICOLON       reduce using rule 34 (built_in_function -> TEACH_MULTIPLICATION LPAREN RPAREN .)
 
 
-state 112
+state 111
 
     (35) built_in_function -> TEACH_DIVISION LPAREN RPAREN .
 
     SEMICOLON       reduce using rule 35 (built_in_function -> TEACH_DIVISION LPAREN RPAREN .)
 
 
-state 113
+state 112
 
     (36) built_in_function -> TEACH_IF LPAREN RPAREN .
 
     SEMICOLON       reduce using rule 36 (built_in_function -> TEACH_IF LPAREN RPAREN .)
 
 
-state 114
+state 113
 
     (37) built_in_function -> TEACH_WHILE LPAREN RPAREN .
 
     SEMICOLON       reduce using rule 37 (built_in_function -> TEACH_WHILE LPAREN RPAREN .)
 
 
-state 115
+state 114
 
     (38) built_in_function -> TEACH_FUNCTION_DECLARATION LPAREN RPAREN .
 
     SEMICOLON       reduce using rule 38 (built_in_function -> TEACH_FUNCTION_DECLARATION LPAREN RPAREN .)
 
 
-state 116
+state 115
 
     (39) built_in_function -> TEACH_FUNCTION_CALL LPAREN RPAREN .
 
     SEMICOLON       reduce using rule 39 (built_in_function -> TEACH_FUNCTION_CALL LPAREN RPAREN .)
 
 
-state 117
+state 116
 
     (40) built_in_function -> AYUDA LPAREN RPAREN .
 
     SEMICOLON       reduce using rule 40 (built_in_function -> AYUDA LPAREN RPAREN .)
 
 
-state 118
+state 117
 
     (42) expr -> expr PLUS . term
     (46) term -> . term MULTIPLY factor
@@ -1829,23 +1834,23 @@ state 118
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
 
     term                           shift and go to state 143
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
 
-state 119
+state 118
 
     (43) expr -> expr MINUS . term
     (46) term -> . term MULTIPLY factor
@@ -1861,23 +1866,23 @@ state 119
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
 
     term                           shift and go to state 144
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
 
-state 120
+state 119
 
     (44) expr -> expr comp_op . term
     (46) term -> . term MULTIPLY factor
@@ -1893,101 +1898,101 @@ state 120
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
 
     term                           shift and go to state 145
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
+
+state 120
+
+    (64) comp_op -> LESS_THAN .
+
+    LPAREN          reduce using rule 64 (comp_op -> LESS_THAN .)
+    CTEI            reduce using rule 64 (comp_op -> LESS_THAN .)
+    FLOAT_NUMBER    reduce using rule 64 (comp_op -> LESS_THAN .)
+    STRING_LITERAL  reduce using rule 64 (comp_op -> LESS_THAN .)
+    TRUE            reduce using rule 64 (comp_op -> LESS_THAN .)
+    FALSE           reduce using rule 64 (comp_op -> LESS_THAN .)
+    ID              reduce using rule 64 (comp_op -> LESS_THAN .)
+
 
 state 121
 
-    (63) comp_op -> LESS_THAN .
+    (65) comp_op -> GREATER_THAN .
 
-    LPAREN          reduce using rule 63 (comp_op -> LESS_THAN .)
-    CTEI            reduce using rule 63 (comp_op -> LESS_THAN .)
-    FLOAT_NUMBER    reduce using rule 63 (comp_op -> LESS_THAN .)
-    STRING_LITERAL  reduce using rule 63 (comp_op -> LESS_THAN .)
-    TRUE            reduce using rule 63 (comp_op -> LESS_THAN .)
-    FALSE           reduce using rule 63 (comp_op -> LESS_THAN .)
-    ID              reduce using rule 63 (comp_op -> LESS_THAN .)
+    LPAREN          reduce using rule 65 (comp_op -> GREATER_THAN .)
+    CTEI            reduce using rule 65 (comp_op -> GREATER_THAN .)
+    FLOAT_NUMBER    reduce using rule 65 (comp_op -> GREATER_THAN .)
+    STRING_LITERAL  reduce using rule 65 (comp_op -> GREATER_THAN .)
+    TRUE            reduce using rule 65 (comp_op -> GREATER_THAN .)
+    FALSE           reduce using rule 65 (comp_op -> GREATER_THAN .)
+    ID              reduce using rule 65 (comp_op -> GREATER_THAN .)
 
 
 state 122
 
-    (64) comp_op -> GREATER_THAN .
+    (66) comp_op -> LESS_EQUAL .
 
-    LPAREN          reduce using rule 64 (comp_op -> GREATER_THAN .)
-    CTEI            reduce using rule 64 (comp_op -> GREATER_THAN .)
-    FLOAT_NUMBER    reduce using rule 64 (comp_op -> GREATER_THAN .)
-    STRING_LITERAL  reduce using rule 64 (comp_op -> GREATER_THAN .)
-    TRUE            reduce using rule 64 (comp_op -> GREATER_THAN .)
-    FALSE           reduce using rule 64 (comp_op -> GREATER_THAN .)
-    ID              reduce using rule 64 (comp_op -> GREATER_THAN .)
+    LPAREN          reduce using rule 66 (comp_op -> LESS_EQUAL .)
+    CTEI            reduce using rule 66 (comp_op -> LESS_EQUAL .)
+    FLOAT_NUMBER    reduce using rule 66 (comp_op -> LESS_EQUAL .)
+    STRING_LITERAL  reduce using rule 66 (comp_op -> LESS_EQUAL .)
+    TRUE            reduce using rule 66 (comp_op -> LESS_EQUAL .)
+    FALSE           reduce using rule 66 (comp_op -> LESS_EQUAL .)
+    ID              reduce using rule 66 (comp_op -> LESS_EQUAL .)
 
 
 state 123
 
-    (65) comp_op -> LESS_EQUAL .
+    (67) comp_op -> GREATER_EQUAL .
 
-    LPAREN          reduce using rule 65 (comp_op -> LESS_EQUAL .)
-    CTEI            reduce using rule 65 (comp_op -> LESS_EQUAL .)
-    FLOAT_NUMBER    reduce using rule 65 (comp_op -> LESS_EQUAL .)
-    STRING_LITERAL  reduce using rule 65 (comp_op -> LESS_EQUAL .)
-    TRUE            reduce using rule 65 (comp_op -> LESS_EQUAL .)
-    FALSE           reduce using rule 65 (comp_op -> LESS_EQUAL .)
-    ID              reduce using rule 65 (comp_op -> LESS_EQUAL .)
+    LPAREN          reduce using rule 67 (comp_op -> GREATER_EQUAL .)
+    CTEI            reduce using rule 67 (comp_op -> GREATER_EQUAL .)
+    FLOAT_NUMBER    reduce using rule 67 (comp_op -> GREATER_EQUAL .)
+    STRING_LITERAL  reduce using rule 67 (comp_op -> GREATER_EQUAL .)
+    TRUE            reduce using rule 67 (comp_op -> GREATER_EQUAL .)
+    FALSE           reduce using rule 67 (comp_op -> GREATER_EQUAL .)
+    ID              reduce using rule 67 (comp_op -> GREATER_EQUAL .)
 
 
 state 124
 
-    (66) comp_op -> GREATER_EQUAL .
+    (68) comp_op -> EQUAL_EQUAL .
 
-    LPAREN          reduce using rule 66 (comp_op -> GREATER_EQUAL .)
-    CTEI            reduce using rule 66 (comp_op -> GREATER_EQUAL .)
-    FLOAT_NUMBER    reduce using rule 66 (comp_op -> GREATER_EQUAL .)
-    STRING_LITERAL  reduce using rule 66 (comp_op -> GREATER_EQUAL .)
-    TRUE            reduce using rule 66 (comp_op -> GREATER_EQUAL .)
-    FALSE           reduce using rule 66 (comp_op -> GREATER_EQUAL .)
-    ID              reduce using rule 66 (comp_op -> GREATER_EQUAL .)
+    LPAREN          reduce using rule 68 (comp_op -> EQUAL_EQUAL .)
+    CTEI            reduce using rule 68 (comp_op -> EQUAL_EQUAL .)
+    FLOAT_NUMBER    reduce using rule 68 (comp_op -> EQUAL_EQUAL .)
+    STRING_LITERAL  reduce using rule 68 (comp_op -> EQUAL_EQUAL .)
+    TRUE            reduce using rule 68 (comp_op -> EQUAL_EQUAL .)
+    FALSE           reduce using rule 68 (comp_op -> EQUAL_EQUAL .)
+    ID              reduce using rule 68 (comp_op -> EQUAL_EQUAL .)
 
 
 state 125
 
-    (67) comp_op -> EQUAL_EQUAL .
+    (69) comp_op -> NOT_EQUAL .
 
-    LPAREN          reduce using rule 67 (comp_op -> EQUAL_EQUAL .)
-    CTEI            reduce using rule 67 (comp_op -> EQUAL_EQUAL .)
-    FLOAT_NUMBER    reduce using rule 67 (comp_op -> EQUAL_EQUAL .)
-    STRING_LITERAL  reduce using rule 67 (comp_op -> EQUAL_EQUAL .)
-    TRUE            reduce using rule 67 (comp_op -> EQUAL_EQUAL .)
-    FALSE           reduce using rule 67 (comp_op -> EQUAL_EQUAL .)
-    ID              reduce using rule 67 (comp_op -> EQUAL_EQUAL .)
+    LPAREN          reduce using rule 69 (comp_op -> NOT_EQUAL .)
+    CTEI            reduce using rule 69 (comp_op -> NOT_EQUAL .)
+    FLOAT_NUMBER    reduce using rule 69 (comp_op -> NOT_EQUAL .)
+    STRING_LITERAL  reduce using rule 69 (comp_op -> NOT_EQUAL .)
+    TRUE            reduce using rule 69 (comp_op -> NOT_EQUAL .)
+    FALSE           reduce using rule 69 (comp_op -> NOT_EQUAL .)
+    ID              reduce using rule 69 (comp_op -> NOT_EQUAL .)
 
 
 state 126
-
-    (68) comp_op -> NOT_EQUAL .
-
-    LPAREN          reduce using rule 68 (comp_op -> NOT_EQUAL .)
-    CTEI            reduce using rule 68 (comp_op -> NOT_EQUAL .)
-    FLOAT_NUMBER    reduce using rule 68 (comp_op -> NOT_EQUAL .)
-    STRING_LITERAL  reduce using rule 68 (comp_op -> NOT_EQUAL .)
-    TRUE            reduce using rule 68 (comp_op -> NOT_EQUAL .)
-    FALSE           reduce using rule 68 (comp_op -> NOT_EQUAL .)
-    ID              reduce using rule 68 (comp_op -> NOT_EQUAL .)
-
-
-state 127
 
     (46) term -> term MULTIPLY . factor
     (51) factor -> . LPAREN expr RPAREN
@@ -1998,20 +2003,20 @@ state 127
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
+    (90) function_call -> . ID LPAREN arg_list RPAREN
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
     ID              shift and go to state 147
 
     factor                         shift and go to state 146
     function_call                  shift and go to state 148
 
-state 128
+state 127
 
     (47) term -> term DIVIDE . factor
     (51) factor -> . LPAREN expr RPAREN
@@ -2022,47 +2027,47 @@ state 128
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
+    (90) function_call -> . ID LPAREN arg_list RPAREN
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
     ID              shift and go to state 147
 
     factor                         shift and go to state 149
     function_call                  shift and go to state 148
 
-state 129
+state 128
 
     (51) factor -> LPAREN expr . RPAREN
     (42) expr -> expr . PLUS term
     (43) expr -> expr . MINUS term
     (44) expr -> expr . comp_op term
-    (63) comp_op -> . LESS_THAN
-    (64) comp_op -> . GREATER_THAN
-    (65) comp_op -> . LESS_EQUAL
-    (66) comp_op -> . GREATER_EQUAL
-    (67) comp_op -> . EQUAL_EQUAL
-    (68) comp_op -> . NOT_EQUAL
+    (64) comp_op -> . LESS_THAN
+    (65) comp_op -> . GREATER_THAN
+    (66) comp_op -> . LESS_EQUAL
+    (67) comp_op -> . GREATER_EQUAL
+    (68) comp_op -> . EQUAL_EQUAL
+    (69) comp_op -> . NOT_EQUAL
 
     RPAREN          shift and go to state 150
-    PLUS            shift and go to state 118
-    MINUS           shift and go to state 119
-    LESS_THAN       shift and go to state 121
-    GREATER_THAN    shift and go to state 122
-    LESS_EQUAL      shift and go to state 123
-    GREATER_EQUAL   shift and go to state 124
-    EQUAL_EQUAL     shift and go to state 125
-    NOT_EQUAL       shift and go to state 126
+    PLUS            shift and go to state 117
+    MINUS           shift and go to state 118
+    LESS_THAN       shift and go to state 120
+    GREATER_THAN    shift and go to state 121
+    LESS_EQUAL      shift and go to state 122
+    GREATER_EQUAL   shift and go to state 123
+    EQUAL_EQUAL     shift and go to state 124
+    NOT_EQUAL       shift and go to state 125
 
-    comp_op                        shift and go to state 120
+    comp_op                        shift and go to state 119
 
-state 130
+state 129
 
-    (89) array_access -> ID LBRACKET . expr RBRACKET
+    (101) array_access -> ID LBRACKET . expr RBRACKET
     (42) expr -> . expr PLUS term
     (43) expr -> . expr MINUS term
     (44) expr -> . expr comp_op term
@@ -2080,100 +2085,100 @@ state 130
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
 
     expr                           shift and go to state 151
-    term                           shift and go to state 87
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
+    term                           shift and go to state 86
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
 
-state 131
+state 130
 
-    (84) param -> type . ID
+    (96) param -> type . ID
 
     ID              shift and go to state 152
 
 
-state 132
+state 131
 
-    (74) function_decl -> type ID LPAREN create_function_scope param_list . RPAREN LBRACE stmt_list end_scopes RBRACE
+    (75) function_decl -> type ID LPAREN create_function_scope param_list . RPAREN LBRACE stmt_list end_scopes RBRACE
 
     RPAREN          shift and go to state 153
 
 
-state 133
+state 132
 
-    (81) param_list -> param . COMMA param_list
-    (82) param_list -> param .
+    (93) param_list -> param . COMMA param_list
+    (94) param_list -> param .
 
     COMMA           shift and go to state 154
-    RPAREN          reduce using rule 82 (param_list -> param .)
+    RPAREN          reduce using rule 94 (param_list -> param .)
+
+
+state 133
+
+    (95) param_list -> empty .
+
+    RPAREN          reduce using rule 95 (param_list -> empty .)
 
 
 state 134
 
-    (83) param_list -> empty .
-
-    RPAREN          reduce using rule 83 (param_list -> empty .)
-
-
-state 135
-
-    (75) function_decl -> VOID ID LPAREN create_function_scope param_list . RPAREN LBRACE stmt_list end_scopes RBRACE
+    (76) function_decl -> VOID ID LPAREN create_function_scope param_list . RPAREN LBRACE stmt_list_without_return end_scopes RBRACE
 
     RPAREN          shift and go to state 155
 
 
-state 136
+state 135
 
-    (86) array_assign -> ID EQUALS LBRACE CTEI_list . RBRACE
-    (88) CTEI_list -> CTEI_list . COMMA CTEI
+    (98) array_assign -> ID EQUALS LBRACE CTEI_list . RBRACE
+    (100) CTEI_list -> CTEI_list . COMMA CTEI
 
     RBRACE          shift and go to state 156
     COMMA           shift and go to state 157
 
 
+state 136
+
+    (99) CTEI_list -> CTEI .
+
+    RBRACE          reduce using rule 99 (CTEI_list -> CTEI .)
+    COMMA           reduce using rule 99 (CTEI_list -> CTEI .)
+
+
 state 137
 
-    (87) CTEI_list -> CTEI .
+    (90) function_call -> ID LPAREN arg_list RPAREN .
 
-    RBRACE          reduce using rule 87 (CTEI_list -> CTEI .)
-    COMMA           reduce using rule 87 (CTEI_list -> CTEI .)
+    SEMICOLON       reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    MULTIPLY        reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    DIVIDE          reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    PLUS            reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    MINUS           reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    LESS_THAN       reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    GREATER_THAN    reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    LESS_EQUAL      reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    GREATER_EQUAL   reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    EQUAL_EQUAL     reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    NOT_EQUAL       reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    RPAREN          reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    COMMA           reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
+    RBRACKET        reduce using rule 90 (function_call -> ID LPAREN arg_list RPAREN .)
 
 
 state 138
 
-    (78) function_call -> ID LPAREN arg_list RPAREN .
-
-    SEMICOLON       reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    MULTIPLY        reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    DIVIDE          reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    PLUS            reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    MINUS           reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    LESS_THAN       reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    GREATER_THAN    reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    LESS_EQUAL      reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    GREATER_EQUAL   reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    EQUAL_EQUAL     reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    NOT_EQUAL       reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    RPAREN          reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    COMMA           reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-    RBRACKET        reduce using rule 78 (function_call -> ID LPAREN arg_list RPAREN .)
-
-
-state 139
-
-    (79) arg_list -> arg_list COMMA . expr
+    (91) arg_list -> arg_list COMMA . expr
     (42) expr -> . expr PLUS term
     (43) expr -> . expr MINUS term
     (44) expr -> . expr comp_op term
@@ -2191,34 +2196,71 @@ state 139
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
 
     expr                           shift and go to state 158
-    term                           shift and go to state 87
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
+    term                           shift and go to state 86
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
+
+state 139
+
+    (60) print -> PRINT COLON expr COMMA . expr
+    (42) expr -> . expr PLUS term
+    (43) expr -> . expr MINUS term
+    (44) expr -> . expr comp_op term
+    (45) expr -> . term
+    (46) term -> . term MULTIPLY factor
+    (47) term -> . term DIVIDE factor
+    (48) term -> . factor
+    (49) term -> . function_call
+    (50) term -> . array_access
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
+    (58) factor -> . function_call
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
+
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
+
+    expr                           shift and go to state 159
+    term                           shift and go to state 86
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
 
 state 140
 
-    (60) conditional -> IF LPAREN comp_expr RPAREN . LBRACE stmt_list RBRACE else_stmt
-    (61) conditional -> IF LPAREN comp_expr RPAREN . LBRACE stmt_list RBRACE
+    (61) conditional -> IF LPAREN comp_expr RPAREN . LBRACE stmt_list RBRACE else_stmt
+    (62) conditional -> IF LPAREN comp_expr RPAREN . LBRACE stmt_list RBRACE
 
-    LBRACE          shift and go to state 159
+    LBRACE          shift and go to state 160
 
 
 state 141
 
-    (62) comp_expr -> expr comp_op . expr
+    (63) comp_expr -> expr comp_op . expr
     (44) expr -> expr comp_op . term
     (42) expr -> . expr PLUS term
     (43) expr -> . expr MINUS term
@@ -2237,28 +2279,28 @@ state 141
     (56) factor -> . FALSE
     (57) factor -> . ID
     (58) factor -> . function_call
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (89) array_access -> . ID LBRACKET expr RBRACKET
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
 
-    LPAREN          shift and go to state 91
-    CTEI            shift and go to state 92
-    FLOAT_NUMBER    shift and go to state 93
-    STRING_LITERAL  shift and go to state 94
-    TRUE            shift and go to state 95
-    FALSE           shift and go to state 96
-    ID              shift and go to state 97
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
 
-    expr                           shift and go to state 160
-    term                           shift and go to state 161
-    factor                         shift and go to state 88
-    function_call                  shift and go to state 89
-    array_access                   shift and go to state 90
+    expr                           shift and go to state 161
+    term                           shift and go to state 162
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
 
 state 142
 
-    (72) loop -> WHILE LPAREN comp_expr RPAREN . LBRACE stmt_list RBRACE
+    (73) loop -> WHILE LPAREN comp_expr RPAREN . LBRACE stmt_list RBRACE
 
-    LBRACE          shift and go to state 162
+    LBRACE          shift and go to state 163
 
 
 state 143
@@ -2279,8 +2321,8 @@ state 143
     RPAREN          reduce using rule 42 (expr -> expr PLUS term .)
     COMMA           reduce using rule 42 (expr -> expr PLUS term .)
     RBRACKET        reduce using rule 42 (expr -> expr PLUS term .)
-    MULTIPLY        shift and go to state 127
-    DIVIDE          shift and go to state 128
+    MULTIPLY        shift and go to state 126
+    DIVIDE          shift and go to state 127
 
 
 state 144
@@ -2301,8 +2343,8 @@ state 144
     RPAREN          reduce using rule 43 (expr -> expr MINUS term .)
     COMMA           reduce using rule 43 (expr -> expr MINUS term .)
     RBRACKET        reduce using rule 43 (expr -> expr MINUS term .)
-    MULTIPLY        shift and go to state 127
-    DIVIDE          shift and go to state 128
+    MULTIPLY        shift and go to state 126
+    DIVIDE          shift and go to state 127
 
 
 state 145
@@ -2323,8 +2365,8 @@ state 145
     RPAREN          reduce using rule 44 (expr -> expr comp_op term .)
     COMMA           reduce using rule 44 (expr -> expr comp_op term .)
     RBRACKET        reduce using rule 44 (expr -> expr comp_op term .)
-    MULTIPLY        shift and go to state 127
-    DIVIDE          shift and go to state 128
+    MULTIPLY        shift and go to state 126
+    DIVIDE          shift and go to state 127
 
 
 state 146
@@ -2350,7 +2392,7 @@ state 146
 state 147
 
     (57) factor -> ID .
-    (78) function_call -> ID . LPAREN arg_list RPAREN
+    (90) function_call -> ID . LPAREN arg_list RPAREN
 
     MULTIPLY        reduce using rule 57 (factor -> ID .)
     DIVIDE          reduce using rule 57 (factor -> ID .)
@@ -2366,7 +2408,7 @@ state 147
     RPAREN          reduce using rule 57 (factor -> ID .)
     COMMA           reduce using rule 57 (factor -> ID .)
     RBRACKET        reduce using rule 57 (factor -> ID .)
-    LPAREN          shift and go to state 73
+    LPAREN          shift and go to state 72
 
 
 state 148
@@ -2431,119 +2473,144 @@ state 150
 
 state 151
 
-    (89) array_access -> ID LBRACKET expr . RBRACKET
+    (101) array_access -> ID LBRACKET expr . RBRACKET
     (42) expr -> expr . PLUS term
     (43) expr -> expr . MINUS term
     (44) expr -> expr . comp_op term
-    (63) comp_op -> . LESS_THAN
-    (64) comp_op -> . GREATER_THAN
-    (65) comp_op -> . LESS_EQUAL
-    (66) comp_op -> . GREATER_EQUAL
-    (67) comp_op -> . EQUAL_EQUAL
-    (68) comp_op -> . NOT_EQUAL
+    (64) comp_op -> . LESS_THAN
+    (65) comp_op -> . GREATER_THAN
+    (66) comp_op -> . LESS_EQUAL
+    (67) comp_op -> . GREATER_EQUAL
+    (68) comp_op -> . EQUAL_EQUAL
+    (69) comp_op -> . NOT_EQUAL
 
-    RBRACKET        shift and go to state 163
-    PLUS            shift and go to state 118
-    MINUS           shift and go to state 119
-    LESS_THAN       shift and go to state 121
-    GREATER_THAN    shift and go to state 122
-    LESS_EQUAL      shift and go to state 123
-    GREATER_EQUAL   shift and go to state 124
-    EQUAL_EQUAL     shift and go to state 125
-    NOT_EQUAL       shift and go to state 126
+    RBRACKET        shift and go to state 164
+    PLUS            shift and go to state 117
+    MINUS           shift and go to state 118
+    LESS_THAN       shift and go to state 120
+    GREATER_THAN    shift and go to state 121
+    LESS_EQUAL      shift and go to state 122
+    GREATER_EQUAL   shift and go to state 123
+    EQUAL_EQUAL     shift and go to state 124
+    NOT_EQUAL       shift and go to state 125
 
-    comp_op                        shift and go to state 120
+    comp_op                        shift and go to state 119
 
 state 152
 
-    (84) param -> type ID .
+    (96) param -> type ID .
 
-    COMMA           reduce using rule 84 (param -> type ID .)
-    RPAREN          reduce using rule 84 (param -> type ID .)
+    COMMA           reduce using rule 96 (param -> type ID .)
+    RPAREN          reduce using rule 96 (param -> type ID .)
 
 
 state 153
 
-    (74) function_decl -> type ID LPAREN create_function_scope param_list RPAREN . LBRACE stmt_list end_scopes RBRACE
+    (75) function_decl -> type ID LPAREN create_function_scope param_list RPAREN . LBRACE stmt_list end_scopes RBRACE
 
-    LBRACE          shift and go to state 164
+    LBRACE          shift and go to state 165
 
 
 state 154
 
-    (81) param_list -> param COMMA . param_list
-    (81) param_list -> . param COMMA param_list
-    (82) param_list -> . param
-    (83) param_list -> . empty
-    (84) param -> . type ID
-    (90) empty -> .
+    (93) param_list -> param COMMA . param_list
+    (93) param_list -> . param COMMA param_list
+    (94) param_list -> . param
+    (95) param_list -> . empty
+    (96) param -> . type ID
+    (102) empty -> .
     (17) type -> . INT
     (18) type -> . FLOAT
     (19) type -> . STRING
     (20) type -> . BOOL
 
-    RPAREN          reduce using rule 90 (empty -> .)
+    RPAREN          reduce using rule 102 (empty -> .)
     INT             shift and go to state 19
     FLOAT           shift and go to state 20
     STRING          shift and go to state 21
     BOOL            shift and go to state 22
 
-    param                          shift and go to state 133
-    param_list                     shift and go to state 165
-    empty                          shift and go to state 134
-    type                           shift and go to state 131
+    param                          shift and go to state 132
+    param_list                     shift and go to state 166
+    empty                          shift and go to state 133
+    type                           shift and go to state 130
 
 state 155
 
-    (75) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN . LBRACE stmt_list end_scopes RBRACE
+    (76) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN . LBRACE stmt_list_without_return end_scopes RBRACE
 
-    LBRACE          shift and go to state 166
+    LBRACE          shift and go to state 167
 
 
 state 156
 
-    (86) array_assign -> ID EQUALS LBRACE CTEI_list RBRACE .
+    (98) array_assign -> ID EQUALS LBRACE CTEI_list RBRACE .
 
-    SEMICOLON       reduce using rule 86 (array_assign -> ID EQUALS LBRACE CTEI_list RBRACE .)
+    SEMICOLON       reduce using rule 98 (array_assign -> ID EQUALS LBRACE CTEI_list RBRACE .)
 
 
 state 157
 
-    (88) CTEI_list -> CTEI_list COMMA . CTEI
+    (100) CTEI_list -> CTEI_list COMMA . CTEI
 
-    CTEI            shift and go to state 167
+    CTEI            shift and go to state 168
 
 
 state 158
 
-    (79) arg_list -> arg_list COMMA expr .
+    (91) arg_list -> arg_list COMMA expr .
     (42) expr -> expr . PLUS term
     (43) expr -> expr . MINUS term
     (44) expr -> expr . comp_op term
-    (63) comp_op -> . LESS_THAN
-    (64) comp_op -> . GREATER_THAN
-    (65) comp_op -> . LESS_EQUAL
-    (66) comp_op -> . GREATER_EQUAL
-    (67) comp_op -> . EQUAL_EQUAL
-    (68) comp_op -> . NOT_EQUAL
+    (64) comp_op -> . LESS_THAN
+    (65) comp_op -> . GREATER_THAN
+    (66) comp_op -> . LESS_EQUAL
+    (67) comp_op -> . GREATER_EQUAL
+    (68) comp_op -> . EQUAL_EQUAL
+    (69) comp_op -> . NOT_EQUAL
 
-    RPAREN          reduce using rule 79 (arg_list -> arg_list COMMA expr .)
-    COMMA           reduce using rule 79 (arg_list -> arg_list COMMA expr .)
-    PLUS            shift and go to state 118
-    MINUS           shift and go to state 119
-    LESS_THAN       shift and go to state 121
-    GREATER_THAN    shift and go to state 122
-    LESS_EQUAL      shift and go to state 123
-    GREATER_EQUAL   shift and go to state 124
-    EQUAL_EQUAL     shift and go to state 125
-    NOT_EQUAL       shift and go to state 126
+    RPAREN          reduce using rule 91 (arg_list -> arg_list COMMA expr .)
+    COMMA           reduce using rule 91 (arg_list -> arg_list COMMA expr .)
+    PLUS            shift and go to state 117
+    MINUS           shift and go to state 118
+    LESS_THAN       shift and go to state 120
+    GREATER_THAN    shift and go to state 121
+    LESS_EQUAL      shift and go to state 122
+    GREATER_EQUAL   shift and go to state 123
+    EQUAL_EQUAL     shift and go to state 124
+    NOT_EQUAL       shift and go to state 125
 
-    comp_op                        shift and go to state 120
+    comp_op                        shift and go to state 119
 
 state 159
 
-    (60) conditional -> IF LPAREN comp_expr RPAREN LBRACE . stmt_list RBRACE else_stmt
-    (61) conditional -> IF LPAREN comp_expr RPAREN LBRACE . stmt_list RBRACE
+    (60) print -> PRINT COLON expr COMMA expr .
+    (42) expr -> expr . PLUS term
+    (43) expr -> expr . MINUS term
+    (44) expr -> expr . comp_op term
+    (64) comp_op -> . LESS_THAN
+    (65) comp_op -> . GREATER_THAN
+    (66) comp_op -> . LESS_EQUAL
+    (67) comp_op -> . GREATER_EQUAL
+    (68) comp_op -> . EQUAL_EQUAL
+    (69) comp_op -> . NOT_EQUAL
+
+    SEMICOLON       reduce using rule 60 (print -> PRINT COLON expr COMMA expr .)
+    PLUS            shift and go to state 117
+    MINUS           shift and go to state 118
+    LESS_THAN       shift and go to state 120
+    GREATER_THAN    shift and go to state 121
+    LESS_EQUAL      shift and go to state 122
+    GREATER_EQUAL   shift and go to state 123
+    EQUAL_EQUAL     shift and go to state 124
+    NOT_EQUAL       shift and go to state 125
+
+    comp_op                        shift and go to state 119
+
+state 160
+
+    (61) conditional -> IF LPAREN comp_expr RPAREN LBRACE . stmt_list RBRACE else_stmt
+    (62) conditional -> IF LPAREN comp_expr RPAREN LBRACE . stmt_list RBRACE
     (21) stmt_list -> . stmt SEMICOLON stmt_list
     (22) stmt_list -> . stmt SEMICOLON
     (23) stmt -> . assign
@@ -2556,12 +2623,13 @@ state 159
     (30) stmt -> . built_in_function
     (31) stmt -> . return_stmt
     (41) assign -> . ID EQUALS expr
-    (86) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
+    (98) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
     (59) print -> . PRINT COLON expr
-    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (72) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (78) function_call -> . ID LPAREN arg_list RPAREN
+    (60) print -> . PRINT COLON expr COMMA expr
+    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (62) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (73) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (90) function_call -> . ID LPAREN arg_list RPAREN
     (15) decl -> . type ID
     (16) decl -> . array_decl
     (32) built_in_function -> . TEACH_SUM LPAREN RPAREN
@@ -2573,14 +2641,12 @@ state 159
     (38) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
     (39) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
     (40) built_in_function -> . AYUDA LPAREN RPAREN
-    (76) return_stmt -> . RETURN expr
-    (77) return_stmt -> . empty
+    (89) return_stmt -> . RETURN expr
     (17) type -> . INT
     (18) type -> . FLOAT
     (19) type -> . STRING
     (20) type -> . BOOL
-    (85) array_decl -> . type ID LBRACKET CTEI RBRACKET
-    (90) empty -> .
+    (97) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
     ID              shift and go to state 52
     PRINT           shift and go to state 53
@@ -2600,9 +2666,8 @@ state 159
     FLOAT           shift and go to state 20
     STRING          shift and go to state 21
     BOOL            shift and go to state 22
-    SEMICOLON       reduce using rule 90 (empty -> .)
 
-    stmt_list                      shift and go to state 168
+    stmt_list                      shift and go to state 169
     stmt                           shift and go to state 42
     assign                         shift and go to state 43
     array_assign                   shift and go to state 44
@@ -2615,34 +2680,33 @@ state 159
     return_stmt                    shift and go to state 51
     type                           shift and go to state 17
     array_decl                     shift and go to state 18
-    empty                          shift and go to state 66
 
-state 160
+state 161
 
-    (62) comp_expr -> expr comp_op expr .
+    (63) comp_expr -> expr comp_op expr .
     (42) expr -> expr . PLUS term
     (43) expr -> expr . MINUS term
     (44) expr -> expr . comp_op term
-    (63) comp_op -> . LESS_THAN
-    (64) comp_op -> . GREATER_THAN
-    (65) comp_op -> . LESS_EQUAL
-    (66) comp_op -> . GREATER_EQUAL
-    (67) comp_op -> . EQUAL_EQUAL
-    (68) comp_op -> . NOT_EQUAL
+    (64) comp_op -> . LESS_THAN
+    (65) comp_op -> . GREATER_THAN
+    (66) comp_op -> . LESS_EQUAL
+    (67) comp_op -> . GREATER_EQUAL
+    (68) comp_op -> . EQUAL_EQUAL
+    (69) comp_op -> . NOT_EQUAL
 
-    RPAREN          reduce using rule 62 (comp_expr -> expr comp_op expr .)
-    PLUS            shift and go to state 118
-    MINUS           shift and go to state 119
-    LESS_THAN       shift and go to state 121
-    GREATER_THAN    shift and go to state 122
-    LESS_EQUAL      shift and go to state 123
-    GREATER_EQUAL   shift and go to state 124
-    EQUAL_EQUAL     shift and go to state 125
-    NOT_EQUAL       shift and go to state 126
+    RPAREN          reduce using rule 63 (comp_expr -> expr comp_op expr .)
+    PLUS            shift and go to state 117
+    MINUS           shift and go to state 118
+    LESS_THAN       shift and go to state 120
+    GREATER_THAN    shift and go to state 121
+    LESS_EQUAL      shift and go to state 122
+    GREATER_EQUAL   shift and go to state 123
+    EQUAL_EQUAL     shift and go to state 124
+    NOT_EQUAL       shift and go to state 125
 
-    comp_op                        shift and go to state 120
+    comp_op                        shift and go to state 119
 
-state 161
+state 162
 
     (44) expr -> expr comp_op term .
     (45) expr -> term .
@@ -2666,8 +2730,8 @@ state 161
     EQUAL_EQUAL     reduce using rule 44 (expr -> expr comp_op term .)
     NOT_EQUAL       reduce using rule 44 (expr -> expr comp_op term .)
     RPAREN          reduce using rule 45 (expr -> term .)
-    MULTIPLY        shift and go to state 127
-    DIVIDE          shift and go to state 128
+    MULTIPLY        shift and go to state 126
+    DIVIDE          shift and go to state 127
 
   ! PLUS            [ reduce using rule 45 (expr -> term .) ]
   ! MINUS           [ reduce using rule 45 (expr -> term .) ]
@@ -2679,105 +2743,9 @@ state 161
   ! NOT_EQUAL       [ reduce using rule 45 (expr -> term .) ]
 
 
-state 162
-
-    (72) loop -> WHILE LPAREN comp_expr RPAREN LBRACE . stmt_list RBRACE
-    (21) stmt_list -> . stmt SEMICOLON stmt_list
-    (22) stmt_list -> . stmt SEMICOLON
-    (23) stmt -> . assign
-    (24) stmt -> . array_assign
-    (25) stmt -> . print
-    (26) stmt -> . conditional
-    (27) stmt -> . loop
-    (28) stmt -> . function_call
-    (29) stmt -> . decl
-    (30) stmt -> . built_in_function
-    (31) stmt -> . return_stmt
-    (41) assign -> . ID EQUALS expr
-    (86) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
-    (59) print -> . PRINT COLON expr
-    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (72) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (78) function_call -> . ID LPAREN arg_list RPAREN
-    (15) decl -> . type ID
-    (16) decl -> . array_decl
-    (32) built_in_function -> . TEACH_SUM LPAREN RPAREN
-    (33) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
-    (34) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
-    (35) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
-    (36) built_in_function -> . TEACH_IF LPAREN RPAREN
-    (37) built_in_function -> . TEACH_WHILE LPAREN RPAREN
-    (38) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
-    (39) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
-    (40) built_in_function -> . AYUDA LPAREN RPAREN
-    (76) return_stmt -> . RETURN expr
-    (77) return_stmt -> . empty
-    (17) type -> . INT
-    (18) type -> . FLOAT
-    (19) type -> . STRING
-    (20) type -> . BOOL
-    (85) array_decl -> . type ID LBRACKET CTEI RBRACKET
-    (90) empty -> .
-
-    ID              shift and go to state 52
-    PRINT           shift and go to state 53
-    IF              shift and go to state 54
-    WHILE           shift and go to state 55
-    TEACH_SUM       shift and go to state 56
-    TEACH_SUBSTRACTION shift and go to state 57
-    TEACH_MULTIPLICATION shift and go to state 58
-    TEACH_DIVISION  shift and go to state 59
-    TEACH_IF        shift and go to state 60
-    TEACH_WHILE     shift and go to state 61
-    TEACH_FUNCTION_DECLARATION shift and go to state 62
-    TEACH_FUNCTION_CALL shift and go to state 63
-    AYUDA           shift and go to state 64
-    RETURN          shift and go to state 65
-    INT             shift and go to state 19
-    FLOAT           shift and go to state 20
-    STRING          shift and go to state 21
-    BOOL            shift and go to state 22
-    SEMICOLON       reduce using rule 90 (empty -> .)
-
-    stmt_list                      shift and go to state 169
-    stmt                           shift and go to state 42
-    assign                         shift and go to state 43
-    array_assign                   shift and go to state 44
-    print                          shift and go to state 45
-    conditional                    shift and go to state 46
-    loop                           shift and go to state 47
-    function_call                  shift and go to state 48
-    decl                           shift and go to state 49
-    built_in_function              shift and go to state 50
-    return_stmt                    shift and go to state 51
-    type                           shift and go to state 17
-    array_decl                     shift and go to state 18
-    empty                          shift and go to state 66
-
 state 163
 
-    (89) array_access -> ID LBRACKET expr RBRACKET .
-
-    MULTIPLY        reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    DIVIDE          reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    PLUS            reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    MINUS           reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    LESS_THAN       reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    GREATER_THAN    reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    LESS_EQUAL      reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    GREATER_EQUAL   reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    EQUAL_EQUAL     reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    NOT_EQUAL       reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    SEMICOLON       reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    RPAREN          reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    COMMA           reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-    RBRACKET        reduce using rule 89 (array_access -> ID LBRACKET expr RBRACKET .)
-
-
-state 164
-
-    (74) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE . stmt_list end_scopes RBRACE
+    (73) loop -> WHILE LPAREN comp_expr RPAREN LBRACE . stmt_list RBRACE
     (21) stmt_list -> . stmt SEMICOLON stmt_list
     (22) stmt_list -> . stmt SEMICOLON
     (23) stmt -> . assign
@@ -2790,12 +2758,13 @@ state 164
     (30) stmt -> . built_in_function
     (31) stmt -> . return_stmt
     (41) assign -> . ID EQUALS expr
-    (86) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
+    (98) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
     (59) print -> . PRINT COLON expr
-    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (72) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (78) function_call -> . ID LPAREN arg_list RPAREN
+    (60) print -> . PRINT COLON expr COMMA expr
+    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (62) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (73) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (90) function_call -> . ID LPAREN arg_list RPAREN
     (15) decl -> . type ID
     (16) decl -> . array_decl
     (32) built_in_function -> . TEACH_SUM LPAREN RPAREN
@@ -2807,14 +2776,12 @@ state 164
     (38) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
     (39) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
     (40) built_in_function -> . AYUDA LPAREN RPAREN
-    (76) return_stmt -> . RETURN expr
-    (77) return_stmt -> . empty
+    (89) return_stmt -> . RETURN expr
     (17) type -> . INT
     (18) type -> . FLOAT
     (19) type -> . STRING
     (20) type -> . BOOL
-    (85) array_decl -> . type ID LBRACKET CTEI RBRACKET
-    (90) empty -> .
+    (97) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
     ID              shift and go to state 52
     PRINT           shift and go to state 53
@@ -2834,9 +2801,7 @@ state 164
     FLOAT           shift and go to state 20
     STRING          shift and go to state 21
     BOOL            shift and go to state 22
-    SEMICOLON       reduce using rule 90 (empty -> .)
 
-    type                           shift and go to state 17
     stmt_list                      shift and go to state 170
     stmt                           shift and go to state 42
     assign                         shift and go to state 43
@@ -2848,19 +2813,32 @@ state 164
     decl                           shift and go to state 49
     built_in_function              shift and go to state 50
     return_stmt                    shift and go to state 51
+    type                           shift and go to state 17
     array_decl                     shift and go to state 18
-    empty                          shift and go to state 66
+
+state 164
+
+    (101) array_access -> ID LBRACKET expr RBRACKET .
+
+    MULTIPLY        reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    DIVIDE          reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    PLUS            reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    MINUS           reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    LESS_THAN       reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    GREATER_THAN    reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    LESS_EQUAL      reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    GREATER_EQUAL   reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    EQUAL_EQUAL     reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    NOT_EQUAL       reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    SEMICOLON       reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    RPAREN          reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    COMMA           reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+    RBRACKET        reduce using rule 101 (array_access -> ID LBRACKET expr RBRACKET .)
+
 
 state 165
 
-    (81) param_list -> param COMMA param_list .
-
-    RPAREN          reduce using rule 81 (param_list -> param COMMA param_list .)
-
-
-state 166
-
-    (75) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE . stmt_list end_scopes RBRACE
+    (75) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE . stmt_list end_scopes RBRACE
     (21) stmt_list -> . stmt SEMICOLON stmt_list
     (22) stmt_list -> . stmt SEMICOLON
     (23) stmt -> . assign
@@ -2873,12 +2851,13 @@ state 166
     (30) stmt -> . built_in_function
     (31) stmt -> . return_stmt
     (41) assign -> . ID EQUALS expr
-    (86) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
+    (98) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
     (59) print -> . PRINT COLON expr
-    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (72) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (78) function_call -> . ID LPAREN arg_list RPAREN
+    (60) print -> . PRINT COLON expr COMMA expr
+    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (62) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (73) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (90) function_call -> . ID LPAREN arg_list RPAREN
     (15) decl -> . type ID
     (16) decl -> . array_decl
     (32) built_in_function -> . TEACH_SUM LPAREN RPAREN
@@ -2890,14 +2869,12 @@ state 166
     (38) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
     (39) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
     (40) built_in_function -> . AYUDA LPAREN RPAREN
-    (76) return_stmt -> . RETURN expr
-    (77) return_stmt -> . empty
+    (89) return_stmt -> . RETURN expr
     (17) type -> . INT
     (18) type -> . FLOAT
     (19) type -> . STRING
     (20) type -> . BOOL
-    (85) array_decl -> . type ID LBRACKET CTEI RBRACKET
-    (90) empty -> .
+    (97) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
     ID              shift and go to state 52
     PRINT           shift and go to state 53
@@ -2917,8 +2894,8 @@ state 166
     FLOAT           shift and go to state 20
     STRING          shift and go to state 21
     BOOL            shift and go to state 22
-    SEMICOLON       reduce using rule 90 (empty -> .)
 
+    type                           shift and go to state 17
     stmt_list                      shift and go to state 171
     stmt                           shift and go to state 42
     assign                         shift and go to state 43
@@ -2930,164 +2907,443 @@ state 166
     decl                           shift and go to state 49
     built_in_function              shift and go to state 50
     return_stmt                    shift and go to state 51
-    type                           shift and go to state 17
     array_decl                     shift and go to state 18
-    empty                          shift and go to state 66
+
+state 166
+
+    (93) param_list -> param COMMA param_list .
+
+    RPAREN          reduce using rule 93 (param_list -> param COMMA param_list .)
+
 
 state 167
 
-    (88) CTEI_list -> CTEI_list COMMA CTEI .
+    (76) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE . stmt_list_without_return end_scopes RBRACE
+    (77) stmt_list_without_return -> . stmt_without_return SEMICOLON stmt_list_without_return
+    (78) stmt_list_without_return -> . stmt_without_return SEMICOLON
+    (79) stmt_without_return -> . assign
+    (80) stmt_without_return -> . array_assign
+    (81) stmt_without_return -> . print
+    (82) stmt_without_return -> . conditional_without_return
+    (83) stmt_without_return -> . loop
+    (84) stmt_without_return -> . function_call
+    (85) stmt_without_return -> . decl
+    (86) stmt_without_return -> . built_in_function
+    (41) assign -> . ID EQUALS expr
+    (98) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
+    (59) print -> . PRINT COLON expr
+    (60) print -> . PRINT COLON expr COMMA expr
+    (87) conditional_without_return -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE else_stmt
+    (88) conditional_without_return -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE
+    (73) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (15) decl -> . type ID
+    (16) decl -> . array_decl
+    (32) built_in_function -> . TEACH_SUM LPAREN RPAREN
+    (33) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
+    (34) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
+    (35) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
+    (36) built_in_function -> . TEACH_IF LPAREN RPAREN
+    (37) built_in_function -> . TEACH_WHILE LPAREN RPAREN
+    (38) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
+    (39) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
+    (40) built_in_function -> . AYUDA LPAREN RPAREN
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+    (97) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
-    RBRACE          reduce using rule 88 (CTEI_list -> CTEI_list COMMA CTEI .)
-    COMMA           reduce using rule 88 (CTEI_list -> CTEI_list COMMA CTEI .)
+    ID              shift and go to state 52
+    PRINT           shift and go to state 53
+    IF              shift and go to state 182
+    WHILE           shift and go to state 55
+    TEACH_SUM       shift and go to state 56
+    TEACH_SUBSTRACTION shift and go to state 57
+    TEACH_MULTIPLICATION shift and go to state 58
+    TEACH_DIVISION  shift and go to state 59
+    TEACH_IF        shift and go to state 60
+    TEACH_WHILE     shift and go to state 61
+    TEACH_FUNCTION_DECLARATION shift and go to state 62
+    TEACH_FUNCTION_CALL shift and go to state 63
+    AYUDA           shift and go to state 64
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
 
+    stmt_list_without_return       shift and go to state 172
+    stmt_without_return            shift and go to state 173
+    assign                         shift and go to state 174
+    array_assign                   shift and go to state 175
+    print                          shift and go to state 176
+    conditional_without_return     shift and go to state 177
+    loop                           shift and go to state 178
+    function_call                  shift and go to state 179
+    decl                           shift and go to state 180
+    built_in_function              shift and go to state 181
+    type                           shift and go to state 17
+    array_decl                     shift and go to state 18
 
 state 168
 
-    (60) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list . RBRACE else_stmt
-    (61) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list . RBRACE
+    (100) CTEI_list -> CTEI_list COMMA CTEI .
 
-    RBRACE          shift and go to state 172
+    RBRACE          reduce using rule 100 (CTEI_list -> CTEI_list COMMA CTEI .)
+    COMMA           reduce using rule 100 (CTEI_list -> CTEI_list COMMA CTEI .)
 
 
 state 169
 
-    (72) loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list . RBRACE
+    (61) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list . RBRACE else_stmt
+    (62) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list . RBRACE
 
-    RBRACE          shift and go to state 173
+    RBRACE          shift and go to state 183
 
 
 state 170
 
-    (74) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list . end_scopes RBRACE
-    (11) end_scopes -> .
+    (73) loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list . RBRACE
 
-    RBRACE          reduce using rule 11 (end_scopes -> .)
+    RBRACE          shift and go to state 184
 
-    end_scopes                     shift and go to state 174
 
 state 171
 
-    (75) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list . end_scopes RBRACE
+    (75) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list . end_scopes RBRACE
     (11) end_scopes -> .
 
     RBRACE          reduce using rule 11 (end_scopes -> .)
 
-    end_scopes                     shift and go to state 175
+    end_scopes                     shift and go to state 185
 
 state 172
 
-    (60) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE . else_stmt
-    (61) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .
-    (69) else_stmt -> . ELSE LBRACE else_part stmt_list RBRACE
-    (70) else_stmt -> . empty
-    (90) empty -> .
+    (76) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return . end_scopes RBRACE
+    (11) end_scopes -> .
 
-  ! reduce/reduce conflict for SEMICOLON resolved using rule 61 (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .)
-    SEMICOLON       reduce using rule 61 (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .)
-    ELSE            shift and go to state 177
+    RBRACE          reduce using rule 11 (end_scopes -> .)
 
-  ! SEMICOLON       [ reduce using rule 90 (empty -> .) ]
-
-    else_stmt                      shift and go to state 176
-    empty                          shift and go to state 178
+    end_scopes                     shift and go to state 186
 
 state 173
 
-    (72) loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .
+    (77) stmt_list_without_return -> stmt_without_return . SEMICOLON stmt_list_without_return
+    (78) stmt_list_without_return -> stmt_without_return . SEMICOLON
 
-    SEMICOLON       reduce using rule 72 (loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .)
+    SEMICOLON       shift and go to state 187
 
 
 state 174
 
-    (74) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes . RBRACE
+    (79) stmt_without_return -> assign .
 
-    RBRACE          shift and go to state 179
+    SEMICOLON       reduce using rule 79 (stmt_without_return -> assign .)
 
 
 state 175
 
-    (75) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes . RBRACE
+    (80) stmt_without_return -> array_assign .
 
-    RBRACE          shift and go to state 180
+    SEMICOLON       reduce using rule 80 (stmt_without_return -> array_assign .)
 
 
 state 176
 
-    (60) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt .
+    (81) stmt_without_return -> print .
 
-    SEMICOLON       reduce using rule 60 (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt .)
+    SEMICOLON       reduce using rule 81 (stmt_without_return -> print .)
 
 
 state 177
 
-    (69) else_stmt -> ELSE . LBRACE else_part stmt_list RBRACE
+    (82) stmt_without_return -> conditional_without_return .
 
-    LBRACE          shift and go to state 181
+    SEMICOLON       reduce using rule 82 (stmt_without_return -> conditional_without_return .)
 
 
 state 178
 
-    (70) else_stmt -> empty .
+    (83) stmt_without_return -> loop .
 
-    SEMICOLON       reduce using rule 70 (else_stmt -> empty .)
+    SEMICOLON       reduce using rule 83 (stmt_without_return -> loop .)
 
 
 state 179
 
-    (74) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .
+    (84) stmt_without_return -> function_call .
 
-    VOID            reduce using rule 74 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    INT             reduce using rule 74 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    FLOAT           reduce using rule 74 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    STRING          reduce using rule 74 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    BOOL            reduce using rule 74 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    MAIN            reduce using rule 74 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    SEMICOLON       reduce using rule 84 (stmt_without_return -> function_call .)
 
 
 state 180
 
-    (75) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .
+    (85) stmt_without_return -> decl .
 
-    VOID            reduce using rule 75 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    INT             reduce using rule 75 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    FLOAT           reduce using rule 75 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    STRING          reduce using rule 75 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    BOOL            reduce using rule 75 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
-    MAIN            reduce using rule 75 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    SEMICOLON       reduce using rule 85 (stmt_without_return -> decl .)
 
 
 state 181
 
-    (69) else_stmt -> ELSE LBRACE . else_part stmt_list RBRACE
-    (71) else_part -> .
+    (86) stmt_without_return -> built_in_function .
 
-    ID              reduce using rule 71 (else_part -> .)
-    PRINT           reduce using rule 71 (else_part -> .)
-    IF              reduce using rule 71 (else_part -> .)
-    WHILE           reduce using rule 71 (else_part -> .)
-    TEACH_SUM       reduce using rule 71 (else_part -> .)
-    TEACH_SUBSTRACTION reduce using rule 71 (else_part -> .)
-    TEACH_MULTIPLICATION reduce using rule 71 (else_part -> .)
-    TEACH_DIVISION  reduce using rule 71 (else_part -> .)
-    TEACH_IF        reduce using rule 71 (else_part -> .)
-    TEACH_WHILE     reduce using rule 71 (else_part -> .)
-    TEACH_FUNCTION_DECLARATION reduce using rule 71 (else_part -> .)
-    TEACH_FUNCTION_CALL reduce using rule 71 (else_part -> .)
-    AYUDA           reduce using rule 71 (else_part -> .)
-    RETURN          reduce using rule 71 (else_part -> .)
-    INT             reduce using rule 71 (else_part -> .)
-    FLOAT           reduce using rule 71 (else_part -> .)
-    STRING          reduce using rule 71 (else_part -> .)
-    BOOL            reduce using rule 71 (else_part -> .)
-    SEMICOLON       reduce using rule 71 (else_part -> .)
+    SEMICOLON       reduce using rule 86 (stmt_without_return -> built_in_function .)
 
-    else_part                      shift and go to state 182
 
 state 182
 
-    (69) else_stmt -> ELSE LBRACE else_part . stmt_list RBRACE
+    (87) conditional_without_return -> IF . LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE else_stmt
+    (88) conditional_without_return -> IF . LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE
+
+    LPAREN          shift and go to state 188
+
+
+state 183
+
+    (61) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE . else_stmt
+    (62) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .
+    (70) else_stmt -> . ELSE LBRACE else_part stmt_list RBRACE
+    (71) else_stmt -> . empty
+    (102) empty -> .
+
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 62 (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .)
+    SEMICOLON       reduce using rule 62 (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .)
+    ELSE            shift and go to state 190
+
+  ! SEMICOLON       [ reduce using rule 102 (empty -> .) ]
+
+    else_stmt                      shift and go to state 189
+    empty                          shift and go to state 191
+
+state 184
+
+    (73) loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .
+
+    SEMICOLON       reduce using rule 73 (loop -> WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE .)
+
+
+state 185
+
+    (75) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes . RBRACE
+
+    RBRACE          shift and go to state 192
+
+
+state 186
+
+    (76) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes . RBRACE
+
+    RBRACE          shift and go to state 193
+
+
+state 187
+
+    (77) stmt_list_without_return -> stmt_without_return SEMICOLON . stmt_list_without_return
+    (78) stmt_list_without_return -> stmt_without_return SEMICOLON .
+    (77) stmt_list_without_return -> . stmt_without_return SEMICOLON stmt_list_without_return
+    (78) stmt_list_without_return -> . stmt_without_return SEMICOLON
+    (79) stmt_without_return -> . assign
+    (80) stmt_without_return -> . array_assign
+    (81) stmt_without_return -> . print
+    (82) stmt_without_return -> . conditional_without_return
+    (83) stmt_without_return -> . loop
+    (84) stmt_without_return -> . function_call
+    (85) stmt_without_return -> . decl
+    (86) stmt_without_return -> . built_in_function
+    (41) assign -> . ID EQUALS expr
+    (98) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
+    (59) print -> . PRINT COLON expr
+    (60) print -> . PRINT COLON expr COMMA expr
+    (87) conditional_without_return -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE else_stmt
+    (88) conditional_without_return -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE
+    (73) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (15) decl -> . type ID
+    (16) decl -> . array_decl
+    (32) built_in_function -> . TEACH_SUM LPAREN RPAREN
+    (33) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
+    (34) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
+    (35) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
+    (36) built_in_function -> . TEACH_IF LPAREN RPAREN
+    (37) built_in_function -> . TEACH_WHILE LPAREN RPAREN
+    (38) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
+    (39) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
+    (40) built_in_function -> . AYUDA LPAREN RPAREN
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+    (97) array_decl -> . type ID LBRACKET CTEI RBRACKET
+
+    RBRACE          reduce using rule 78 (stmt_list_without_return -> stmt_without_return SEMICOLON .)
+    ID              shift and go to state 52
+    PRINT           shift and go to state 53
+    IF              shift and go to state 182
+    WHILE           shift and go to state 55
+    TEACH_SUM       shift and go to state 56
+    TEACH_SUBSTRACTION shift and go to state 57
+    TEACH_MULTIPLICATION shift and go to state 58
+    TEACH_DIVISION  shift and go to state 59
+    TEACH_IF        shift and go to state 60
+    TEACH_WHILE     shift and go to state 61
+    TEACH_FUNCTION_DECLARATION shift and go to state 62
+    TEACH_FUNCTION_CALL shift and go to state 63
+    AYUDA           shift and go to state 64
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
+
+    stmt_without_return            shift and go to state 173
+    stmt_list_without_return       shift and go to state 194
+    assign                         shift and go to state 174
+    array_assign                   shift and go to state 175
+    print                          shift and go to state 176
+    conditional_without_return     shift and go to state 177
+    loop                           shift and go to state 178
+    function_call                  shift and go to state 179
+    decl                           shift and go to state 180
+    built_in_function              shift and go to state 181
+    type                           shift and go to state 17
+    array_decl                     shift and go to state 18
+
+state 188
+
+    (87) conditional_without_return -> IF LPAREN . comp_expr RPAREN LBRACE stmt_list_without_return RBRACE else_stmt
+    (88) conditional_without_return -> IF LPAREN . comp_expr RPAREN LBRACE stmt_list_without_return RBRACE
+    (63) comp_expr -> . expr comp_op expr
+    (42) expr -> . expr PLUS term
+    (43) expr -> . expr MINUS term
+    (44) expr -> . expr comp_op term
+    (45) expr -> . term
+    (46) term -> . term MULTIPLY factor
+    (47) term -> . term DIVIDE factor
+    (48) term -> . factor
+    (49) term -> . function_call
+    (50) term -> . array_access
+    (51) factor -> . LPAREN expr RPAREN
+    (52) factor -> . CTEI
+    (53) factor -> . FLOAT_NUMBER
+    (54) factor -> . STRING_LITERAL
+    (55) factor -> . TRUE
+    (56) factor -> . FALSE
+    (57) factor -> . ID
+    (58) factor -> . function_call
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (101) array_access -> . ID LBRACKET expr RBRACKET
+
+    LPAREN          shift and go to state 90
+    CTEI            shift and go to state 91
+    FLOAT_NUMBER    shift and go to state 92
+    STRING_LITERAL  shift and go to state 93
+    TRUE            shift and go to state 94
+    FALSE           shift and go to state 95
+    ID              shift and go to state 96
+
+    comp_expr                      shift and go to state 195
+    expr                           shift and go to state 106
+    term                           shift and go to state 86
+    factor                         shift and go to state 87
+    function_call                  shift and go to state 88
+    array_access                   shift and go to state 89
+
+state 189
+
+    (61) conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt .
+
+    SEMICOLON       reduce using rule 61 (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt .)
+
+
+state 190
+
+    (70) else_stmt -> ELSE . LBRACE else_part stmt_list RBRACE
+
+    LBRACE          shift and go to state 196
+
+
+state 191
+
+    (71) else_stmt -> empty .
+
+    SEMICOLON       reduce using rule 71 (else_stmt -> empty .)
+
+
+state 192
+
+    (75) function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .
+
+    VOID            reduce using rule 75 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    INT             reduce using rule 75 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    FLOAT           reduce using rule 75 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    STRING          reduce using rule 75 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    BOOL            reduce using rule 75 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+    MAIN            reduce using rule 75 (function_decl -> type ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list end_scopes RBRACE .)
+
+
+state 193
+
+    (76) function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE .
+
+    VOID            reduce using rule 76 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE .)
+    INT             reduce using rule 76 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE .)
+    FLOAT           reduce using rule 76 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE .)
+    STRING          reduce using rule 76 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE .)
+    BOOL            reduce using rule 76 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE .)
+    MAIN            reduce using rule 76 (function_decl -> VOID ID LPAREN create_function_scope param_list RPAREN LBRACE stmt_list_without_return end_scopes RBRACE .)
+
+
+state 194
+
+    (77) stmt_list_without_return -> stmt_without_return SEMICOLON stmt_list_without_return .
+
+    RBRACE          reduce using rule 77 (stmt_list_without_return -> stmt_without_return SEMICOLON stmt_list_without_return .)
+
+
+state 195
+
+    (87) conditional_without_return -> IF LPAREN comp_expr . RPAREN LBRACE stmt_list_without_return RBRACE else_stmt
+    (88) conditional_without_return -> IF LPAREN comp_expr . RPAREN LBRACE stmt_list_without_return RBRACE
+
+    RPAREN          shift and go to state 197
+
+
+state 196
+
+    (70) else_stmt -> ELSE LBRACE . else_part stmt_list RBRACE
+    (72) else_part -> .
+
+    ID              reduce using rule 72 (else_part -> .)
+    PRINT           reduce using rule 72 (else_part -> .)
+    IF              reduce using rule 72 (else_part -> .)
+    WHILE           reduce using rule 72 (else_part -> .)
+    TEACH_SUM       reduce using rule 72 (else_part -> .)
+    TEACH_SUBSTRACTION reduce using rule 72 (else_part -> .)
+    TEACH_MULTIPLICATION reduce using rule 72 (else_part -> .)
+    TEACH_DIVISION  reduce using rule 72 (else_part -> .)
+    TEACH_IF        reduce using rule 72 (else_part -> .)
+    TEACH_WHILE     reduce using rule 72 (else_part -> .)
+    TEACH_FUNCTION_DECLARATION reduce using rule 72 (else_part -> .)
+    TEACH_FUNCTION_CALL reduce using rule 72 (else_part -> .)
+    AYUDA           reduce using rule 72 (else_part -> .)
+    RETURN          reduce using rule 72 (else_part -> .)
+    INT             reduce using rule 72 (else_part -> .)
+    FLOAT           reduce using rule 72 (else_part -> .)
+    STRING          reduce using rule 72 (else_part -> .)
+    BOOL            reduce using rule 72 (else_part -> .)
+
+    else_part                      shift and go to state 198
+
+state 197
+
+    (87) conditional_without_return -> IF LPAREN comp_expr RPAREN . LBRACE stmt_list_without_return RBRACE else_stmt
+    (88) conditional_without_return -> IF LPAREN comp_expr RPAREN . LBRACE stmt_list_without_return RBRACE
+
+    LBRACE          shift and go to state 199
+
+
+state 198
+
+    (70) else_stmt -> ELSE LBRACE else_part . stmt_list RBRACE
     (21) stmt_list -> . stmt SEMICOLON stmt_list
     (22) stmt_list -> . stmt SEMICOLON
     (23) stmt -> . assign
@@ -3100,12 +3356,13 @@ state 182
     (30) stmt -> . built_in_function
     (31) stmt -> . return_stmt
     (41) assign -> . ID EQUALS expr
-    (86) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
+    (98) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
     (59) print -> . PRINT COLON expr
-    (60) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
-    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (72) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
-    (78) function_call -> . ID LPAREN arg_list RPAREN
+    (60) print -> . PRINT COLON expr COMMA expr
+    (61) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE else_stmt
+    (62) conditional -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (73) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (90) function_call -> . ID LPAREN arg_list RPAREN
     (15) decl -> . type ID
     (16) decl -> . array_decl
     (32) built_in_function -> . TEACH_SUM LPAREN RPAREN
@@ -3117,14 +3374,12 @@ state 182
     (38) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
     (39) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
     (40) built_in_function -> . AYUDA LPAREN RPAREN
-    (76) return_stmt -> . RETURN expr
-    (77) return_stmt -> . empty
+    (89) return_stmt -> . RETURN expr
     (17) type -> . INT
     (18) type -> . FLOAT
     (19) type -> . STRING
     (20) type -> . BOOL
-    (85) array_decl -> . type ID LBRACKET CTEI RBRACKET
-    (90) empty -> .
+    (97) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
     ID              shift and go to state 52
     PRINT           shift and go to state 53
@@ -3144,9 +3399,8 @@ state 182
     FLOAT           shift and go to state 20
     STRING          shift and go to state 21
     BOOL            shift and go to state 22
-    SEMICOLON       reduce using rule 90 (empty -> .)
 
-    stmt_list                      shift and go to state 183
+    stmt_list                      shift and go to state 200
     stmt                           shift and go to state 42
     assign                         shift and go to state 43
     array_assign                   shift and go to state 44
@@ -3159,20 +3413,121 @@ state 182
     return_stmt                    shift and go to state 51
     type                           shift and go to state 17
     array_decl                     shift and go to state 18
-    empty                          shift and go to state 66
 
-state 183
+state 199
 
-    (69) else_stmt -> ELSE LBRACE else_part stmt_list . RBRACE
+    (87) conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE . stmt_list_without_return RBRACE else_stmt
+    (88) conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE . stmt_list_without_return RBRACE
+    (77) stmt_list_without_return -> . stmt_without_return SEMICOLON stmt_list_without_return
+    (78) stmt_list_without_return -> . stmt_without_return SEMICOLON
+    (79) stmt_without_return -> . assign
+    (80) stmt_without_return -> . array_assign
+    (81) stmt_without_return -> . print
+    (82) stmt_without_return -> . conditional_without_return
+    (83) stmt_without_return -> . loop
+    (84) stmt_without_return -> . function_call
+    (85) stmt_without_return -> . decl
+    (86) stmt_without_return -> . built_in_function
+    (41) assign -> . ID EQUALS expr
+    (98) array_assign -> . ID EQUALS LBRACE CTEI_list RBRACE
+    (59) print -> . PRINT COLON expr
+    (60) print -> . PRINT COLON expr COMMA expr
+    (87) conditional_without_return -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE else_stmt
+    (88) conditional_without_return -> . IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE
+    (73) loop -> . WHILE LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE
+    (90) function_call -> . ID LPAREN arg_list RPAREN
+    (15) decl -> . type ID
+    (16) decl -> . array_decl
+    (32) built_in_function -> . TEACH_SUM LPAREN RPAREN
+    (33) built_in_function -> . TEACH_SUBSTRACTION LPAREN RPAREN
+    (34) built_in_function -> . TEACH_MULTIPLICATION LPAREN RPAREN
+    (35) built_in_function -> . TEACH_DIVISION LPAREN RPAREN
+    (36) built_in_function -> . TEACH_IF LPAREN RPAREN
+    (37) built_in_function -> . TEACH_WHILE LPAREN RPAREN
+    (38) built_in_function -> . TEACH_FUNCTION_DECLARATION LPAREN RPAREN
+    (39) built_in_function -> . TEACH_FUNCTION_CALL LPAREN RPAREN
+    (40) built_in_function -> . AYUDA LPAREN RPAREN
+    (17) type -> . INT
+    (18) type -> . FLOAT
+    (19) type -> . STRING
+    (20) type -> . BOOL
+    (97) array_decl -> . type ID LBRACKET CTEI RBRACKET
 
-    RBRACE          shift and go to state 184
+    ID              shift and go to state 52
+    PRINT           shift and go to state 53
+    IF              shift and go to state 182
+    WHILE           shift and go to state 55
+    TEACH_SUM       shift and go to state 56
+    TEACH_SUBSTRACTION shift and go to state 57
+    TEACH_MULTIPLICATION shift and go to state 58
+    TEACH_DIVISION  shift and go to state 59
+    TEACH_IF        shift and go to state 60
+    TEACH_WHILE     shift and go to state 61
+    TEACH_FUNCTION_DECLARATION shift and go to state 62
+    TEACH_FUNCTION_CALL shift and go to state 63
+    AYUDA           shift and go to state 64
+    INT             shift and go to state 19
+    FLOAT           shift and go to state 20
+    STRING          shift and go to state 21
+    BOOL            shift and go to state 22
+
+    stmt_list_without_return       shift and go to state 201
+    stmt_without_return            shift and go to state 173
+    assign                         shift and go to state 174
+    array_assign                   shift and go to state 175
+    print                          shift and go to state 176
+    conditional_without_return     shift and go to state 177
+    loop                           shift and go to state 178
+    function_call                  shift and go to state 179
+    decl                           shift and go to state 180
+    built_in_function              shift and go to state 181
+    type                           shift and go to state 17
+    array_decl                     shift and go to state 18
+
+state 200
+
+    (70) else_stmt -> ELSE LBRACE else_part stmt_list . RBRACE
+
+    RBRACE          shift and go to state 202
 
 
-state 184
+state 201
 
-    (69) else_stmt -> ELSE LBRACE else_part stmt_list RBRACE .
+    (87) conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return . RBRACE else_stmt
+    (88) conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return . RBRACE
 
-    SEMICOLON       reduce using rule 69 (else_stmt -> ELSE LBRACE else_part stmt_list RBRACE .)
+    RBRACE          shift and go to state 203
+
+
+state 202
+
+    (70) else_stmt -> ELSE LBRACE else_part stmt_list RBRACE .
+
+    SEMICOLON       reduce using rule 70 (else_stmt -> ELSE LBRACE else_part stmt_list RBRACE .)
+
+
+state 203
+
+    (87) conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE . else_stmt
+    (88) conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE .
+    (70) else_stmt -> . ELSE LBRACE else_part stmt_list RBRACE
+    (71) else_stmt -> . empty
+    (102) empty -> .
+
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 88 (conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE .)
+    SEMICOLON       reduce using rule 88 (conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE .)
+    ELSE            shift and go to state 190
+
+  ! SEMICOLON       [ reduce using rule 102 (empty -> .) ]
+
+    else_stmt                      shift and go to state 204
+    empty                          shift and go to state 191
+
+state 204
+
+    (87) conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE else_stmt .
+
+    SEMICOLON       reduce using rule 87 (conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE else_stmt .)
 
 WARNING: 
 WARNING: Conflicts:
@@ -3181,9 +3536,11 @@ WARNING: reduce/reduce conflict in state 25 resolved using rule (global_scope ->
 WARNING: rejected rule (empty -> <empty>) in state 25
 WARNING: reduce/reduce conflict in state 26 resolved using rule (decl_list -> decl SEMICOLON)
 WARNING: rejected rule (empty -> <empty>) in state 26
-WARNING: reduce/reduce conflict in state 89 resolved using rule (term -> function_call)
-WARNING: rejected rule (factor -> function_call) in state 89
-WARNING: reduce/reduce conflict in state 161 resolved using rule (expr -> expr comp_op term)
-WARNING: rejected rule (expr -> term) in state 161
-WARNING: reduce/reduce conflict in state 172 resolved using rule (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE)
-WARNING: rejected rule (empty -> <empty>) in state 172
+WARNING: reduce/reduce conflict in state 88 resolved using rule (term -> function_call)
+WARNING: rejected rule (factor -> function_call) in state 88
+WARNING: reduce/reduce conflict in state 162 resolved using rule (expr -> expr comp_op term)
+WARNING: rejected rule (expr -> term) in state 162
+WARNING: reduce/reduce conflict in state 183 resolved using rule (conditional -> IF LPAREN comp_expr RPAREN LBRACE stmt_list RBRACE)
+WARNING: rejected rule (empty -> <empty>) in state 183
+WARNING: reduce/reduce conflict in state 203 resolved using rule (conditional_without_return -> IF LPAREN comp_expr RPAREN LBRACE stmt_list_without_return RBRACE)
+WARNING: rejected rule (empty -> <empty>) in state 203

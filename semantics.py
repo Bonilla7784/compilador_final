@@ -213,7 +213,6 @@ def create_scope(scope_name):
         dir_func[scope_name] = {'local_variables': {}, 'param_list': [], 'start_quad': len(quadruples), 'num_params': 0}
     current_scope.append(scope_name)
 
-
 # Function to end the current scope
 def end_scope():
     global current_scope
@@ -262,7 +261,6 @@ def declare_param_variable(id, type):
 
     variable_info = {'type': type, 'memory_address': memory_address}
 
-    #print('Parameter being added: ', variable_info, 'to: ', current_scope)
     dir_func[current_scope[-1]]['local_variables'][id] = variable_info
     dir_func[current_scope[-1]]['param_list'].append(variable_info)
     dir_func[current_scope[-1]]['num_params'] += 1
@@ -305,7 +303,6 @@ def generate_quadruple(operator, left_operand, right_operand, result):
         result_address = get_memory_address(
             result) if isinstance(result, str) else result
         
-    #print(operator, left_address, right_address, result_address)
     quadruples.append((operator, left_address, right_address, result_address))
 
 # Function to get the type of a variable
@@ -339,6 +336,7 @@ def get_memory_address(variable_name):
 
     return None
 
+# Printing quadruples
 def print_quadruples():
     global quadruples
     print("Quadruples:")
@@ -361,7 +359,6 @@ def check_variable_declared(variable_name, scope=None):
     global current_scope
     if scope is None:
         scope = current_scope[-1]
-        #print('checking', scope)
     # Check local variables
     if 'local_variables' in dir_func[scope] and variable_name in dir_func[scope]['local_variables']:
         return True
@@ -371,7 +368,6 @@ def check_variable_declared(variable_name, scope=None):
         return True
 
     return False
-
 
 # Function to get the next available memory address
 def get_next_available_memory_address(data_type, is_temp=False):
@@ -418,10 +414,9 @@ def create_temp_variable(data_type):
         'type': data_type, 'memory_address': memory_address, 'name': temp_variable_name}
 
     # return variable name and memory address
-    #print(temp_variables)
     return temp_variable_name, memory_address
 
-
+# Function to start the conditional
 def start_if(condition_address):
     global quadruples
     global jump_stack
@@ -429,7 +424,7 @@ def start_if(condition_address):
     quadruples.append(('GotoF', condition_address, None, None))
     jump_stack.append(len(quadruples) - 1)  # Save the 'GotoF' index
 
-
+# Function to process the else statement
 def else_part():
     global quadruples
     global jump_stack
@@ -441,7 +436,7 @@ def else_part():
     quadruples[false_jump] = quadruples[false_jump][:3] + (len(quadruples),)
     jump_stack.append(end_jump)  # Save the 'Goto' index
 
-
+# Function to end the else statement
 def end_else():
     global quadruples
     global jump_stack
@@ -450,7 +445,7 @@ def end_else():
         # Fill 'Goto' quadruple with the end of 'else' part
         quadruples[end_jump] = quadruples[end_jump][:3] + (len(quadruples),)
 
-
+# Function to end the entire conditional
 def end_if():
     global quadruples
     global jump_stack
@@ -460,15 +455,14 @@ def end_if():
         quadruples[false_jump] = quadruples[false_jump][:3] + \
             (len(quadruples),)
 
-
+# Function to start the while loop
 def start_while():
     global quadruples
     global jump_stack
     # Create unfilled 'GotoF' quadruple
-    #print(len(quadruples))
     jump_stack.append(len(quadruples))  # Save the 'GotoF' index
 
-
+# Function to end the while loop
 def end_while():
     global quadruples
     global jump_stack
@@ -481,6 +475,7 @@ def end_while():
     # Fill in jump destination in start_while
     quadruples[false_jump] = quadruples[false_jump][:3] + (len(quadruples),)
 
+# Function to process the declaration of functions
 def handle_function_declaration(func_name, param_list, local_vars_list, return_type):
     global dir_func
     global quadruples
@@ -493,7 +488,7 @@ def handle_function_declaration(func_name, param_list, local_vars_list, return_t
         raise Exception(f"Function {func_name} does not exist.")
     dir_func[func_name]['return_type'] = return_type
 
-    if dir_func[func_name]['return_type'] is not 'void':
+    if dir_func[func_name]['return_type'] != 'void':
         return_var_name = dir_func[func_name]['return_var']
         return_var_address = get_memory_address(return_var_name)
         # Loop through all indices in the assign_quad_stack
@@ -503,18 +498,14 @@ def handle_function_declaration(func_name, param_list, local_vars_list, return_t
             quadruples[assign_quad_index] = ('ASSIGN', return_var_address, None, result_address)
     # Clear the local scope
     current_scope.pop()
-    
 
-
+# Function to process callings of functions    
 def handle_function_call(func_name, arg_list):
     global dir_func
     global quadruples
     global stack_operands
-    # Reference global list
     global assign_quad_stack
 
-
-    #print("Heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeelp", dir_func)
     # Check if the function exists
     if func_name not in dir_func:
         raise Exception(f"Function {func_name} not declared.")
@@ -534,7 +525,6 @@ def handle_function_call(func_name, arg_list):
             param_address = get_memory_address(arg)
         else:
             param_address = arg
-        print(arg_type, param_type)
         if arg_type != param_type:
             raise Exception(f"Type mismatch in argument {i+1} of function {func_name} call.")
 
@@ -545,25 +535,23 @@ def handle_function_call(func_name, arg_list):
     quadruples.append(
         ('GOSUB', func_name, None, dir_func[func_name]['start_quad']))
 
-    if dir_func[func_name]['return_type'] is not 'void':
+    if dir_func[func_name]['return_type'] != 'void':
         return_var_name = dir_func[func_name]['return_var']
         return_var_address = get_memory_address(return_var_name)
         if return_var_address is None:
             assign_quad_index = len(quadruples)  # get the current size of quadruples
             assign_quad_stack.append(assign_quad_index)  # keep track of ASSIGN quadruple
-            print("Index empty: ", assign_quad_index)
         temp_var_name = create_temp_variable(dir_func[func_name]['return_type'])
         declare_variable(temp_var_name[0], dir_func[func_name]['return_type'])
         quadruples.append(('ASSIGN', return_var_address, None, temp_var_name[1]))
         operands_stack.append(temp_var_name[1])
         types_stack.append(dir_func[func_name]['return_type'])
 
-
-
+# Get the current function name
 def current_func_name():
-    # assuming dir_func is your function directory
     return list(dir_func.keys())
 
+# Handle returs of conditionals
 def handle_function_return(return_expr, func_name):
     global dir_func
     global quadruples
@@ -573,14 +561,12 @@ def handle_function_return(return_expr, func_name):
     dir_func[func_name]['return_var'] = return_expr
     
     # Generate an action to return the return expression to the calling function
-    #print('IIIIIIIIIIIIIINNNNNNNNSIIIIIIIIIIDE RETUNR', return_var_address)
     quadruples.append(('RETURN', None, None, return_var_address))
 
-
+# Function to get the type of any expr
 def get_expression_type(expression):
     global dir_func
     global current_scope
-    #print(expression)
 
     # If expression is a single number, handle it directly
     if isinstance(expression, (int, float)):
@@ -601,21 +587,19 @@ def get_expression_type(expression):
         else:
             raise Exception(f"Unknown token type: {type(token)}")
     else:  # Complex expression
-        # For simplicity, assume all variables in the expression are of the same type
         var_type = get_variable_type(expression[0])
         for token in expression[2::2]:  # Only check the variables
             if get_variable_type(token) != var_type:
                 raise Exception(f"Type mismatch in expression: {expression}")
         return var_type  # Return the type of the variables
 
-    
-    
+# Arrays main function
 def declare_array(id, type, size):
     global dir_func
     global current_scope
     global global_memory
     
-    if isinstance(size, list):  # if the size is a list, probably it's an array size
+    if isinstance(size, list):
         size = size[0]
 
     if not isinstance(size, int):
@@ -628,13 +612,11 @@ def declare_array(id, type, size):
         'virtual_address': global_memory[type],  # The base virtual address of the array
         'size': size
     }
-    print(dir_func)
 
     # Update the global memory index
     global_memory[type] += size
 
-
-
+#Function to hanlde arrays
 def handle_array_access(array_id, index_expression):
     array_info = dir_func[current_scope[-1]]['local_variables'][array_id]
 
@@ -650,7 +632,6 @@ def handle_array_access(array_id, index_expression):
     indx_address = get_memory_address(index_expression)
     temp1, address1 = create_temp_variable('int')  # Assuming index_expression is of 'int' type
     quadruples.append(('=', indx_address, None, address1))
-    print(('=', indx_address, None, address1))
 
     # Generate quadruple for the verification
     lower_limit = array_info['dimensions'][0]['LiDIM']
@@ -684,17 +665,15 @@ def handle_array_access(array_id, index_expression):
     operands_stack.append(address4)
     types_stack.append(array_info['type'])
 
-
+# Function to validate the array befor initalization
 def validate_array_initialization(array_declaration, initialization_list):
-    print(f"Array declaration: {array_declaration}")  # Debugging line
+    #print(f"Array declaration: {array_declaration}")  # Debugging line
     array_id = array_declaration[1]
     array_size = array_declaration[2][0]['LSDIM'] + 1  # Extract LSDIM from the first dictionary in the list
-    print(array_size)
     if len(initialization_list) - 1 != array_size:
         raise SyntaxError(f"Array '{array_id}' declared of size {array_size}, but initialized with {len(initialization_list)} values.")
-    print("BYE")
 
-
+# Function to validate the array before access
 def validate_array_access(array_id, index):
     declare_constant(index, 'int')
     indx_address = get_memory_address(index)
@@ -703,6 +682,7 @@ def validate_array_access(array_id, index):
     if not 0 <= indx_address < array_size:
         raise SyntaxError(f"Index {index} out of bounds for array '{array_id}' of size {array_size}.")
 
+#Function to initialize the array
 def handle_array_initialization(array_declaration, initialization_list):
     global current_scope
     global dir_func
@@ -720,13 +700,10 @@ def handle_array_initialization(array_declaration, initialization_list):
     last_value = len(initialization_list)
     LSDIM = last_value
     R = LSDIM - LiDIM + 1  # The range of the array
-    print(R)
     mDIM = array_info['size'] / R
-    print('Geeettting KKK',LiDIM, mDIM, -LiDIM * mDIM)
     K = -LiDIM * mDIM
 
     # Create the dimension node with the appropriate information
-    print(array_info)
     dimension_node = {
         'LiDIM': LiDIM,
         'LSDIM': LSDIM,
@@ -749,46 +726,3 @@ def handle_array_initialization(array_declaration, initialization_list):
 
         # Generate the assignment quadruple
         quadruples.append(('=', address, None, element_address))
-
-
-def handle_function_call_output(function_call_tuple):
-    global dir_func
-    
-    # Retrieve function name and arguments from the tuple
-    function_name, arg_list = function_call_tuple[1], function_call_tuple[2]
-    
-    # Compute the result's memory address (here, it's assumed that the result
-    # of the function call is stored in a temporary variable whose name is 
-    # the function name followed by the string '_result')
-    print(dir_func)
-    result_address = get_memory_address(function_name + '_result')
-    
-    # Push result's memory address to the operand stack
-    operands_stack.append(result_address)
-    
-    # Push result's type to the type stack (here, it's assumed that the type
-    # of the function call's result can be retrieved with get_function_result_type)
-    types_stack.append(dir_func[function_name]['return_type'])
-    
-    return result_address
-
-
-def handle_array_access_output(array_access_tuple):
-    global dir_func
-    
-    # Retrieve array name and index expression from the tuple
-    array_name, index_expr = array_access_tuple[1], array_access_tuple[2]
-    
-    # Compute the result's memory address (here, it's assumed that the result
-    # of the array access is stored in a temporary variable whose name is 
-    # the array name followed by the string '_access_result')
-    result_address = get_memory_address(array_name + '_access_result')
-    
-    # Push result's memory address to the operand stack
-    operands_stack.append(result_address)
-    
-    # Push result's type to the type stack (here, it's assumed that the type
-    # of the array access's result can be retrieved with get_array_type)
-    types_stack.append(dir_func[array_name]['type'])
-    
-    return result_address
